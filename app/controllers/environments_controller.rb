@@ -61,65 +61,38 @@ class EnvironmentsController < BaseController
   # POST /environments.xml
   def create
     case params[:step]
-    when "1" # tela de planos
+    when "1" # tela dos forms
       @step = 2
 
       respond_to do |format|
         format.html { render :new }
       end
-    when "2" # tela dos forms
-      @plan = Plan.from_preset(params[:plan].to_sym)
-      @plan.user = current_user
-      @plan = params[:plan] if @plan.valid?
-
-      @step = 3
-
+    when "2" # tela de informações
       respond_to do |format|
-        format.html { render :new }
-      end
-    when "3" # tela de informações
-      respond_to do |format|
-        @plan = Plan.from_preset(params[:plan].to_sym)
-        @plan.user = current_user
-        @plan_humanize = @plan.clone
-        @plan = params[:plan] if @plan.valid?
-
         if @environment.valid?
-          @step = 4
+          @step = 3
 
           format.html { render :new }
         else
-          @step = 3
+          @step = 2
 
           format.html { render :new }
         end
       end
-    when "4"
+    when "3"
 
       respond_to do |format|
         @environment.owner = current_user
         @environment.courses.first.owner = current_user
 
-        @plan = Plan.from_preset(params[:plan].to_sym)
-        @plan.user = current_user
-
-        if @environment.save && @plan.valid?
-          @environment.courses.first.plan = @plan
-
+        if @environment.save
           @environment.courses.first.create_quota
-          if @plan.create_invoice_and_setup
-            format.js { render :pay }
-            format.html do
-              redirect_to confirm_plan_path(@plan)
-            end
-          else
-            format.html do
-              flash[:notice] = "Parabens, o seu ambiente de ensino foi criado"
-            end
-            format.js do
-              render :redirect
-            end
-          end
+        format.html do
+          flash[:notice] = "Parabens, o seu ambiente de ensino foi criado"
+        end
+        format.js do
+          render :redirect
+        end
         else
           format.js { render :new }
           format.html { render :new }
