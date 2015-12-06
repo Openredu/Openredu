@@ -108,7 +108,6 @@ GEM
       tzinfo (~> 0.3.29)
     activerecord-import (0.3.1)
       activerecord (~> 3.0)
-      activerecord (~> 3.0)
     activeresource (3.2.13)
       activemodel (= 3.2.13)
       activesupport (= 3.2.13)
@@ -539,3 +538,6 @@ DEPENDENCIES
   whenever
   yajl-ruby
   zencoder
+
+BUNDLED WITH
+   1.10.6
