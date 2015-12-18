@@ -4,18 +4,18 @@ Redu::Application.configure do
 
   # The production environment is meant for finished, "live" apps.
   # Code is not reloaded between requests
-  config.cache_classes = true
+  config.cache_classes = false
 
   # Full error reports are disabled and caching is turned on
-  config.consider_all_requests_local       = false
-  config.action_controller.perform_caching = true
+  config.consider_all_requests_local       = true
+  config.action_controller.perform_caching = false
 
   # Use Memcached as cache store (default config from ey)
   ## parse the memcached.yml
-  memcached_config = YAML.load_file(Rails.root.join('config/memcached.yml'))
-  memcached_hosts = memcached_config['defaults']['servers']
+  #memcached_config = YAML.load_file(Rails.root.join('config/memcached.yml'))
+  #memcached_hosts = memcached_config['defaults']['servers']
   ## pass the servers to dalli setup
-  config.cache_store = :dalli_store, *memcached_hosts
+  config.cache_store = :dalli_store#, *memcached_hosts
 
   # Specifies the header that your server uses for sending files
   config.action_dispatch.x_sendfile_header = "X-Sendfile"
@@ -34,10 +34,10 @@ Redu::Application.configure do
 
   # Disable Rails's static asset server
   # In production, Apache or nginx will already do this
-  config.serve_static_assets = false
+  config.serve_static_assets = true
 
   # Enable serving of images, stylesheets, and javascripts from an asset server
-  config.action_controller.asset_host = "http://#{config.s3_credentials['assets_bucket']}.s3.amazonaws.com"
+  config.action_controller.asset_host = "0.0.0.0:3000"
   config.action_mailer.asset_host = config.action_controller.asset_host
 
   # Disable delivery errors, bad email addresses will be ignored
@@ -51,7 +51,7 @@ Redu::Application.configure do
   config.i18n.fallbacks = true
 
   # Nome e URL do app
-  config.url = "www.redu.com.br"
+  config.url = "0.0.0.0:3000"
 
   config.action_mailer.default_url_options = \
     { :host => config.url }
@@ -62,6 +62,32 @@ Redu::Application.configure do
 
   # Remove cores do log
   config.colorize_logging = false
+  
+  # Armazena no sist. de arquivos
+  config.paperclip = {
+    :storage => :filesystem,
+    :path => File.join(Rails.root.to_s, "public/images/:class/:attachment/:id/:style/:basename.:extension"),
+    :url => "/images/:class/:attachment/:id/:style/:filename",
+    :default_url => "/assets/missing_:class_:style.png"
+  }
+
+  config.paperclip_environment.merge!(config.paperclip)
+  config.paperclip_user.merge!(config.paperclip)
+
+  config.paperclip_documents = config.paperclip.merge({
+    :styles => {},
+    :default_url => ''
+  })
+  config.paperclip_myfiles = config.paperclip.merge({:styles => {}})
+  config.video_original = config.paperclip.merge({:styles => {}})
+  config.video_transcoded = config.paperclip.merge({:styles => {}})
+
+  # Só converte os 5 primeiros segundos (grátis)
+  config.zencoder[:test] = 1
+
+ # Configurações do Pusher (redu-development app)
+  config.pusher = {
+  }
 
   # Configuração da aplicação em omniauth providers
   config.omniauth = {
@@ -94,9 +120,11 @@ Redu::Application.configure do
 
   # Compress JavaScripts and CSS
   config.assets.compress = true
+  
+  #config.assets.precompile << /(^[^_\/]|\/[^_])[^\/]*$/
 
   # Don't fallback to assets pipeline if a precompiled asset is missed
-  config.assets.compile = false
+  config.assets.compile = true
 
   # Generate digests for assets URLs
   config.assets.digest = true
