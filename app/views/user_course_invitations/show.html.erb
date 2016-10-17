@@ -86,6 +86,11 @@
               facebook_authentication_path(:state => { :invitation_token => @user_course_invitation.token }.to_json),
               :class => "uibutton confirm large" %>
           </div>
+          <div class="fb-login">
+            <%= link_to "Entre com sua conta do Gooogle",
+              google_authentication_path(),
+              :class => "uibutton confirm large" %>
+          </div>
           <p class="or-call">&minus; ou &minus;</p>
         <% end %>
       <% end %>

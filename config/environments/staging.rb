@@ -63,8 +63,12 @@ Redu::Application.configure do
   # Configuração da aplicação em omniauth providers
   config.omniauth = {
     :facebook => {
-      :app_id => '142857189169463',
-      :app_secret => 'ea0f249a4df83b250c3364ccf097f35c'
+      :app_id => ENV["FACEBOOK_APP_ID_PROD"],
+      :app_secret => ENV["FACEBOOK_APP_SECRET_PROD"]
+    },
+    :google_oauth2 => {
+      :app_id => ENV["GOOGLE_APP_ID_PROD"],
+      :app_secret => ENV["GOOGLE_APP_SECRET_PROD"]
     }
   }
 

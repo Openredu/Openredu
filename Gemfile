@@ -36,6 +36,7 @@ gem 'mime-types'
 gem "mysql2"
 gem 'omniauth'
 gem 'omniauth-facebook'
+gem 'omniauth-google-oauth2'
 gem 'pusher'
 gem 'pagseguro', '~> 0.1.10'
 gem 'paperclip', '~> 2.7.5'

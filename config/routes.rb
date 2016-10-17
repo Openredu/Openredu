@@ -45,6 +45,7 @@ Redu::Application.routes.draw do
     get '/auth/:provider/callback' => 'authentications#create', :as => :omniauth_auth
     get '/auth/failure' => 'authentications#fallback', :as => :omniauth_fallback
     get 'auth/facebook', :as => :facebook_authentication
+    get 'auth/google_oauth2', :as => :google_authentication
 
     get '/recover_username_password' => 'users#recover_username_password',
       :as => :recover_username_password

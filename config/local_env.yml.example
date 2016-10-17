@@ -1,0 +1,38 @@
+# Rename this file to local_env.yml
+# Add account settings and API keys here.
+# This file should be listed in .gitignore to keep your settings secret!
+# Each entry gets set as a local environment variable.
+# This file overrides ENV variables in the Unix shell.
+# For example, setting:
+# GMAIL_USERNAME: 'Your_Gmail_Username'
+# makes 'Your_Gmail_Username' available as ENV["GMAIL_USERNAME"]
+
+# Development
+FACEBOOK_APP_ID_DEV: '142857189169463'
+FACEBOOK_APP_SECRET_DEV: 'ea0f249a4df83b250c3364ccf097f35c'
+GOOGLE_APP_ID_DEV: '422599681328-hgh6eg6gbv0o1f72v2gopgeouib07ng0.apps.googleusercontent.com'
+GOOGLE_APP_SECRET_DEV: '10YNh1lv7KUaKQvpZXSHz_99'
+
+# Performance
+FACEBOOK_APP_ID_PERF: '142857189169463'
+FACEBOOK_APP_SECRET_PERF: 'ea0f249a4df83b250c3364ccf097f35c'
+GOOGLE_APP_ID_PERF: '422599681328-hgh6eg6gbv0o1f72v2gopgeouib07ng0.apps.googleusercontent.com'
+GOOGLE_APP_SECRET_PERF: '10YNh1lv7KUaKQvpZXSHz_99'
+
+# Production
+FACEBOOK_APP_ID_PROD: '191555477625856'
+FACEBOOK_APP_SECRET_PROD: '27e285f90a3ee1db7a3b61641ae14694'
+GOOGLE_APP_ID_PROD: '422599681328-hgh6eg6gbv0o1f72v2gopgeouib07ng0.apps.googleusercontent.com'
+GOOGLE_APP_SECRET_PROD: '10YNh1lv7KUaKQvpZXSHz_99'
+
+# Staging
+FACEBOOK_APP_ID_STAG: '142857189169463'
+FACEBOOK_APP_SECRET_STAG: 'ea0f249a4df83b250c3364ccf097f35c'
+GOOGLE_APP_ID_STAG: '422599681328-hgh6eg6gbv0o1f72v2gopgeouib07ng0.apps.googleusercontent.com'
+GOOGLE_APP_SECRET_STAG: '10YNh1lv7KUaKQvpZXSHz_99'
+
+# Test
+FACEBOOK_APP_ID_TEST: '142857189169463'
+FACEBOOK_APP_SECRET_TEST: 'ea0f249a4df83b250c3364ccf097f35c'
+GOOGLE_APP_ID_TEST: '422599681328-hgh6eg6gbv0o1f72v2gopgeouib07ng0.apps.googleusercontent.com'
+GOOGLE_APP_SECRET_TEST: '10YNh1lv7KUaKQvpZXSHz_99'

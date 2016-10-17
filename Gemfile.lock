@@ -295,8 +295,11 @@ GEM
     omniauth (1.1.4)
       hashie (>= 1.2, < 3)
       rack
-    omniauth-facebook (1.4.1)
+    omniauth-facebook (3.0.0)
       omniauth-oauth2 (~> 1.1.0)
+    omniauth-google-oauth2 (0.2.6)
+      omniauth (> 1.0)
+      omniauth-oauth2 (~> 1.1)
     omniauth-oauth2 (1.1.1)
       oauth2 (~> 0.8.0)
       omniauth (~> 1.0)
@@ -499,6 +502,7 @@ DEPENDENCIES
   oauth-plugin (~> 0.4.0)
   omniauth
   omniauth-facebook
+  omniauth-google-oauth2
   pagseguro (~> 0.1.10)
   paperclip (~> 2.7.5)
   premailer-rails

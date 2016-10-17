@@ -27,7 +27,7 @@ Redu::Application.configure do
   config.action_dispatch.best_standards_support = :builtin
 
   # Nome e URL do app
-  config.url = "0.0.0.0:3000"
+  config.url = "localhost:3000"
   config.representer.default_url_options = {:host => "127.0.0.1:3000"}
 
   config.action_mailer.default_url_options = { :host => config.url }
@@ -62,8 +62,12 @@ Redu::Application.configure do
   # Configuração da aplicação em omniauth providers
   config.omniauth = {
     :facebook => {
-      :app_id => '142857189169463',
-      :app_secret => 'ea0f249a4df83b250c3364ccf097f35c'
+      :app_id => ENV["FACEBOOK_APP_ID_DEV"],
+      :app_secret => ENV["FACEBOOK_APP_SECRET_DEV"]
+    },
+    :google_oauth2 => {
+      :app_id => ENV["GOOGLE_APP_ID_DEV"],
+      :app_secret => ENV["GOOGLE_APP_SECRET_DEV"]
     }
   }
 

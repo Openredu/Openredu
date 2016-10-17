@@ -53,6 +53,14 @@ module Redu
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password, :password_confirmation]
 
+    # Local environment
+    config.before_configuration do
+      env_file = File.join(Rails.root, 'config', 'local_env.yml')
+      YAML.load(File.open(env_file)).each do |key, value|
+        ENV[key.to_s] = value
+      end if File.exists?(env_file)
+    end
+
     # S3 credentials
     if File.exists?("#{Rails.root}/config/s3.yml")
       config.s3_config = YAML.load_file("#{Rails.root}/config/s3.yml")

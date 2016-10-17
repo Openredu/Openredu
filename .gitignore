@@ -27,5 +27,6 @@ config/initializers/rails_footnotes.rb
 chromedriver.log
 solr/data/*
 solr/pids/*
+config/local_env.yml
 config/sunspot.yml
 .sass-cache/
