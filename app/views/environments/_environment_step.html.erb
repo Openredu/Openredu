@@ -44,11 +44,11 @@ $(document).ready(function(){
   <%= render :partial => 'environments/wizard_breadcrumbs' %>
 
   <div class="step-info">
-    <h3>2 <span>Informações</span></h3>
+    <h3>1 <span>Informações</span></h3>
     <em class="description">Descreva as informações básicas do ambiente e curso</em>
   </div>
   <div class="customizing">
-    <%= form_for @environment, :url => environments_path(:step => 3),
+    <%= form_for @environment, :url => environments_path(:step => 2),
         :html => { :class => "highlightable concave-form" } do |f| %>
         <%= concave_error_messages_for(@environment) %>
         <%= field_set_tag nil, :class => "inline" do %>
@@ -63,7 +63,6 @@ $(document).ready(function(){
         <% end %>
         <hr/>
         <%= render :partial => 'environments/form', :locals => { :f => f } %>
-        <%= hidden_field_tag :plan, @plan %>
         <%= f.submit "Assinar", :class => "concave-important next"%>
       <% end %>
   </div>
