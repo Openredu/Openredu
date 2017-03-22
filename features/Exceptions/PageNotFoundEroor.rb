@@ -1,0 +1,2 @@
+class PageNotFoundEroor < Exception
+end

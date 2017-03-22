@@ -1,0 +1,2 @@
+class UndefinedKeyError < Exception
+end

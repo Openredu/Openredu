@@ -1,0 +1,5 @@
+pt-BR:
+  invalid_password:
+    senha inválida
+  invalid_username:
+    login ou e-mail não pode ficar em branco
