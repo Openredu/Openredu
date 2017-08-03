@@ -100,6 +100,11 @@ class Lecture < ActiveRecord::Base
 
     begin
       klass = params.delete(:_type).constantize
+      if klass == 'Page'.constantize
+        params.each_key do |key|
+          params = params[key] if params[key].key? 'body'
+        end
+      end
     rescue NameError # Caso seja não seja um lectureable válido
       return nil
     end

@@ -1,5 +1,7 @@
 # -*- encoding : utf-8 -*-
 Redu::Application.routes.draw do
+  mount Ckeditor::Engine => '/ckeditor'
+
   localized do
     get 'getpdf', to: 'lectures#getpdf'
     match '/oauth/token',         :to => 'oauth#token',         :as => :token
