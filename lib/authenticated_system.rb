@@ -85,7 +85,7 @@ module AuthenticatedSystem
       respond_to do |accepts|
         accepts.html do
 
-          flash[:info] = "Essa área só pode ser vista após você acessar o Redu com seu nome e senha."
+          flash[:info] = "Essa área só pode ser vista após você acessar o #{Redu::Application.config.name} com seu nome e senha."
           if params[:controller] == 'spaces' and params[:id] and current_user
             redirect_to space_path(:id => params[:id])
           else

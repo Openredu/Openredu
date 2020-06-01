@@ -46,7 +46,7 @@
       return this.each(function(){
           var $this = $(this);
           var $window = $this.find("#" + getCSSWindowId(opts.id));
-
+          var messages_per_chat = 20;
           if($window.length > 0){
             if(opts.state == "opened" && $window.find(".chat-window-bar").hasClass("closed")){
               $window.find(".chat-window-bar .name").click();
@@ -75,7 +75,7 @@
                 $window.find(".chat-window").toggle();
                 $bar.toggleClass("opened");
                 $bar.toggleClass("closed");
-                $window.scrollBottom();
+                $window.scrollBottom(0);
 
                 $window.minimizeOtherWindows();
 
@@ -88,6 +88,20 @@
                 }
 
                 e.preventDefault();
+            });
+
+            $window.find(".conversation").scroll(function(){
+              $this = $window.find(".conversation");
+              if($this.scrollTop() === 0){
+                messages_per_chat += 20;
+                $window.restoreConversation({
+                  messagePartial : opts.messagePartial.clone(),
+                  owner_id : opts.owner_id,
+                  id : opts.id,
+                  messages_per_chat : messages_per_chat,
+                  restore_scroll : false
+                });
+              }
             });
 
             // fechar janela de chat
@@ -110,7 +124,7 @@
                     messagePartial : opts.messagePartial.clone(),
                     text : text,
                     id : opts.owner_id,
-                    owner_id : opts.owner_id,
+                    owner_id : opts.owner_id
                 });
 
                 var $conversation = $window.find(".conversation");
@@ -136,7 +150,9 @@
             $window.restoreConversation({
                 messagePartial : opts.messagePartial.clone(),
                 owner_id : opts.owner_id,
-                id : opts.id
+                id : opts.id,
+                messages_per_chat : 20,
+                restore_scroll : true
             });
 
             $this.find("#chat-windows-list").prepend($window);
@@ -186,8 +202,11 @@
 
             $conversation.append($message);
           }
-
-          $this.scrollBottom();
+          if(opts.restore_scroll){
+            $this.scrollBottom(0);
+          }else{
+            $this.scrollBottom($conversation.scrollTop());
+          }
       });
     };
 
@@ -200,29 +219,30 @@
           var $presence = $(opts.presencePartial);
           var $role = $presence.find(".role");
 
-          $presence.attr("id", getCSSUserId(opts.member.id));
-          $presence.find("img").attr("src", opts.member.info.thumbnail);
-          $presence.find(".name").text(opts.member.info.name);
+          $presence.attr("id", getCSSUserId(opts.member.user_id));
+          $presence.find("img").attr("src", opts.member.avatar);
+          $presence.find(".name").text(opts.member.name);
 
           // Adicionando papel do usuário (o mais relevante será mostrado)
-          if(opts.member.info.roles["member"]){ $role.text("Aluno"); }
-          if(opts.member.info.roles["tutor"]){ $role.text("Tutor"); }
-          if(opts.member.info.roles["teacher"]){ $role.text("Professor"); }
-          if(opts.member.info.roles["environment_admin"]){ $role.text("Administrador"); }
-          if(opts.member.info.roles["admin"]){ $role.text("Staff"); }
+          $role.text("Amigo");
+          // if(opts.member.info.roles["member"]){  }
+          // if(opts.member.info.roles["tutor"]){ $role.text("Tutor"); }
+          // if(opts.member.info.roles["teacher"]){ $role.text("Professor"); }
+          // if(opts.member.info.roles["environment_admin"]){ $role.text("Administrador"); }
+          // if(opts.member.info.roles["admin"]){ $role.text("Staff"); }
 
           $contacts.find("ul").append($presence);
 
-          var $statusDiv = $("#" + getCSSWindowId(opts.member.id) + " .chat-window-bar .offline");
+          var $statusDiv = $("#" + getCSSWindowId(opts.member.user_id) + " .chat-window-bar .offline");
           $statusDiv.removeClass("offline").addClass("online");
           $statusDiv.text("online");
 
           $presence.bind("click", function(){
               $this.addWindow({ windowPartial : opts.windowPartial.clone()
                   , messagePartial : opts.messagePartial.clone()
-                  , id : opts.member.id
+                  , id : opts.member.user_id
                   , owner_id : opts.owner_id
-                  , name : opts.member.info.name
+                  , name : opts.member.name
                   , "status" : "online"
                   , state : "opened" });
           });
@@ -402,10 +422,12 @@
     };
 
     $.fn.restoreConversation = function(opts){
+      console.log(opts);
       return this.each(function(){
         var $this = $(this);
-        $.getJSON('/presence/last_messages_with', { contact_id : opts.id },
+        $.getJSON('/chat/last_messages_with', { contact_id : opts.id, messages_per_chat : opts.messages_per_chat },
           function(logs){
+            $this.find('.conversation').empty();
             for (i in logs) {
               var msg = logs[i];
               $this.addMessage({
@@ -415,7 +437,8 @@
                   owner_id : opts.owner_id,
                   name : msg.name,
                   thumbnail : msg.thumbnail,
-                  time : msg.time
+                  time : msg.time,
+                  restore_scroll : opts.restore_scroll
               });
             }
 
@@ -424,10 +447,11 @@
     };
 
     // Rolar janela
-    $.fn.scrollBottom = function(){
+    $.fn.scrollBottom = function(offset){
+      console.log(offset);
       return this.each(function(){
         var $conversation = $(this).find(".conversation");
-        $conversation.scrollTop($conversation.scrollTop() + $conversation.height())
+        $conversation.scrollTop($conversation.scrollTop() + $conversation.height() - offset)
       });
     };
 

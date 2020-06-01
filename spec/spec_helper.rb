@@ -31,9 +31,6 @@ RSpec.configure do |config|
   # Inclui os matchers do paperclip
   config.include Paperclip::Shoulda::Matchers
 
-  # Inclui o helper para fazer mock da API do scribd
-  config.include ScribdSpecHelper
-
   # Inclui helper para fazer mock dos métodos da Busca
   config.include SearchSpecHelper
 

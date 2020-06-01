@@ -1,19 +1,17 @@
-<%= render :partial => 'shared/management_background' %>
 <%= render :partial => 'spaces/admin/management_sidebar',
   :locals => { :space => @space } %>
 
-<div class="main space grid_12 omega big-col">
+<div class="main grid_12 omega big-col">
   <%= render :partial => "spaces/breadcrumbs", :locals => { :space => @space } %>
-
-  <div id="space-manage" class="body management">
-    <%= render :partial => 'spaces/admin/header',
+  <%= render :partial => 'spaces/admin/header',
       :locals => { :space => @space }%>
+  <div id="course-manage" class="body management">
     <%= render :partial => 'spaces/admin/clean_header' %>
 
     <%= tabs :spaces_admin do %>
       <div id="user_list">
         <h3 class="form-header-closer">
-          <%= @space.users.count %> membro(s) cursam a disciplina
+          <%= t = @space.users.count %> <%=t (:member_, :count => t)%> <%= t(:cursar, :count => t)%> a disciplina
         </h3>
         <%= render :partial => 'spaces/admin/user_list_admin',
           :locals => {:memberships => @memberships}%>

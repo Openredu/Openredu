@@ -8,7 +8,7 @@
       <h4 class="title">Por quê?</h4>
       <p>O sistema não agiu conforme esperávamos, portanto ainda não sabemos o que exatamente causou essa ação inesperada</p>
       <h4 class="title">Sugerimos:</h4>
-      <p>Pedimos desculpas pelo incoveniente. Recomendamos que você entre em contado conosco e explique-nos o que fazia no Redu (e onde) antes do erro acontecer. Prometemos nos esforçar ao máximo para resolvê-lo o mais rápido possível. Você também pode <span class="back-call"><%= link_to 'voltar para a página anterior', :back %></span></p>
+      <p>Pedimos desculpas pelo incoveniente. Recomendamos que você entre em contado conosco e explique-nos o que fazia no <%= Redu::Application.config.name%> (e onde) antes do erro acontecer. Prometemos nos esforçar ao máximo para resolvê-lo o mais rápido possível. Você também pode <span class="back-call"><%= link_to 'voltar para a página anterior', :back %></span></p>
       <h4 class="title">Você pode nos ajudar:</h4>
     </div>
     <%= render 'base/contact_form', :remote => true, :css_class => 'concave-form grid_9', :id => "contact-form", :body_placeholder => 'Detalhe a situação que lhe levou a achar este erro, bem como o que fazia antes desta mensagem aparecer.' %>

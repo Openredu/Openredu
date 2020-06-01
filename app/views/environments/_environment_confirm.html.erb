@@ -2,13 +2,15 @@
   <%= render :partial => 'environments/wizard_breadcrumbs' %>
 
   <div class="step-info">
-    <h3>3 <span>Confirmar</span></h3>
-    <em class="description">Confirme os dados e realize o pagamento (se necessário).</em>
+    <h3>2 <span>Confirmar</span></h3>
+    <em class="description">Confirme os dados.</em>
   </div>
 
   <div class="confirmation">
     <div id="url_preview">
-      <span class="base">redu.com.br</span>
+      <span class="base">
+        <%= ENV['COURSE_PATH'] %>
+      </span>
       <span class="customizable">
         <span class="environment"><%= @environment.path %></span>
         <span class="course-base">cursos</span>
@@ -45,24 +47,18 @@
           <td class="concave-label">Seu primeiro curso:</td>
           <td class="value"> <%= @environment.courses.first.name %> </td>
         </tr>
-        <tr>
-          <td class="concave-label">Seu plano:</td>
-          <td class="value plan"><%= @plan_humanize.name %></td>
-        </tr>
       </tbody>
     </table>
     <%= form_for @environment,
-      :url => environments_path(:step => 4),
+      :url => environments_path(:step => 3),
       :remote => true,
       :html => { :class => "clearfix concave-form" } do |f| %>
       <%= f.error_messages %>
       <div style='display: none;'>
         <%= render :partial => 'environments/form', :locals => { :f => f } %>
       </div>
-      <%= hidden_field_tag :plan, @plan %>
-      <div id="pagseguro-button"></div>
-      <%= f.submit "Finalizar", :id => "final-button"%>
-
+      <%= f.submit "Finalizar", :class => "concave-button"%>
+      <%= link_to "Voltar", {:controller => 'environments', :action => 'create', :step => 1, :env_name => @environment.name, :env_path => @environment.path, :env_init => @environment.initials, :courses_name => @environment.courses.first.name, :courses_path => @environment.courses.first.path}, {:method => :post, :title => "Voltar", :class => "concave-button"} %>
       <%= image_tag 'spinner.gif', :id => 'spinner-form',
         :style => 'display: none; float: right;'  %>
     <% end %>

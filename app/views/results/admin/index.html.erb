@@ -1,5 +1,5 @@
 <%= render :partial => 'lectures/javascripts' %>
-<%= render :partial => 'subjects/sidebar' %>
+<%= render :partial => 'subjects/sidebar_without_comment' %>
 <div class="main space grid_12 omega big-col">
   <%= render :partial => "subjects/breadcrumbs", :locals => { :subject => @subject } %>
   <%= render :partial => 'subjects/header',
@@ -28,4 +28,3 @@
   </div><!-- end #resource -->
 
 </div><!-- end .main -->
-

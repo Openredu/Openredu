@@ -1,10 +1,7 @@
-<%= render :partial => 'shared/management_background' %>
-<div class="management-sidebar">
-  <%= render :partial => 'courses/sidebar',
+<%= render :partial => 'courses/sidebar',
     :locals => { :course => @course }%>
-</div>
 
-<div class="main grid_12 omega big-col management-wrapper">
+<div class="main grid_12 omega big-col">
   <%= render :partial => 'courses/breadcrumbs',
     :locals => { :course => @course } %>
   <%= render :partial => 'courses/admin/header',

@@ -24,7 +24,6 @@
           }).css("background-color", "#e6e6e6");
       });
     </script>
-    <%= render "shared/typekit" %>
     <%= yield :header_scripts_and_styles %>
   </head>
   <body>
@@ -35,8 +34,8 @@
     </div>
     <div class="footer">
       <div class="container_16">
-        <h1 class="logo-footer"><%= link_to "Redu", home_path %></h1>
-        <h4 class="cnpj">© 2010-2011.CNPJ : 12.359.885/001-07</h4>
+        <h1 class="logo-footer"><%= link_to Redu::Application.config.name, home_path %></h1>
+        <h4 class="cnpj">Feito com ♥ pela comunidade <%= Redu::Application.config.name %></h4>
         <ul class="menu">
           <li><%= link_to "Início", home_path %></li>
           <li><%= link_to "Blog", Redu::Application.config.redu_services[:blog][:url] %></li>
@@ -47,6 +46,5 @@
       </div>
     </div>
     <%= yield :footer_scripts_and_styles %>
-    <%= render "shared/olark" %>
   </body>
 </html>

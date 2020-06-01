@@ -1,6 +1,9 @@
 # -*- encoding : utf-8 -*-
 Redu::Application.routes.draw do
+  mount Ckeditor::Engine => '/ckeditor'
+
   localized do
+    get 'getpdf', to: 'lectures#getpdf'
     match '/oauth/token',         :to => 'oauth#token',         :as => :token
     match '/oauth/access_token',  :to => 'oauth#access_token',  :as => :access_token
     match '/oauth/request_token', :to => 'oauth#request_token', :as => :request_token
@@ -22,10 +25,6 @@ Redu::Application.routes.draw do
     match '/search/environments' => 'search#environments', :as => :search_environments
     match '/search/profiles' => 'search#profiles', :as => :search_profiles
 
-    post "presence/auth"
-    post "presence/multiauth"
-    post "presence/send_chat_message"
-    get "presence/last_messages_with"
     get "vis/dashboard/teacher_participation_interaction"
 
     match '/jobs/notify' => 'jobs#notify', :as => :notify
@@ -34,6 +33,11 @@ Redu::Application.routes.draw do
         post :respond
       end
     end
+
+    #chat routes
+    post 'chat/send_message', to: 'chats#send_message'
+    get 'chat/online', to: 'chats#online'
+    get 'chat/last_messages_with', to: 'chats#last_messages_with'
 
     # sessions routes
     match '/signup' => 'users#new', :as => :signup
@@ -49,6 +53,9 @@ Redu::Application.routes.draw do
     get '/recover_username_password' => 'users#recover_username_password',
       :as => :recover_username_password
     post '/recover_password' => 'users#recover_password', :as => :recover_password
+    get '/confirm_recover_password/:token',
+     to: 'users#confirm_recover_password',
+     as: :confirm_recover_password
 
     match '/resend_activation' => 'users#resend_activation',
       :as => :resend_activation
@@ -185,25 +192,6 @@ Redu::Application.routes.draw do
       :as => :payment_callback
     match '/payment/success' => 'payment_gateway#success', :as => :payment_success
 
-    resources :partners, :only => [:show, :index] do
-      member do
-        post :contact
-        get :success
-      end
-
-      resources :partner_environment_associations, :as => :clients,
-        :only => [:create, :index, :new] do
-          resources :plans, :only => [:show] do
-            member do
-              get :options
-            end
-            resources :invoices, :only => [:index]
-          end
-      end
-      resources :partner_user_associations, :as => :collaborators, :only => :index
-      resources :invoices, :only => [:index]
-    end
-
     resources :environments, :path => '', :except => [:index] do
       member do
         get :preview
@@ -303,7 +291,6 @@ Redu::Application.routes.draw do
       end
       resources :users, :only => :index, :path => :contacts,
         :as => :contacts
-      resources :chats, :only => :index
       resources :friendships, :path => :connections,
         :as => 'connections', :only => [:index, :create]
       resources :asset_reports, :path => "progress", :only => [:index]
@@ -315,11 +302,6 @@ Redu::Application.routes.draw do
       resources :answers, :only => [:index, :create]
     end
 
-    resources :chats, :only => :show do
-      resources :chat_messages, :only => :index, :as => :messages
-    end
-
-    resources :chat_messages, :only => :show
 
     resources :folders, :only => [:show, :index] do
       resources :myfiles, :path => "files", :only => [:index, :create]

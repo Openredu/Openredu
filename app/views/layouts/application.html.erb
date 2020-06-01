@@ -9,24 +9,17 @@
       <%= stylesheet_link_tag :ie %>
     <![endif]-->
     <link href='http://fonts.googleapis.com/css?family=Copse' rel='stylesheet' type='text/css' />
-    <script type="text/javascript" language="javascript" charset="utf-8">
-  	//<![CDATA[
-        var CKEDITOR_BASEPATH = "<%= Redu::Application.config.assets.ckeditor_path %>/";
-  	//]]>
-    </script>
     <%= javascript_include_tag :application %>
     <!--[if (gte IE 6)&(lte IE 8)]>
       <%= javascript_include_tag :ie %>
     <![endif]-->
     <%= yield :header_scripts_and_styles %>
-    <%= render "shared/chat" %>
-    <%= render "shared/typekit" %>
     <%= render "shared/analytics" %>
+    <%= render "shared/chat" %>
   </head>
    <body>
       <div id="pjax-container">
         <div class="main-wrapper-old">
-          <%= render 'shared/outdated_browser' %>
           <%= render 'shared/header' %>
           <%= render 'shared/flash_message' %>
 
@@ -36,7 +29,6 @@
 
           <%= render "shared/footer_old" %>
           <%= yield :footer_scripts_and_styles %>
-          <%= render "shared/olark" %>
         </div>
       </div>
   </body>

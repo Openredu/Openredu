@@ -26,58 +26,10 @@ Redu::Application.configure do
   # Only use best-standards-support built into browsers
   config.action_dispatch.best_standards_support = :builtin
 
-  # Nome e URL do app
-  config.url = "0.0.0.0:3000"
-  config.representer.default_url_options = {:host => "127.0.0.1:3000"}
-
-  config.action_mailer.default_url_options = { :host => config.url }
   config.action_mailer.asset_host = "http://#{config.url}"
 
-  # Armazena no sist. de arquivos
-  config.paperclip = {
-    :storage => :filesystem,
-    :path => File.join(Rails.root.to_s, "public/images/:class/:attachment/:id/:style/:basename.:extension"),
-    :url => "/images/:class/:attachment/:id/:style/:filename",
-    :default_url => "/assets/missing_:class_:style.png"
-  }
-
-  config.paperclip_environment.merge!(config.paperclip)
-  config.paperclip_user.merge!(config.paperclip)
-
-  config.paperclip_documents = config.paperclip.merge({
-    :styles => {},
-    :default_url => ''
-  })
-  config.paperclip_myfiles = config.paperclip.merge({:styles => {}})
-  config.video_original = config.paperclip.merge({:styles => {}})
-  config.video_transcoded = config.paperclip.merge({:styles => {}})
-
-  # Só converte os 5 primeiros segundos (grátis)
-  config.zencoder[:test] = 1
-
- # Configurações do Pusher (redu-development app)
-  config.pusher = {
-  }
-
-  # Configuração da aplicação em omniauth providers
-  config.omniauth = {
-    :facebook => {
-      :app_id => '142857189169463',
-      :app_secret => 'ea0f249a4df83b250c3364ccf097f35c'
-    }
-  }
-
-  # Configurações de VisClient
-  config.vis_client = {
-    :url => "http://localhost:4000/hierarchy_notifications.json",
-    :host => "http://localhost:4000"
-  }
-
-  config.vis = {
-    :subject_activities => "http://localhost:4000/subjects/activities.json",
-    :lecture_participation => "http://localhost:4000/lectures/participation.json",
-    :students_participation => "http://localhost:4000/user_spaces/participation.json"
-  }
+  # Merge development logs with puma logs
+  config.logger = Logger.new(STDOUT)
 
   Footnotes.run! if defined?(Footnotes)
 
@@ -97,6 +49,7 @@ Redu::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+
+  #enable captcha
+  config.enable_humanizer = false
 end
-
-

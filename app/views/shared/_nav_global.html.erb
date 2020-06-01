@@ -6,7 +6,7 @@
   <div class="nav-global-inner">
     <div class="nav-global-container">
       <h1>
-        <%= link_to "Redu", application_path, :class => "nav-global-brand logo-redu-gray_140_40 text-replacement", :title => "Redu" %>
+        <%= link_to Redu::Application.config.name, application_path, :class => "nav-global-brand logo-redu-gray_140_40 text-replacement", :title => Redu::Application.config.name %>
       </h1>
 
       <%= global_nav %>
@@ -34,16 +34,6 @@
                   <li class="nav-global-profile-item">
                     <%= link_to "Configurações", edit_user_path(current_user), :class => "nav-global-profile-item-link icon-manage-lightblue_16_18-before", :title => "Configurações" %>
                   </li>
-                  <% current_user.partners.each do |partner| %>
-                    <li class="nav-global-profile-item">
-                      <%= link_to partner.name, partner_path(partner), :class => "nav-global-profile-item-link icon-partner-lightblue_16_18-before", :title => partner.name %>
-                    </li>
-                  <% end %>
-                  <% if can? :index, Partner %>
-                    <li class="nav-global-profile-item">
-                      <%= link_to "Parceiros", partners_path, :class => "nav-global-profile-item-link icon-partner-lightblue_16_18-before", :title => "Parceiros" %>
-                    </li>
-                  <% end %>
                   <li class="nav-global-profile-item">
                     <%= link_to "Sair", logout_path, :method => :delete, :title => "Sair", :class => "nav-global-profile-item-link nav-global-profile-item-link-iconless" %>
                   </li>

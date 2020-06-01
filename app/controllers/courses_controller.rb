@@ -21,12 +21,16 @@ class CoursesController < BaseController
     if @course.blocked?
       flash[:info] = "Entre em contato com o administrador deste curso."
     elsif current_user.nil?
-      flash[:info] = "Essa área só pode ser vista após você acessar o Redu com seu nome e senha."
+      flash[:info] = "Essa área só pode ser vista após você acessar o #{Redu::Application.config.name} com seu nome e senha."
     else
       flash[:info] = "Você não tem acesso a essa página"
     end
 
-    redirect_to preview_environment_course_path(@environment, @course)
+    if current_user
+      redirect_to preview_environment_course_path(@environment, @course)
+    else
+      redirect_to home_path
+    end
   end
 
   def show
@@ -91,11 +95,10 @@ class CoursesController < BaseController
     respond_to do |format|
       if @course.save
         if @environment.plan.nil?
-          @plan = Plan.from_preset(params[:plan].to_sym)
+          @plan = Plan.from_preset(:professor_plus)
           @plan.user = current_user
           @course.create_quota
           @course.plan = @plan
-          @plan.create_invoice_and_setup
         end
         @environment.courses << @course
         format.html { redirect_to environment_course_path(@environment, @course) }

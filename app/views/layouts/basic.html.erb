@@ -9,12 +9,10 @@
     <%= stylesheet_link_tag "basic" %>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <%= javascript_include_tag "basic" %>
-    <%= render "shared/typekit" %>
     <%= render "shared/analytics" %>
     <%= yield :header_scripts_and_styles %>
   </head>
   <body>
-    <%= render "shared/outdated_browser_new" %>
     <div class="main-wrapper">
       <% if current_user %>
         <%= render "shared/nav_global" %>
@@ -23,9 +21,8 @@
       <% end %>
       <%= render "shared/system_flash_message" %>
       <%= yield %>
-      <div class="footer-pusher"></div>
+      <div class="footer-sticky"></div>
     </div>
     <%= render "shared/footer" %>
-    <%= render "shared/olark" %>
   </body>
 </html>

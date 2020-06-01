@@ -130,19 +130,19 @@ var StudentsTreemap = function() {
           $("#report").slideToggle('fast');
       });
 
-      form.before($("<table/>", { 'id': "report", 'class': "table-report-students" }));
+      form.before($("<table/>", { 'id': "report", 'class': "table-report-students table-with-borderradius" }));
 
       var report = $("#report");
       report.hide();
       report.append($("<tbody/>", { 'id': "table-report" }));
 
-      report.find("tbody").append($("<tr/>", { 'class': "row-head" }));
-      report.find(".row-head").append($("<th/>", { 'class': "head", 'text': "Nome" }));
-      report.find(".row-head").append($("<th/>", { 'class': "head", 'text': "Comentários" }));
-      report.find(".row-head").append($("<th/>", { 'class': "head", 'text': "Resposta a comentários" }));
-      report.find(".row-head").append($("<th/>", { 'class': "head", 'text': "Pedidos de ajuda" }));
-      report.find(".row-head").append($("<th/>", { 'class': "head", 'text': "Resposta a pedidos de ajuda" }));
-      report.find(".row-head").append($("<th/>", { 'class': "head", 'text': "Média dos exercícios" }));
+      report.find("tbody").append($("<tr/>", { 'class': "row", 'id': "row-head" }));
+      report.find("#row-head").append($("<th/>", { 'class': "head", 'text': "Nome" }));
+      report.find("#row-head").append($("<th/>", { 'class': "head", 'text': "Comentários" }));
+      report.find("#row-head").append($("<th/>", { 'class': "head", 'text': "Resposta a comentários" }));
+      report.find("#row-head").append($("<th/>", { 'class': "head", 'text': "Pedidos de ajuda" }));
+      report.find("#row-head").append($("<th/>", { 'class': "head", 'text': "Resposta a pedidos de ajuda" }));
+      report.find("#row-head").append($("<th/>", { 'class': "head", 'text': "Média dos exercícios" }));
       if (!print){
           report.find(".row-head").append($("<th/>", { 'class': "head", 'text': "Link" }));
           report.find("tbody").css('max-height', '500px').css('overflow', 'auto');
@@ -175,7 +175,7 @@ var StudentsTreemap = function() {
                 "</td>" +
                 "<% if (!print) { %>" +
                     "<td class='cell treemap-link'>" +
-                        "<a href=#<%=object.id%>>no mapa</a>" +
+                        "<a href=#<%=object.id%>>ver no mapa</a>" +
                     "</td>" +
                 "<% };%>" +
             "</tr>" +

@@ -6,14 +6,13 @@ class Plan < ActiveRecord::Base
 
   belongs_to :billable, :polymorphic => true
   belongs_to :user
-  has_many :invoices
 
   scope :blocked, where(:state => "blocked")
   # Necessário, pois em produção o scope gerado automaticamente estava
   # fazendo cache de consultas anteriores
   scope :current, where(:current => true)
 
-  validates_presence_of :price, :user
+  validates_presence_of :user
 
   attr_protected :state, :billable_audit
 
@@ -47,46 +46,12 @@ class Plan < ActiveRecord::Base
     plan
   end
 
-  # Retorna true se há pelo menos um Invoice com estado 'overdue' ou 'pending'
-  def pending_payment?
-    self.invoices.pending.count > 0 || self.invoices.overdue.count > 0
-  end
-
   # Serializa billable associado e salva com propósito de auditoria
   def audit_billable!
     options = Hash.new
-    options[:include] = [:courses, :partner_environment_association] if self.billable.is_a? Environment
+    options[:include] = [:courses] if self.billable.is_a? Environment
     self.billable_audit = self.billable.serializable_hash(options)
     self.save!
-  end
-
-  def send_blocked_notice
-    UserNotifier.delay(:queue => 'email').blocked_notice(self.user, self)
-  end
-
-  # Retorna o invoice atual
-  #
-  # subject.plan
-  # => #<PackageInvoice:0x103f20f18>
-  def invoice
-    self.invoices.where(:current => true).first
-  end
-
-  # Seta o invoice como o atual
-  #
-  # subject.invoice = invoice
-  # => #<PackageInvoice:0x103f20f18>
-  # subject.invoice
-  # => #<PackageInvoice:0x103f20f18>
-  #
-  # subject.invoice = nil
-  # => nil
-  # subject.invoice
-  # => nil
-  def invoice=(new_invoice)
-    self.invoice.try(:update_attribute, :current, false)
-    new_invoice.try(:update_attributes, :current => true, :plan => self)
-    self.invoice
   end
 
   # Realiza setup necessário à migração
@@ -103,26 +68,14 @@ class Plan < ActiveRecord::Base
   # - Cria um novo invoice com o valor relativo a quantidade de dias
   #   e com desconto (caso houver) do invoice anterior
   def migrate_to(new_plan)
-    opts = {
-      :period_start => Date.today
-    }
-    opts[:period_end] = self.invoice.period_end if self.invoice
-    opts[:previous_balance] = discharge_payment_need!
-
-    # Seta o valor relativo para o novo invoice
-    if self.invoice
-      relative_amount = new_plan.price / (opts[:period_end] -
-                                          self.invoice.period_start + 1) *
-                                          (opts[:period_end] -
-                                           opts[:period_start] + 1)
-      opts[:amount] = relative_amount
-    end
-
     new_plan.user = self.user
     self.billable.plan = new_plan
-    new_invoice = new_plan.create_invoice(:invoice => opts, :force => true)
     new_plan.setup_for_migration
     self.migrate!
+  end
+
+  def send_blocked_notice
+    UserNotifier.delay(:queue => 'email').blocked_notice(self.user, self)
   end
 
   # Bloqueia o acesso ao billable e todos os seus filhos na hierarquia
@@ -146,46 +99,5 @@ class Plan < ActiveRecord::Base
     Space.update_all(["blocked = ?", true], ["id IN (?)", spaces])
     Subject.update_all(["blocked = ?", true], ["id IN (?)", subjects])
     Lecture.update_all(["blocked = ?", true], ["id IN (?)", lectures])
-  end
-
-  protected
-
-  # Calcula quanto do plano atual está pendente e fecha tais faturas
-  # - Marca como "closed" as faturas com pagamento necessário
-  # - Retorna o valor das faturas recém-fechadas
-  # - É possível que este valor seja negativo, isto indica
-  #   que o responsável pelo plano possui crédito
-  #
-  # plan.calc_payment_need
-  # => #<BigDecimal:10d1076e8,'0.8146E3',18(36)>
-  def discharge_payment_need!
-    if self.invoice.nil?
-      0
-    elsif !(self.invoices.pending_payment + self.invoices.to_calculate).empty?
-      self.invoice.refresh_amount!(Date.yesterday)
-      # Necessário, pois a atualização da data,
-      # feita na linha de cima, não estava sendo levada em
-      # conta no fechamento da fatura.
-      self.invoices.reload
-
-      # Fecha todos os invoices pendentes para adicionar
-      # o valor ao novo invoice
-      need_payment_invoices = self.invoices.pending_payment +
-        self.invoices.to_calculate
-      pending_values = need_payment_invoices.collect do |inv|
-        inv.close!
-        inv.total
-      end
-      pending_values.sum
-    else # Se já estiver pago
-      credit = self.invoice.refresh_amount(Date.yesterday)
-      balance = if self.invoice.total < 0
-                  # Valor já entra como desconto
-                  self.invoice.total - credit
-                else
-                  # Valor convertido para desconto
-                  - credit
-                end
-    end
   end
 end

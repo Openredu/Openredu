@@ -12,12 +12,9 @@
 
         })
 </script>
-<%= render :partial => 'shared/management_background' %>
-<div class="management-sidebar">
   <%= render :partial => 'environments/sidebar',
     :locals => { :environment => @environment } %>
- </div>
-<div class="main grid_12 omega big-col management-wrapper">
+<div class="main grid_12 omega big-col">
   <%= render :partial => 'environments/breadcrumbs',
     :locals => { :environment => @header_environment || @environment } %>
 
@@ -32,7 +29,7 @@
         <div class="plan-panel">
           <div class="plan-use">
             <span class="plan-type"><%= @environment.plan.name %></span>
-            <%= render :partial => "invoices/quotas_old",
+            <%= render :partial => "quotas/quotas_old",
               :locals => { :quota_file => @environment.percentage_quota_file,
                            :plan => @environment.plan,
                            :quota_multimedia => @environment.percentage_quota_multimedia,
@@ -48,23 +45,23 @@
         <%= f.label :name, "Nome" %>
         <%= f.text_field :name  %>
         <%= concave_errors_for(f.object, :name) %>
-        <span class="tip">Nome do ambiente virtual de aprendizagem</span>
         <%= f.label :initials, "Abreviação" %>
         <%= f.text_field :initials  %>
         <%= concave_errors_for(f.object, :initials) %>
-        <span class="tip">Abreviação ou sigla</span>
-        <%= f.label :path, t(:path) %>
+        <%= f.label :path, "Endereço Eletrônico" %>
         <%= f.text_field :path %>
         <%= concave_errors_for(f.object, :path) %>
         <%= f.label :description, "Descrição", :class => "concave-label-high" %>
-        <%= f.text_area :description, :size=>'102x4' %>
+        <%= f.text_area :description, :size=>'100x5' %>
         <%= concave_errors_for(f.object, :description) %>
         <%= f.label :tag_list,
           raw("Palavras-chave <span class='snippet'>(separadas por vírgula)</span>") %>
         <%= f.text_field :tag_list %>
+        <%= concave_errors_for(f.object, :tag_list) %>
         <span class="tip">O ambiente resumido em palavras elementares</span>
-        <%= f.label :avatar, "Imagem" %>
-        <%= f.file_field :avatar %>
+        <%= f.label :avatar, raw("Imagem <span class='snippet'>(PNG,JPEG,GIF)</span>") %>
+        <%= f.file_field :avatar, accept: 'image/png,image/jpeg,image/gif' %>
+        <%= concave_errors_for(f.object, :avatar) %>
         <span class="tip">Adicione uma imagem de proporção igual ou similar a um quadrado</span>
         <hr/>
 

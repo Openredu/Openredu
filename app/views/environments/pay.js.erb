@@ -1,7 +1,0 @@
-var form = "<%= escape_javascript(pagseguro_form @plan.create_order, :submit => "Pagar", :class => "concave-form") %>";
-
-var $form = $("<div/>", { 'class' : 'concave-form pagseguro-concave-form'}).html(form);
-
-
-$("#final-button").remove();
-$("#new_environment").after($form);

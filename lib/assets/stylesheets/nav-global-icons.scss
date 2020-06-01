@@ -32,12 +32,6 @@ $icon-sprite-dimensions: true;
     &:hover:before { @extend .icon-manage-blue_16_18; }
   }
 
-  // Parceiro.
-  .icon-partner-lightblue_16_18-before {
-    &:before { @extend .icon-partner-lightblue_16_18; }
-    &:hover:before  { @extend .icon-partner-blue_16_18; }
-  }
-
   .icon-arrow-down-lightblue_8_10 {
     .button-default:hover & { @extend .icon-arrow-down-blue_8_10; }
     .open & { @extend .icon-arrow-up-lightblue_8_10; }

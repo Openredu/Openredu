@@ -1,8 +1,5 @@
-<%= render :partial => 'shared/management_background' %>
-<div class="management-sidebar">
-  <%= render :partial => 'environments/sidebar', :locals => { :environment => @environment } %>
-</div>
-<div class="main grid_12 omega big-col management-wrapper">
+<%= render :partial => 'environments/sidebar', :locals => { :environment => @environment } %>
+<div class="main grid_12 omega big-col">
   <%= render :partial => 'environments/breadcrumbs',
     :locals => { :environment => @environment } %>
 
@@ -14,7 +11,8 @@
 
     <%= tabs :environments_admin do %>
       <h3 class="form-header">
-        <%= @environment.courses.count %> curso(s)
+        <%= courses_count = @environment.courses.count %>
+        <%= t :course_, :count => courses_count%> 
       </h3>
       <div class="management-actions">
         <%= link_to "Criar novo curso", new_environment_course_path(@environment),

@@ -4,11 +4,14 @@
     var chat;
     //]]>
   </script>
+  <%= javascript_include_tag Redu::Application.config.faye_js_url%>
   <%= lazy_load(:chat, :type => :css, :clear => false) %>
   <%= lazy_load(:chat, :clear => false) do %>
-    chat = buildChat({ key : "<%= Redu::Application.config.pusher[:key] %>"
-    , channel : "<%= current_user.presence_channel %>"
-    , endPoint : "<%= presence_auth_path %>"
+    chat = buildChat({ key : "key"
+    , friends : <%= current_user.friends.order('first_name ASC').map { |u| u.id }%>
+    , currentUser: <%= raw({'user_id' => current_user.id, 'channel' => current_user.user_channel, 'avatar' => current_user.avatar.url(:thumb_24), 'name' => "#{current_user.first_name} #{current_user.last_name}" }.to_json) %>
+    , channel : "/<%= current_user.user_channel %>"
+    , url : "<%= Redu::Application.config.faye_url%>"
     , owner_id : "<%= current_user.id %>"
     , layout : "<%= escape_javascript(render :partial => "presence/chat_list") %>"
     , windowPartial : "<%= escape_javascript(render :partial => "presence/chat_window") %>"
@@ -16,6 +19,5 @@
     , messagePartial : "<%= escape_javascript(render :partial => "presence/chat_message") %>" });
 
     chat.init();
-    chat.subscribeMyChannel();
   <% end %>
 <% end %>

@@ -13,10 +13,17 @@ class UserEnvironmentAssociation < ActiveRecord::Base
   # Filtra por palavra-chave (procura em User)
   scope :with_keyword, lambda { |keyword|
       if not keyword.empty? and keyword.size > 2
-        where("users.first_name LIKE :keyword " + \
-            "OR users.last_name LIKE :keyword " + \
-            "OR users.login LIKE :keyword", {:keyword => "%#{keyword.to_s}%"}).
-        includes(:user => [{:user_course_associations => :course}])
+        keyword_first = keyword.split(' ')[0]
+        keyword_last = keyword.split(' ')[1]
+        if keyword_last != nil
+          where("(users.first_name LIKE :keyword_first " + \
+          "AND users.last_name LIKE :keyword_last)", {:keyword_first => "%#{keyword_first.to_s}%", :keyword_last => "%#{keyword_last.to_s}"}).
+          includes(:user => [{:user_course_associations => :course}])
+        else
+          where("users.first_name LIKE :keyword_first " + \
+          "OR users.last_name LIKE :keyword_first " , {:keyword_first => "%#{keyword_first.to_s}%"}).
+          includes(:user => [{:user_course_associations => :course}])
+        end
       end
     }
   # Filtra por Environment

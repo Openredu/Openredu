@@ -275,17 +275,6 @@ describe Ability do
             @sub = FactoryGirl.create(:subject, :owner => @env_admin, :space => @space)
           end
 
-          # Sorry, but Document #1 could not be uploaded to Scribd
-          pending do
-            it "can NOT upload document" do
-              document = FactoryGirl.create(:document)
-              lecture = FactoryGirl.create(:lecture, :owner => @env_admin,
-                                :subject => @sub,
-                                :lectureable => document)
-              @ability.should_not be_able_to(:upload_document, document)
-            end
-          end
-
           # Need Seminar factory
           it "can NOT upload multimedia"
 
@@ -796,7 +785,6 @@ describe Ability do
                                     :lectureable => FactoryGirl.create(:complete_exercise))
         @lecture_seminar = FactoryGirl.create(:lecture, :subject => @subject,
                                    :lectureable => FactoryGirl.create(:seminar_youtube))
-        mock_scribd_api
         @lecture_document = FactoryGirl.create(:lecture, :subject => @subject,
                                     :lectureable => FactoryGirl.create(:document))
 
@@ -1101,7 +1089,6 @@ describe Ability do
       context "on package_plan" do
         before do
           @package_plan = FactoryGirl.create(:active_package_plan)
-          @invoice = FactoryGirl.create(:package_invoice, :plan => @package_plan)
         end
 
         context "the owner" do
@@ -1119,23 +1106,6 @@ describe Ability do
 
           it "migrates its own package_plan" do
             @ability.should be_able_to(:migrate, @package_plan)
-          end
-
-          it "reads package_plan's invoice" do
-            @ability.should be_able_to(:read, @invoice)
-          end
-
-          it "manages package_plan's invoice" do
-            @ability.should be_able_to(:manage, @invoice)
-          end
-
-          it "can pay package_plan's invoice with pagseguro" do
-            @ability.should be_able_to(:pay_with_pagseguro, @invoice)
-          end
-
-          it "can NOT pay paid package_plan's invoice with pagseguro" do
-            @invoice.update_attribute(:state, "paid")
-            @ability.should_not be_able_to(:pay_with_pagseguro, @invoice)
           end
         end
 
@@ -1156,160 +1126,6 @@ describe Ability do
           it "can NOT migrate others package_plans" do
             @ability.should_not be_able_to(:migrate, @package_plan)
           end
-
-          it "can NOT read others package_plan's invoice" do
-            @ability.should_not be_able_to(:read, @invoice)
-          end
-
-          it "can NOT manage others package_plan's invoice" do
-            @ability.should_not be_able_to(:manage, @invoice)
-          end
-        end
-      end
-
-      context "on licensed_plan" do
-        before do
-          @licensed_plan = FactoryGirl.create(:active_licensed_plan)
-          @invoice = FactoryGirl.create(:licensed_invoice, :plan => @licensed_plan)
-          @invoice.update_attribute(:state, "pending")
-        end
-
-        context "the owner" do
-          before do
-            @ability = Ability.new(@licensed_plan.user)
-          end
-
-          it "read its own licensed_plan" do
-            @ability.should be_able_to(:read, @licensed_plan)
-          end
-
-          it "manages its own licensed_plan" do
-            @ability.should be_able_to(:manage, @licensed_plan)
-          end
-
-          it "migrates its own licensed_plan" do
-            @ability.should be_able_to(:migrate, @licensed_plan)
-          end
-
-          it "reads licensed_plan's invoice" do
-            @ability.should be_able_to(:read, @invoice)
-          end
-
-          it "manages licensed_plan's invoice" do
-            @ability.should be_able_to(:manage, @invoice)
-          end
-
-          it "can NOT pay licensed_plan's invoice" do
-            @ability.should_not be_able_to(:pay, @invoice)
-          end
-        end
-
-        context "the strange" do
-          before do
-            strange = FactoryGirl.create(:user)
-            @ability = Ability.new(strange)
-          end
-
-          it "can NOT read others licensed_plans" do
-            @ability.should_not be_able_to(:read, @licensed_plan)
-          end
-
-          it "can NOT manage others licensed_plans" do
-            @ability.should_not be_able_to(:manage, @licensed_plan)
-          end
-
-          it "can NOT migrate others licensed_plans" do
-            @ability.should_not be_able_to(:migrate, @licensed_plan)
-          end
-
-          it "can NOT read others licensed_plan's invoice" do
-            @ability.should_not be_able_to(:read, @invoice)
-          end
-
-          it "can NOT manage others licensed_plan's invoice" do
-            @ability.should_not be_able_to(:manage, @invoice)
-          end
-        end
-
-        context "the partner admin" do
-          before do
-            partner_env_assoc = FactoryGirl.create(:partner_environment_association)
-            partner = partner_env_assoc.partner
-            environment = partner_env_assoc.environment
-
-            partner_admin = FactoryGirl.create(:user)
-            partner.add_collaborator partner_admin
-            @ability = Ability.new(partner_admin)
-
-            @licensed_plan = FactoryGirl.create(:active_licensed_plan,
-                                     :billable => environment)
-            @invoice = FactoryGirl.create(:licensed_invoice, :plan => @licensed_plan)
-            @invoice.pend!
-          end
-
-          it "can read partner licensed_plans" do
-            @ability.should be_able_to(:read, @licensed_plan)
-          end
-
-          it "can read partner licensed_plans of dead billable" do
-            @licensed_plan.billable.audit_billable_and_destroy
-            @ability.should be_able_to(:read, @licensed_plan.reload)
-          end
-
-          it "can manage partner licensed_plans" do
-            @ability.should be_able_to(:manage, @licensed_plan)
-          end
-
-          it "can migrate partner licensed_plans" do
-            @ability.should be_able_to(:migrate, @licensed_plan)
-          end
-
-          it "can read partner licensed_plan's invoice" do
-            @ability.should be_able_to(:read, @invoice)
-          end
-
-          it "can manage partner licensed_plan's invoice" do
-            @ability.should be_able_to(:manage, @invoice)
-          end
-
-          it "can NOT pay licensed_plan's invoice" do
-            @ability.should_not be_able_to(:pay, @invoice)
-          end
-        end
-
-        context "the redu admin" do
-          before do
-            redu_admin = FactoryGirl.create(:user, :role => Role[:admin])
-            @ability = Ability.new(redu_admin)
-          end
-
-          it "can pay licensed_plan's invoice" do
-            @ability.should be_able_to(:pay, @invoice)
-          end
-
-          it "can NOT pay a non pending invoice" do
-            @invoice.pay!
-            @ability.should_not be_able_to(:pay, @invoice.reload)
-          end
-
-          it "can pay a overdue invoice" do
-            @invoice.overdue!
-            @ability.should be_able_to(:pay, @invoice.reload)
-          end
-
-          it "can manage partner licensed_plans of dead billable" do
-            @licensed_plan.billable.audit_billable_and_destroy
-            @ability.should be_able_to(:manage, @licensed_plan)
-          end
-
-          it "can migrate a blocked or migrated plan" do
-            @plan = FactoryGirl.create(:plan)
-            @plan.update_attribute(:state, "blocked")
-            @ability.should be_able_to(:migrate, @plan)
-
-            @plan.update_attribute(:state, "blocked")
-            @ability.should be_able_to(:migrate, @plan)
-          end
         end
       end
     end
@@ -1322,89 +1138,15 @@ describe Ability do
       @user_ability = Ability.new(@user)
     end
 
-    context "pusher channels" do
-      before do
-        @stranger = FactoryGirl.create(:user)
-        @friend = FactoryGirl.create(:user)
-
-        friendship, status = @user.be_friends_with(@friend)
-        friendship.accept!
-      end
-
-      it "can auth a channel" do
-        @user_ability.should be_able_to(:auth, @user)
-      end
-
-      it "can NOT auth a contact channel" do
-        @user_ability.should_not be_able_to(:auth, @friend)
-      end
-
-      it "can subscribe a contact channel" do
-        @user_ability.should be_able_to(:subscribe_channel, @friend)
-      end
-
-      it "can NOT subscribe a stranger channel" do
-        @user_ability.should_not be_able_to(:subscribe_channel, @stranger)
-      end
-
-      context "when chatting" do
-        before do
-          course = FactoryGirl.create(:course)
-          @colleague = FactoryGirl.create(:user)
-          @teacher = FactoryGirl.create(:user)
-          course.join(@user)
-          course.join(@colleague)
-          course.join(@teacher, Role[:teacher])
-        end
-
-        it "can send a message to a friend" do
-          @user_ability.should be_able_to(:send_chat_message, @friend)
-        end
-
-        it "can send a message to a teacher" do
-          @user_ability.should be_able_to(:send_chat_message, @teacher)
-        end
-
-        it "can NOT send a message to a colleague" do
-          @user_ability.should_not be_able_to(:send_chat_message, @colleague)
-        end
-
-        it "can NOT send a message to a stranger" do
-          @user_ability.should_not be_able_to(:send_chat_message, @stranger)
-        end
-      end
-
-      context "when requesting last chat messages" do
-        before do
-          course = FactoryGirl.create(:course)
-          @colleague = FactoryGirl.create(:user)
-          @teacher = FactoryGirl.create(:user)
-          course.join(@user)
-          course.join(@colleague)
-          course.join(@teacher, Role[:teacher])
-        end
-
-        it "can request his messages with a teacher" do
-          @user_ability.should be_able_to(:last_messages_with, @teacher)
-        end
-
-        it "can NOT request his messages with a colleague" do
-          @user_ability.should_not be_able_to(:last_messages_with, @colleague)
-        end
-
-        it "can NOT request his messages with a stranger" do
-          @user_ability.should_not be_able_to(:last_messages_with, @stranger)
-        end
-      end
-    end
-
     context "when friends" do
       before do
         @my_friend = FactoryGirl.create(:user)
         @my_friend_ability = Ability.new(@my_friend)
 
-        friendship, status = @user.be_friends_with(@my_friend)
-        friendship.accept!
+        friendship1, status = @user.be_friends_with(@my_friend)
+        friendship2, status = @my_friend.be_friends_with(@user)
+        friendship1.accept!
+        friendship2.accept!
       end
 
       it "should read each other" do
@@ -1415,6 +1157,24 @@ describe Ability do
       it "should not manage each other" do
         @user_ability.should_not be_able_to(:manage, @my_friend)
         @my_friend_ability.should_not be_able_to(:manage, @user)
+      end
+
+      it "should send message to other" do
+        @user_ability.should be_able_to(:send_message, @my_friend)
+        @my_friend_ability.should be_able_to(:send_message, @user)
+      end
+    end
+
+    context "when they are not friends" do
+      before do
+        @not_my_friend = FactoryGirl.create(:user)
+        @not_my_friend_ability = Ability.new(@not_my_friend)
+      end
+
+
+      it "should not send message each other" do
+        @user_ability.should_not be_able_to(:send_message, @not_my_friend)
+        @not_my_friend_ability.should_not be_able_to(:send_message, @user)
       end
     end
 
@@ -1514,6 +1274,10 @@ describe Ability do
       @user_ability.should be_able_to(:manage, @user)
     end
 
+    it "inform that itself is online" do
+      @user_ability.should be_able_to(:online, @user)
+    end
+
     context "manages its own statuses" do
       it "when activy" do
         status = FactoryGirl.create(:activity, :user => @user)
@@ -1608,143 +1372,6 @@ describe Ability do
 
       it "can resend invitation email" do
         @user_ability.should be_able_to(:resend_email, @my_invitation)
-      end
-    end
-  end
-
-  context "on PartnerEnvironmentAssociation" do
-    before do
-      @partner = FactoryGirl.create(:partner)
-
-      3.times do
-        course = FactoryGirl.create(:course)
-        FactoryGirl.create(:partner_environment_association,
-                :environment => course.environment,
-                :partner => @partner)
-      end
-
-      @peas = @partner.partner_environment_associations
-    end
-
-    context "the collaborator" do
-      before do
-        @collaborator = FactoryGirl.create(:user)
-        @user_ability = Ability.new(@collaborator)
-        @partner.add_collaborator(@collaborator)
-      end
-
-      it "can manage" do
-        @peas.each do |association|
-          @user_ability.should be_able_to(:manage, association)
-        end
-      end
-    end
-
-    context "the collaborator of other partner" do
-      before do
-        @collaborator = FactoryGirl.create(:user)
-        @user_ability = Ability.new(@collaborator)
-        @another = FactoryGirl.create(:partner)
-        3.times do
-          course = FactoryGirl.create(:course)
-          FactoryGirl.create(:partner_environment_association,
-                  :environment => course.environment,
-                  :partner => @another)
-        end
-        @another.add_collaborator(@collaborator)
-      end
-
-      it "cannot manage" do
-        @peas.each do |association|
-          @user_ability.should_not be_able_to(:manage, association)
-        end
-      end
-
-      it "cannot read" do
-        @peas.each do |association|
-          @user_ability.should_not be_able_to(:read, association)
-        end
-      end
-    end
-
-    context "the outsider" do
-      before do
-        @user = FactoryGirl.create(:user)
-        @user_ability = Ability.new(@user)
-      end
-
-      it "cannot manage" do
-        @peas.each do |association|
-          @user_ability.should_not be_able_to(:manage, association)
-        end
-      end
-    end
-  end
-
-  context "on Partner" do
-    before do
-      @partner = FactoryGirl.create(:partner)
-    end
-    context "all common users" do
-      before do
-        @user = FactoryGirl.create(:user)
-        @user_ability = Ability.new(@user)
-      end
-
-      it "cannot manage" do
-        @user_ability.should_not be_able_to(:manage, @partner)
-      end
-
-      it "cannot view" do
-        @user_ability.should_not be_able_to(:read, @partner)
-      end
-
-      it "can contact" do
-        @user_ability.should be_able_to(:contact, @partner)
-      end
-
-      it "cannot view all partners" do
-        @user_ability.should_not be_able_to(:index, Partner)
-      end
-    end
-
-    context "the collbarator" do
-      before do
-        @user = FactoryGirl.create(:user)
-        @partner.add_collaborator(@user)
-
-        @user_ability = Ability.new(@user)
-      end
-
-      it "can view" do
-        @user_ability.should be_able_to(:read, @partner)
-      end
-
-      it "can manage" do
-        @user_ability.should be_able_to(:manage, @partner)
-      end
-
-      it "cannot view all partners" do
-        @user_ability.should_not be_able_to(:index, Partner)
-      end
-    end
-
-    context "the redu admin" do
-      before do
-        @redu_admin = FactoryGirl.create(:user, :role => Role[:admin])
-        @redu_admin_ability = Ability.new(@redu_admin)
-      end
-
-      it "can view" do
-        @redu_admin_ability.should be_able_to(:read, @partner)
-      end
-
-      it "can manage" do
-        @redu_admin_ability.should be_able_to(:manage, @partner)
-      end
-
-      it "cannot view all partners" do
-        @redu_admin_ability.should be_able_to(:index, Partner)
       end
     end
   end

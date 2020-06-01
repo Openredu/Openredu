@@ -86,19 +86,21 @@ end
 
 def remove_enrollments(date)
   Enrollment.where("created_at >= '#{date}'").find_each do |enrollment|
-    if (enrollment.user.get_association_with enrollment.subject.space).nil?
-      params_remove_enrollment = fill_enroll(enrollment, "remove_enrollment")
+    if !enrollment.nil? && !enrollment.user.nil?
+      if (enrollment.user.get_association_with enrollment.subject.space).nil?
+        params_remove_enrollment = fill_enroll(enrollment, "remove_enrollment")
 
-      send_async_info(params_remove_enrollment,
-                      Redu::Application.config.vis_client[:url])
-
-      if enrollment.grade == 100 and enrollment.graduated
-        params_finalized = fill_enroll(enrollment, "remove_subject_finalized")
-        send_async_info(params_finalized,
+        send_async_info(params_remove_enrollment,
                         Redu::Application.config.vis_client[:url])
-      end
 
-      enrollment.try(:destroy)
+        if enrollment.grade == 100 and enrollment.graduated
+          params_finalized = fill_enroll(enrollment, "remove_subject_finalized")
+          send_async_info(params_finalized,
+                          Redu::Application.config.vis_client[:url])
+        end
+
+        enrollment.try(:destroy)
+      end
     end
   end
 end

@@ -1,0 +1,34 @@
+sudo: required
+language: ruby
+cache: bundler
+rvm:
+  - "1.9.3"
+services:
+  - mongodb
+bundler_args: --without development debug
+before_script:
+  - sudo apt-get install mysql-server
+  - export TZ=America/Sao_Paulo
+  - cp config/database.travis.yml config/database.yml
+  - cp config/mongoid.travis.yml config/mongoid.yml
+  - sudo mysql -e 'create database openredu_test;'
+  - bundle exec rake db:schema:load RAILS_ENV=test
+env:
+  - TEST_SUITE=abilities
+  - TEST_SUITE=adapters
+  - TEST_SUITE=controllers
+  - TEST_SUITE=helpers
+  - TEST_SUITE=jobs
+  - TEST_SUITE=libs
+  - TEST_SUITE=mailers
+  - TEST_SUITE=models
+  - TEST_SUITE=observers
+  - TEST_SUITE=representers
+  - TEST_SUITE=services
+  - TEST_SUITE=views
+  - TEST_SUITE=visualizations
+script: "bundle exec rspec spec/$TEST_SUITE"
+before_install:
+  - gem install bundler -v 1.17.3
+  - chmod +x ./script/grant_travis_privileges_on_mysql.sh
+  - ./script/grant_travis_privileges_on_mysql.sh

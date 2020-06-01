@@ -1,12 +1,18 @@
-<div id="cadastro-sucesso" class="modal hide modal-sign-up modal-sign-up-success">
-  <div class="modal-header">
-    <h3 class="modal-sign-up-title">Sua conta foi criada. Seja bem vindo(a)!</h3>
-  </div>
-  <div class="modal-body">
-    <p>Olá. Seu cadastro foi efetuado com sucesso. No entanto, é necessário que você o confirme. Enviamos um e-mail para sua caixa de entrada contendo um link – basta clicá-lo. Mas não se preocupe: você tem até 30 dias para realizar esta etapa.</p>
-    <p>Até lá, experimente o Redu e não hesite em entrar em contato conosco caso surjam dúvidas, reclamações ou sugestões.</p>
-  </div>
-  <div class="modal-footer">
-    <%= link_to "Experimentar o Redu", home_user_path(@user, :exploring_tour => true), :class => "button-big button-primary" %>
-  </div>
+
+<div id="modal-sign-up-success" class="bg-modal">
+  <label for="ck-modal" class="label-bg"></label>
+  <section id="painel-cadastro">
+    <h4 class="title-modal">Conta criada com sucesso <label for="ck-modal"><span class="icv"></span><span class="ich"></span></label></h4>
+    <div class="modal-body" style="margin:10px;">
+      <h3>Olá, Seu cadastro foi efetuado com sucesso.</h3>
+      <h4>No entanto, é necessário que você o confirme. Enviamos um e-mail para sua caixa de entrada contendo um link – basta clicá-lo. Mas não se preocupe: você tem até 30 dias para realizar esta etapa.</h4>
+      <h4>Até lá, experimente o Openredu e não hesite em entrar em contato conosco caso surjam dúvidas, reclamações ou sugestões.</h4>
+      <div style="padding-bottom: 10px;">
+        <%= link_to "Experimentar o Openredu", home_user_path(@user, :exploring_tour => true), :class => "button-success-modal" %>
+      </div>
+    </div>
+
+  </section>
 </div>
+
+

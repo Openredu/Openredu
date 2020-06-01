@@ -6,12 +6,12 @@ namespace :bootstrap do
     User.reset_callbacks(:save)
     User.reset_callbacks(:create)
     theadmin = User.new(:login => 'administrator',
-                        :email => 'redu@redu.com.br',
-                        :password => 'reduadmin123',
-                        :password_confirmation => 'reduadmin123',
+                        :email => 'openredu@openredu.com.br',
+                        :password => 'admin123',
+                        :password_confirmation => 'admin123',
                         :birthday => 20.years.ago,
                         :first_name => 'Admin',
-                        :last_name => 'Redu',
+                        :last_name => 'Openredu',
                         :activated_at => Time.now,
                         :last_login_at => Time.now,
                         :role => Role[:admin])
@@ -26,8 +26,8 @@ namespace :bootstrap do
     User.reset_callbacks(:create)
     theuser = User.new(:login => 'test_user',
                        :email => 'test_user@example.com',
-                       :password => 'redutest123',
-                       :password_confirmation => 'redutest123',
+                       :password => 'openredutest123',
+                       :password_confirmation => 'openredutest123',
                        :birthday => 20.years.ago,
                        :first_name => 'Test',
                        :activated_at => Time.now,
@@ -49,14 +49,6 @@ namespace :bootstrap do
     Audience.create(:name => "Pré-Vestibular")
     Audience.create(:name => "Certificações")
     Audience.create(:name => "Diversos")
-  end
-
-  desc "Inser standard partner"
-  task :partner => :environment do
-    Partner.create(:name => "CNS",
-                   :email => "cns@redu.com.br",
-                   :cnpj => "12.123.123/1234-12",
-                   :address => "Beaker street")
   end
 
   desc "Create OAuth Client Application for ReduVis"
@@ -86,6 +78,5 @@ namespace :bootstrap do
   end
 
   desc "Run all bootstrapping tasks"
-  task :all => [:audiences, :default_user, :default_admin,
-                :partner, :reduvis_app, :reduapps_app]
+  task :all => [:audiences, :default_user, :default_admin, :reduvis_app, :reduapps_app]
 end

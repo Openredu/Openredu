@@ -11,12 +11,12 @@
       <h4 class="icon-tour-lightblue_16_18-before">Tour do Início</h4>
     </div>
     <div class="modal-body">
-      <p>Aprenda o funcionamento da interface do Redu, suas principais seções e, principalmente, a seção “Início”.</p>
+      <p>Aprenda o funcionamento da interface do <%= Redu::Application.config.name %>, suas principais seções e, principalmente, a seção “Início”.</p>
       <p>O Início é estritamente pessoal e complementar ao seu Perfil. Sua finalidade é ser o centro de controle de tudo que diga respeito a você, seus amigos e as novidades de sua aprendizagem.</p>
-      <p>Você pode refazer este Tour a qualquer momento através do “Explore o Redu”, na coluna direita.</p>
+      <p>Você pode refazer este Tour a qualquer momento através do “Explore o <%= Redu::Application.config.name %>, na coluna direita.</p>
     </div>
     <div class="modal-footer">
-      <p class="legend">1 de 15</p>
+      <p class="legend">1 de 13</p>
       <button class="button-primary" data-toggle="modal" data-dismiss="modal" href="#tour-2">Avançar</button>
     </div>
   </div>
@@ -27,10 +27,10 @@
       <h4>Menu de Navegação Global</h4>
     </div>
     <div class="modal-body">
-      <p>Aqui você pode navegar pelas seções do Redu, ver as suas notificações e configurar sua conta.</p>
+      <p>Aqui você pode navegar pelas seções do <%= Redu::Application.config.name %>, ver as suas notificações e configurar sua conta.</p>
     </div>
     <div class="modal-footer">
-      <p class="legend">2 de 15</p>
+      <p class="legend">2 de 13</p>
       <button class="button-default" data-toggle="modal" data-dismiss="modal" href="#tour-1">Voltar</button>
       <button class="button-primary" data-toggle="modal" data-dismiss="modal" href="#tour-3">Avançar</button>
     </div>
@@ -45,7 +45,7 @@
       <p>Veja atualizações de sua rede: Mensagens, Ambientes, Favoritos, Conexões; configure sua conta e Perfil. O realce em azul indica que você está visualizando o Início.</p>
     </div>
     <div class="modal-footer">
-      <p class="legend">3 de 15</p>
+      <p class="legend">3 de 13</p>
       <button class="button-default" data-toggle="modal" data-dismiss="modal" href="#tour-2">Voltar</button>
       <button class="button-primary" data-toggle="modal" data-dismiss="modal" href="#tour-4">Avançar</button>
     </div>
@@ -60,7 +60,7 @@
       <p>Crie Ambientes de Aprendizagem e Cursos para você ou sua Instituição.</p>
     </div>
     <div class="modal-footer">
-      <p class="legend">4 de 15</p>
+      <p class="legend">4 de 13</p>
       <button class="button-default" data-toggle="modal" data-dismiss="modal" href="#tour-3">Voltar</button>
       <button class="button-primary" data-toggle="modal" data-dismiss="modal" href="#tour-5">Avançar</button>
     </div>
@@ -75,7 +75,7 @@
       <p>Acesse os Ambientes de Aprendizagem que você faz parte.</p>
     </div>
     <div class="modal-footer">
-      <p class="legend">5 de 15</p>
+      <p class="legend">5 de 13</p>
       <button class="button-default" data-toggle="modal" data-dismiss="modal" href="#tour-4">Voltar</button>
       <button class="button-primary" data-toggle="modal" data-dismiss="modal" href="#tour-6">Avançar</button>
     </div>
@@ -90,7 +90,7 @@
       <p>Professor, insira Aplicativos em suas Aulas e os use para incentivar a aprendizagem de uma maneira interativa. Aluno, adicione Aplicativos aos seus Favoritos e experimente uma nova forma de estudar.</p>
     </div>
     <div class="modal-footer">
-      <p class="legend">6 de 15</p>
+      <p class="legend">6 de 13</p>
       <button class="button-default" data-toggle="modal" data-dismiss="modal" href="#tour-5">Voltar</button>
       <button class="button-primary" data-toggle="modal" data-dismiss="modal" href="#tour-7">Avançar</button>
     </div>
@@ -105,7 +105,7 @@
       <p>Busque e conheça os Ambientes de Aprendizagem, bem como seus Cursos e Disciplinas. Procure também por pessoas.</p>
     </div>
     <div class="modal-footer">
-      <p class="legend">7 de 15</p>
+      <p class="legend">7 de 13</p>
       <button class="button-default" data-toggle="modal" data-dismiss="modal" href="#tour-6">Voltar</button>
       <button class="button-primary" data-toggle="modal" data-dismiss="modal" href="#tour-8">Avançar</button>
     </div>
@@ -117,10 +117,10 @@
       <h4>Suas Configurações</h4>
     </div>
     <div class="modal-body">
-      <p>Provê acesso rápido às configurações de seu Perfil e sua conta. Aqui você também pode sair do Redu.</p>
+      <p>Provê acesso rápido às configurações de seu Perfil e sua conta. Aqui você também pode sair do <%= Redu::Application.config.name %>.</p>
     </div>
     <div class="modal-footer">
-      <p class="legend">8 de 15</p>
+      <p class="legend">8 de 13</p>
       <button class="button-default" data-toggle="modal" data-dismiss="modal" href="#tour-7">Voltar</button>
       <button class="button-primary" data-toggle="modal" data-dismiss="modal" href="#tour-9">Avançar</button>
     </div>
@@ -135,7 +135,7 @@
       <p>Acesse o seu Perfil clicando na sua foto. No Perfil você pode divulgar informações sobre você, seu Currículo e seus Ambientes.</p>
     </div>
     <div class="modal-footer">
-      <p class="legend">9 de 15</p>
+      <p class="legend">9 de 13</p>
       <button class="button-default" data-toggle="modal" data-dismiss="modal" href="#tour-8">Voltar</button>
       <button class="button-primary" data-toggle="modal" data-dismiss="modal" href="#tour-10">Avançar</button>
     </div>
@@ -150,7 +150,7 @@
       <p>Aqui você pode encontrar as funcionalidades e seções do Início. Por exemplo: ver as suas Mensagens, o seu Mural, configurar suas informações e acessar os Ambientes dos quais você participa.</p>
     </div>
     <div class="modal-footer">
-      <p class="legend">10 de 15</p>
+      <p class="legend">10 de 13</p>
       <button class="button-default" data-toggle="modal" data-dismiss="modal" href="#tour-9">Voltar</button>
       <button class="button-primary" data-toggle="modal" data-dismiss="modal" href="#tour-11">Avançar</button>
     </div>
@@ -165,7 +165,7 @@
       <p>Este menu realçado pela cor azul indica a seção ativa do Início – isto é, a que você está no momento. Por exemplo, se você estiver na Visão Geral, o menu estará realçado pela cor azul.</p>
     </div>
     <div class="modal-footer">
-      <p class="legend">11 de 15</p>
+      <p class="legend">11 de 13</p>
       <button class="button-default" data-toggle="modal" data-dismiss="modal" href="#tour-10">Voltar</button>
       <button class="button-primary" data-toggle="modal" data-dismiss="modal" href="#tour-12">Avançar</button>
     </div>
@@ -177,46 +177,17 @@
       <h4>Convide seus amigos</h4>
     </div>
     <div class="modal-body">
-      <p>Encontre amigos que já usam o Redu ou os convide para participar de sua rede.</p>
+      <p>Encontre amigos que já usam o <%= Redu::Application.config.name %> ou os convide para participar de sua rede.</p>
     </div>
     <div class="modal-footer">
-      <p class="legend">12 de 15</p>
+      <p class="legend">12 de 13</p>
       <button class="button-default" data-toggle="modal" data-dismiss="modal" href="#tour-11">Voltar</button>
       <button class="button-primary" data-toggle="modal" data-dismiss="modal" href="#tour-13">Avançar</button>
     </div>
   </div>
+</div>
 
-  <div id="tour-13" class="modal hide tour" data-backdrop="static">
-    <div class="modal-header">
-      <span data-dismiss="modal" class="message-close">×</span>
-      <h4>Oráculo</h4>
-    </div>
-    <div class="modal-body">
-      <p>Atendimento e suporte em tempo real.</p>
-    </div>
-    <div class="modal-footer">
-      <p class="legend">13 de 15</p>
-      <button class="button-default" data-toggle="modal" data-dismiss="modal" href="#tour-12">Voltar</button>
-      <button class="button-primary" data-toggle="modal" data-dismiss="modal" href="#tour-14">Avançar</button>
-    </div>
-  </div>
-
-  <div id="tour-14" class="modal hide tour" data-backdrop="static">
-    <div class="modal-header">
-      <span data-dismiss="modal" class="message-close">×</span>
-      <h4>Chat</h4>
-    </div>
-    <div class="modal-body">
-      <p>Converse com seus amigos e colegas de um mesmo Curso em tempo real.</p>
-    </div>
-    <div class="modal-footer">
-      <p class="legend">14 de 15</p>
-      <button class="button-default" data-toggle="modal" data-dismiss="modal" href="#tour-13">Voltar</button>
-      <button class="button-primary" data-toggle="modal" data-dismiss="modal" href="#tour-15">Avançar</button>
-    </div>
-  </div>
-
-  <div id="tour-15" class="modal hide tour" data-backdrop="static">
+<div id="tour-13" class="modal hide tour" data-backdrop="static">
     <div class="modal-header">
       <span data-dismiss="modal" class="message-close">×</span>
       <h4>Ainda restam dúvidas?</h4>
@@ -225,12 +196,11 @@
       <p>Estamos dispostos a atendê-lo sempre que precisar. Caso este Tour não tenha contemplado suas dúvidas, acesse a <%= link_to "Central de Ajuda", Redu::Application.config.redu_services[:help_center][:url], :title => "Central de Ajuda", :target => "_blank" %> e busque por um tópico de sua preferência.</p>
     </div>
     <div class="modal-footer">
-      <p class="legend">15 de 15</p>
-      <button class="button-default" data-toggle="modal" data-dismiss="modal" href="#tour-14">Voltar</button>
+      <p class="legend">13 de 13</p>
+      <button class="button-default" data-toggle="modal" data-dismiss="modal" href="#tour-12">Voltar</button>
       <button class="button-primary" data-dismiss="modal">Finalizar Tour</button>
     </div>
   </div>
-</div>
 
 <script type="text/javascript">
   $(document).ready(function(){

@@ -39,6 +39,7 @@
             <div class="subject">
               <% showed_user = @message.sender == @user ?
                 @message.recipient : @message.sender %>
+              <%= @message.sender == @user ? 'Para: ' : 'De: ' %></br>
               <%= render "statuses/user_image", user: showed_user %>
               <div class="subject-info">
                 <%= render "statuses/user_name", user: showed_user %>

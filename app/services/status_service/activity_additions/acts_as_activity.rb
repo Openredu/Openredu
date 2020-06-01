@@ -5,7 +5,7 @@ module StatusService
       extend ActiveSupport::Concern
       included do
         validates_presence_of :text
-        validates_length_of :text, :maximum => 800
+        validates_length_of :text, :maximum => 1600
       end
 
       def respond(attrs, user, &block)

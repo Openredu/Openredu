@@ -2,9 +2,6 @@
 class AuthenticationsController < BaseController
 
   def create
-    logger.info "Logging in with facebook" # Logging
-    logger.info request.env['omniauth.auth']
-
     auth = request.env['omniauth.auth']
     auth_service = AuthenticationService.new(:omniauth => auth)
 
@@ -33,8 +30,6 @@ class AuthenticationsController < BaseController
         session[:return_to] = nil
       end
     else
-      logger.info "Facebook with invalid user:"
-      logger.info  auth_service.authenticated_user.errors.inspect
       flash[:error] = t :facebook_connect_error
 
       @user = auth_service.authenticated_user

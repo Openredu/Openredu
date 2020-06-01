@@ -18,11 +18,11 @@ describe Seminar do
 
     it "should return fully fladged URL" do
       subject.external_resource_url.should == \
-        "http://www.youtube.com/watch?v=#{subject.external_resource}"
+        "https://www.youtube.com/embed/#{subject.external_resource}"
     end
 
     it "should accept Youtube URL in any order" do
-      url = "http://www.youtube.com/watch?feature=player_embedded&v=3ZNdzDglRms"
+      url = "https://www.youtube.com/watch?feature=player_embedded&v=3ZNdzDglRms"
 
       FactoryGirl.create(:seminar_youtube,
               :external_resource_url => url).external_resource.

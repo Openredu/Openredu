@@ -1,9 +1,0 @@
-<li>
-  <span class="date"><%= time_ago_in_words(item.created_at) %></span>
-  <div class="user-box">
-    <%= image_tag item.user.avatar(:thumb_24), :size => "24x24",
-      :class => "avatar" %>
-    <%= link_to item.user.display_name, user_path(item.user), :class => "user-name" %>
-  </div>
-</li>
-

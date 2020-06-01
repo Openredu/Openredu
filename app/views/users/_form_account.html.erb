@@ -16,7 +16,7 @@ Variáveis:
     <div class="controls span6">
       <div class="control-checkbox">
         <%= f.check_box :notify_community_news %>
-        <%= f.label :notify_community_news, "Novidades do Redu" %>
+        <%= f.label :notify_community_news, "Novidades #{Redu::Application.config.name}" %>
       </div>
       <div class="control-checkbox">
         <%= f.check_box :notify_messages %>
@@ -88,11 +88,11 @@ Variáveis:
       <div class="controls span6">
         <% if @flag %>
           <%= password_field_tag :current_password, nil,
-            :placeholder => "Senha da conta cadastrada no Redu",
+            :placeholder => "Senha da conta cadastrada no #{Redu::Application.config.name}",
             :maxlength => 20 %>
         <% else %>
           <%= password_field_tag :current_password, nil,
-            :placeholder => "Senha da conta cadastrada no Redu",
+            :placeholder => "Senha da conta cadastrada no #{Redu::Application.config.name}",
             :maxlength => 20 %>
         <% end %>
         <%= concave_errors_for(f.object, :current_password) %>
@@ -124,7 +124,7 @@ Variáveis:
 
   <div class="content-section clearfix">
     <%= f.submit t( :save_changes ), :class => "button-primary pull-right" %>
-    <%= link_to "Remover conta", user, :confirm => "Você tem certeza que remover a sua conta do Redu? Todo o seu material criado será removido de forma irreversível.",
+    <%= link_to "Remover conta", user, :confirm => "Você tem certeza que remover a sua conta #{Redu::Application.config.name}? Todo o seu material criado será removido de forma irreversível.",
       :method => :delete, :class => "button-danger pull-right" %>
   </div>
 <% end %>

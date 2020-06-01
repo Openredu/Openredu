@@ -28,12 +28,6 @@ module Redu
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
     config.time_zone = 'Brasilia'
 
-    # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
-    # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
-    # config.i18n.default_locale = :de
-    config.i18n.load_path += Dir[ Rails.root.join("lang", "ui", '*.{rb,yml}').to_s ]
-    config.i18n.default_locale = "pt-BR"
-
     # JavaScript files you want as :defaults (application.js is always included).
     # config.action_view.javascript_expansions[:defaults] = %w(jquery rails)
 
@@ -53,12 +47,6 @@ module Redu
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password, :password_confirmation]
 
-    # S3 credentials
-    if File.exists?("#{Rails.root}/config/s3.yml")
-      config.s3_config = YAML.load_file("#{Rails.root}/config/s3.yml")
-      config.s3_credentials = config.s3_config[Rails.env]
-    end
-
     if File.exists?( File.join(Rails.root, 'config', 'application.yml') )
       file = File.join(Rails.root, 'config', 'application.yml')
       config.extras = YAML.load_file file
@@ -71,10 +59,14 @@ module Redu
     end
 
     # Meta dados da aplicação
-    config.name = "Redu"
+    config.name = "Openredu"
     config.tagline = "Rede Social Educacional"
     config.description = "Rede Social Educacional"
-    config.email = "contato@redu.com.br"
+    config.email = "contato@openredu.com"
+    config.path = "openredu.ufpe.br"
+
+    # Nome e URL do app
+    config.url = ENV['APP_URL']
 
     # Paginação
     config.items_per_page = 10
@@ -82,19 +74,22 @@ module Redu
     # Máximo de caracteres p/ descrição
     config.desc_char_limit = 200
 
+    config.faye_url = ENV['FAYE_URL']
+    config.faye_js_url = "#{config.faye_url}/client.js"
+
     config.session_store = :active_record_store
-    config.representer.default_url_options = {:host => "127.0.0.1:3000"}
+    config.representer.default_url_options = {:host => ENV['API_URL']}
 
     # ActionMailer
     config.action_mailer.raise_delivery_errors = true
     config.action_mailer.delivery_method = :test
+    config.action_mailer.default_url_options = { :host => config.url }
 
     config.paperclip = {
-      :storage => :s3,
-      :s3_credentials => config.s3_credentials,
-      :bucket => config.s3_credentials['bucket'], # redu-uploads
-      :path => ":class/:attachment/:id/:style/:basename.:extension",
-      :default_url => "http://#{config.s3_credentials['assets_bucket']}.s3.amazonaws.com/images/new/missing_:class_:style.png",
+      :storage => :filesystem,
+      :path => File.join(Rails.root.to_s, "public/images/:class/:attachment/:id/:style/:basename.:extension"),
+      :url => "/images/:class/:attachment/:id/:style/:filename",
+      :default_url => "/assets/missing_:class_:style.png"
     }
 
     config.paperclip_environment = config.paperclip.merge({
@@ -119,59 +114,26 @@ module Redu
     })
 
     config.paperclip_myfiles = config.paperclip.merge({
-      :bucket => config.s3_credentials['files_bucket'], # redu-files
-      :path => ":class/:attachment/:id/:style/:basename.:extension",
+      :storage => :filesystem,
+      :path => File.join(Rails.root.to_s, "public/files/:class/:attachment/:id/:style/:basename.:extension"),
       :default_url => ":class/:attachment/:style/missing.png",
       :styles => {}
     })
 
     # Configurações de conversão e storage de videos (Seminar)
     config.video_original = { # Arquivo original do video (uploaded)
-      :storage => :s3,
-      :s3_credentials => config.s3_credentials,
-      :bucket => config.s3_credentials['bucket'],
-      :path => ":class/:attachment/:id/:style/:basename.:extension",
-      :default_url => "http://#{config.s3_credentials['assets_bucket']}.s3.amazonaws.com/images/new/missing_:class_:style.png",
+      :storage => :filesystem,
+      :path => File.join(Rails.root.to_s, "public/video_original/:class/:attachment/:id/:style/:basename.:extension"),
+      :url => "/images/:class/:attachment/:id/:style/:filename",
+      :default_url => ":class/:attachment/:style/missing.png",
       :styles => {}
     }
 
     config.video_transcoded = { # Arquivo convertido
-      :storage => :s3,
-      :s3_credentials => config.s3_credentials,
-      :bucket => config.s3_credentials['videos_bucket'],
-      :path => ":class/:attachment/:id/:style/:basename.:extension",
-      :default_url => "http://#{config.s3_credentials['assets_bucket']}.s3.amazonaws.com/images/new/missing_:class_:style.png",
+      :storage => :filesystem,
+      :path => File.join(Rails.root.to_s, "public/video_transcoded/:class/:attachment/:id/:style/:basename.:extension"),
+      :default_url => ":class/:attachment/:style/missing.png"
     }
-
-    # Usado em :controller => jobs, :action => notify
-    config.zencoder_credentials = {
-      :username => 'zencoder',
-      :password => 'MCZC2pDQyt5bzko1'
-    }
-
-    # No ambiente de desenvolvimento :test => 1 (definido em development.rb)
-    config.zencoder = {
-      :api_key => '69c8730bf5c0134af339a97b6a2d53e0',
-      :input => '',
-      :output => {
-        :url => '',
-        :video_codec => "vp6",
-        :public => 1,
-        :thumbnails => {
-          :number => 6,
-          :size => "160x120",
-          :base_url => '',
-          :prefix => "thumb"
-        },
-        :notifications => {
-          :format => 'json',
-          :url => ''
-        }
-     }
-    }
-
-    # Usado pelo WYSIWYG CKEditor
-    config.autoload_paths << "#{config.root}/app/models/ckeditor"
 
     # Classes auxiliares para Search
     config.autoload_paths << "#{config.root}/app/models/search"
@@ -207,12 +169,8 @@ module Redu
     # Adapters
     config.autoload_paths << "#{config.root}/app/adapters"
 
-    # Configurações do Pusher (redu app)
-    config.pusher = {
-      :app_id => '4577',
-      :key => 'f786a58d885e7397ecaa',
-      :secret => '1de7afbc11094fcfa16b'
-    }
+    #ckeditor
+    config.autoload_paths += %w(#{config.root}/app/models/ckeditor)
 
     # Observers
     unless File.basename($0) == 'rake'
@@ -233,12 +191,9 @@ module Redu
                                         :user_cache_observer,
                                         :user_course_association_cache_observer,
                                         :course_cache_observer,
-                                        :partner_user_association_cache_observer,
-                                        :partner_cache_observer,
                                         :message_cache_observer,
                                         :lecture_cache_observer,
                                         :asset_report_cache_observer,
-                                        :chat_message_observer,
                                         :solr_profile_indexer_observer,
                                         :solr_education_indexer_observer,
                                         :solr_hierarchy_indexer_observer,
@@ -260,28 +215,71 @@ module Redu
     config.exceptions_app = self.routes
 
     config.vis_data_authentication = {
-      :password => "NyugAkSoP",
-      :username => "api-team"
+      :password => ENV['VIS_PASS'],
+      :username => ENV['VIS_USER']
     }
 
     config.redu_services = {}
     config.redu_services[:apps] = {
-      :url => "http://aplicativos.redu.com.br"
+      :url => "#{ENV['APPS_PAGE']}"
     }
     config.redu_services[:help_center] = {
-      :url => "http://ajuda.redu.com.br/"
+      :url => "#{ENV['HELP_PAGE']}"
     }
     config.redu_services[:dev] = {
-      :url => "http://developers.redu.com.br/"
+      :url => "#{ENV['DEVS_PAGE']}"
     }
     config.redu_services[:blog] = {
-      :url => "http://blog.redu.com.br/"
+      :url => "#{ENV['PROM_PAGE']}"
     }
+
+    # Configurações de VisClient
+    config.vis_client = {
+      :url => ENV['VIS_HOST'] + "/hierarchy_notifications.json",
+      :host => ENV['VIS_HOST']
+    }
+
+    config.vis = {
+      :subject_activities => ENV['VIS_HOST'] + "/subjects/activities.json",
+      :lecture_participation => ENV['VIS_HOST'] + "/lectures/participation.json",
+      :students_participation =>  ENV['VIS_HOST'] + "/user_spaces/participation.json"
+    }
+
+    # Configuração da aplicação em omniauth providers
+    config.omniauth = {
+      :facebook => {
+        :app_id => ENV['FACEBOOK_APP_ID'],
+        :app_secret => ENV['FACEBOOK_APP_SECRET'],
+        :scope => 'public_profile, email',
+        :info_fields => 'email,first_name,last_name'
+      }
+    }
+
+    # SMTP settings
+    # config.action_mailer.smtp_settings = {
+    #   address: ENV['SMTP_ADDR'],
+    #   port: 465,
+    #   domain: ENV['SMTP_DOMAIN'],
+    #   authentication: "plain",
+    #   enable_starttls_auto: true,
+    #   user_name: ENV['SMTP_USER'],
+    #   password: ENV['SMTP_PASSWD'],
+    #   openssl_verify_mode: "none"
+    # }
+    config.action_mailer.delivery_method = :test
+    config.action_mailer.perform_deliveries = false
+    config.action_mailer.raise_delivery_errors = false
+
+    # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
+    # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
+    # config.i18n.default_locale = :de
+    config.i18n.load_path += Dir[ Rails.root.join("lang", "ui", '*.{rb,yml}').to_s ]
 
     # Seta locale defaul para pt-br
     config.i18n.default_locale = :"pt-BR"
-    I18n.locale = config.i18n.default_locale
     I18n.available_locales = [config.i18n.default_locale]
+    I18n.locale = config.i18n.default_locale
+
 
     # Quantidade de resultados da busca exibidos por páginas
     config.search_results_per_page = 10
@@ -291,19 +289,19 @@ module Redu
 
     config.assets.enabled = true
 
-    # Caminho para os assets do CKEditor
-    config.assets.ckeditor_path = "#{config.assets.prefix}/ckeditor"
-
     # Layout com bootstrap
-    config.assets.precompile += %w(new_application.js friend-invitation.js basic.js landing.js mobile.js status_show.js)
-    config.assets.precompile += %w(bootstrap-redu.min.css new_application.css basic.css mobile.css authoring-page.css)
+    config.assets.precompile += %w(new_application.js friend-invitation.js basic.js landing.js mobile.js status_show.js chat.js chat.jquery.js gamefication_notify.js document.js)
+    config.assets.precompile += %w(bootstrap-redu.min.css new_application.css basic.css mobile.css authoring-page.css chat.scss chat.css)
     config.assets.precompile += %w(maintenance.css)
 
     # Layout sem bootstrap
-    config.assets.precompile += %w(ie.js chat.js outdated_browser.js ckeditor.js olark.js jquery.maskedinput.js canvas.js chart.js jwplayer.js webview.js clean.js new_wall.js new_wall/lecture-toggle-comment-or-help.js)
-    config.assets.precompile += %w(ie.css icons.redu.css chat.css outdated_browser.css preview-course-old.css page.css cold.css clean.css print.css email.css new_wall.css)
+    config.assets.precompile += %w(ie.js jquery.maskedinput.js canvas.js chart.js webview.js clean.js new_wall.js new_wall/lecture-toggle-comment-or-help.js)
+    config.assets.precompile += %w(ie.css icons.redu.css preview-course-old.css page.css cold.css clean.css print.css email.css new_wall.css)
 
-    # CKEditor
+    # Assets da nova landing page
+    config.assets.precompile += %w(landing.css jquery.js rails.js)
+
+    # Assets do ckeditor
     config.assets.precompile += %w(ckeditor/*)
   end
 end

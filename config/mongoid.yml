@@ -1,12 +1,23 @@
 development:
-  database: redu_development
-  databases:
-    vis:
-      database: vis_development
+  host: mongo
+  database: openredu_development
+
+staging:
+  host: mongo
+  database: openredu_staging
+
 test:
-  database: redu_test
+  host: mongo
+  database: openredu_test
+
 production:
-  database: redu_production
-  databases:
-    vis:
-      database: vis_production
+  host: mongo
+  database: openredu_production
+
+# set these environment variables on your prod server
+#production:
+#  host: <%= ENV['MONGOID_HOST'] %>
+#  port: <%= ENV['MONGOID_PORT'] %>
+#  username: <%= ENV['MONGOID_USERNAME'] %>
+#  password: <%= ENV['MONGOID_PASSWORD'] %>
+#  database: <%= ENV['MONGOID_DATABASE'] %>

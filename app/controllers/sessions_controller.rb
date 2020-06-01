@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
 class SessionsController < BaseController
-  respond_to :html, :js
+  respond_to :html, :js, :json
 
   layout 'cold'
   before_filter :less_than_30_days_of_registration_required, :only => :create
@@ -36,6 +36,10 @@ class SessionsController < BaseController
           format.js do
             render :js => "window.location = '#{ session[:return_to] || home_user_path(current_user) }'"
           end
+          format.json do
+            render :json => { "sa_token" => current_user.single_access_token }
+          end
+
         end
         session[:return_to] = nil
       else
@@ -61,8 +65,9 @@ class SessionsController < BaseController
                        :teacher => uca.with_roles([:teacher]).count }
           render :template => 'invitations/show'
         else
+
           respond_with(@user_session) do |format|
-            format.html { render "base/site_index" }
+            format.html { render "base/site_index", layout: 'landing' }
           end
         end
       end

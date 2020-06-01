@@ -1,0 +1,102 @@
+# hscs
+# No que consiste esse arquivo?
+# O arquivo docker-compose cuida de gerenciar e criar automaticamente todos os containers listados e configurados através desse arquivo.
+# Os containers app (aplicação principal) e web (nginx server) necessitam de um arquivo adicional chamado Dockerfile para executar configurações adicionais
+# após o container ser instanciado (instalar dependências e afins).
+
+# Containers que compõem o Openredu:
+# web - Servidor nginx. Realiza a ponte entre o mundo externo e o servidor rails. Cuida das requisições e protege o acesso a certas regiões críticas do sistema
+# mongo - Banco de dados MongoDB Secundário. Usado pela VIS para armazenar os dados dos gráficos e pelo DelayedJOB para armazenar Jobs (tarefas assincronas)
+# db - Banco de dados mysql5.5 principal. Armazena todos os dados do openredu, como usuários, comentários, aulas, etc.
+# app - O Openredu em si. A aplicação rails como um todo, com todos os models e controllers. O Coração do Openredu.
+# delayedjob - Tecnicamente outra instância do Openredu (app) em outro container, mas este não roda a aplicação do Openredu, e sim uma tarefa chamada DelayedJOB. O DelayedJOB é responsável por gerenciar as filas de requisições assíncronas para serem realizadas em segundo plano.
+version: '3'
+
+services:
+  web:
+    image: nginx
+    build:
+      context: .
+      dockerfile: ./_nginx/Dockerfile
+    volumes:
+      - ./public:/var/www/rails_app/public
+    depends_on:
+      - app
+    ports:
+      - 80:80
+      - 443:443
+    networks: 
+      - vis_default
+      - livredoc_default
+      - fayeopenredu_default
+
+  mongo:
+    image: mongo
+    restart: always
+    volumes:
+      - mongodb-datavolume:/data/db
+    networks: 
+      - vis_default
+      - livredoc_default
+      - fayeopenredu_default
+
+  db:
+    image: mysql:5.5
+    restart: always
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'true'    
+    volumes:
+      - mysql-datavolume:/var/lib/mysql
+    ports:
+      - 5432
+    networks: 
+      - vis_default
+      - livredoc_default
+      - fayeopenredu_default
+
+  app:
+    build: .
+    volumes:
+      - .:/rails_app
+    environment:
+      - RAILS_ENV=${RAILS_ENV}
+      - RACK_ENV=${RACK_ENV}
+    depends_on:
+      - mongo
+      - db
+    networks: 
+      - vis_default
+      - livredoc_default
+      - fayeopenredu_default
+    
+  delayedjob:
+    build: .
+    restart: always
+    command: rake jobs:work
+    volumes:
+      - .:/rails_app
+    environment:
+      - RAILS_ENV=${RAILS_ENV}
+      - RACK_ENV=${RACK_ENV}
+    depends_on:
+      - mongo
+      - db
+    networks: 
+      - vis_default
+      - livredoc_default
+      - fayeopenredu_default
+    logging:
+      driver: "json-file"
+
+    
+volumes:
+  mysql-datavolume:
+  mongodb-datavolume:
+
+networks:
+  vis_default:
+    external: true
+  livredoc_default:
+    external: true
+  fayeopenredu_default:
+    external: true

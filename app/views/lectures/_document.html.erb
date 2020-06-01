@@ -1,18 +1,24 @@
-<div id="view_video" class="stage" align="center" >
-  <% if lecture.lectureable.ipaper_document %>
-    <% if lecture.lectureable.conversion_processing? %>
-      <div class="box_notice">
-        O documento está sendo processado, em breve estrará disponível
-      </div>
-    <% else %>
-      <%= raw(lecture.lectureable.display_ipaper(:disable_related_docs => true,
-                                                 :mode => :slide,
-                                                 :hide_disabled_buttons => true )) %>
-      <div id="document_stage"></div>
-    <% end %>
+<%= javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/1.9.638/pdf.min.js' %>
+<%= javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/1.9.638/pdf.worker.min.js' %>
+<%= javascript_include_tag 'document' %>
 
-  <%# Document com arquivo de imagem %>
+<%= content_tag :span, '', id: 'lecture-data', :'data-lecture-id' => @lecture.id %> 
+<div id="view_video" class="stage" align="center" >
+  <% if @lecture.lectureable.attachment_content_type == 'application/pdf' || !@lecture.lectureable.livredoc_id.blank?%>
+      <canvas id="canvas"></canvas>
+      <div id="spinner-pdf" class="row" align="center">
+        <%= image_tag('spinner-blue-horiz.gif') %>
+      </div>
+      <div class="row">
+        <div class="span3">
+            <div id="pdf-control" style="display:none">
+              <button id="prev" class="button-default">Anterior</button>
+              <span id="pages" class="legend"><span id="page_num"></span> / <span id="page_count"></span></span>
+              <button id="next" class="button-default">Próximo</button>
+            </div>
+        </div>
+      </div>
   <% else %>
-    <%= image_tag lecture.lectureable.attachment.url, :alt => lecture.name %>
+    <%= image_tag @lecture.lectureable.attachment.url, :alt => @lecture.name %>
   <% end %>
 </div>

@@ -1,11 +1,11 @@
 <div class="header-not-logged-in">
   <div class="container">
     <div class="header-logo-wrapper">
-      <%= link_to home_path, :title => "Redu", :class => "header-logo sprite-logo" do %>
-        <h1 class="text-replacement" title="Redu">Redu</h1>
+      <%= link_to home_path, :title => Redu::Application.config.name, :class => "header-logo sprite-logo" do %>
+        <h1 class="text-replacement" title="Redu"><%= Redu::Application.config.name %></h1>
       <% end %>
       <div class="header-logo-title-wrapper">
-        <h2 class="header-logo-title">Você ainda não se identificou no Redu.</h2>
+        <h2 class="header-logo-title">Você ainda não se identificou no <%= Redu::Application.config.name %>.</h2>
         <span class="header-logo-legend legend">Entre com sua conta para acessar seus cursos, aulas e amigos.</span>
       </div>
     </div>
@@ -18,7 +18,7 @@
       <div class="header-button-sign-in">
         <span class="icon-profile-darkgray_32_34 text-replacement">Entrar</span>
         <div class="button-group dropdown pull-right">
-          <button id="button-sign-in" class="button-big button-primary dropdown-toggle" data-toggle="dropdown">Entre no Redu</button>
+          <button id="button-sign-in" class="button-big button-primary dropdown-toggle" data-toggle="dropdown">Entre no <%= Redu::Application.config.name %></button>
           <span class="dropdown-arrow icon-arrow-up-dropdown-lightblue_20_8 text-replacement">Seta</span>
           <div class="dropdown-menu">
             <%= render :partial => "shared/dropdown_sign_in" %>

@@ -442,7 +442,7 @@ describe UsersController do
       login_as @user
     end
 
-    [:friends, :statuses, :status].each do |var|
+    [:statuses, :status].each do |var|
       it "assigns @#{var}" do
         @params = { :locale => "pt-BR", :id => @user.login }
         get :my_wall, @params

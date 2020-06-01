@@ -92,7 +92,7 @@ module Api
         Status.where(statusable_id: context,
                      statusable_type: context.class.to_s)
       end
-      filter_and_includes(statuses)
+      filter_and_includes(statuses).order('created_at DESC')
     end
 
     def filter_and_includes(statuses)

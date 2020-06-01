@@ -1,10 +1,9 @@
-<div id="hierarchy-header" class="clearfix space-header">
+<div id="hierarchy-header" class="">
   <span class="parent">
     <%= link_to space.course.environment.initials_or_name,
       environment_path(space.course.environment) %> /
     <%= link_to space.course.name,
       environment_course_path(space.course.environment, space.course)%>
   </span>
-  <%= link_to "Sair", space_path(space), :class => "manage icon-manage-gray_8_10-before" %>
   <h3 class="call name"><%= link_to space.name, space_path(space) %></h3>
 </div><!-- end #hierarchy-header -->

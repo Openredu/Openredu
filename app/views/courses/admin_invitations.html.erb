@@ -9,7 +9,7 @@
         $form.find("#emails").val($form.find("#emails").val() + "," + email);
         $textField.val("")
 
-        var item = "<li class=\"token-input-token email\"><p class=\"invited-mail\" title=\"" + email + "\">" + email + "</p><span class=\"invite-to-redu\">(Convidar para o Redu)</span><span class=\"token-input-delete-token-email\">x</span></li>"
+        var item = "<li class=\"token-input-token email\"><p class=\"invited-mail\" title=\"" + email + "\">" + email + "</p><span class=\"invite-to-redu\">(Convidar para "+ <%= Redu::Application.config.name %> + ")</span><span class=\"token-input-delete-token-email\">x</span></li>"
         $(".token-input-input-token").before(item);
         $this.hide();
         return false;
@@ -66,7 +66,7 @@
     <%= big_tabs :courses do %>
       <div class="invite-header icons-big-before icon-contact-blue_100_66-before">
         <h3 class="invite-title">Convide membros para seu <span class="course">curso</span></h3>
-        <span class="invite-description">Amplie sua base de membros. Procure pelo nome ou endereço de email; caso a pessoa não seja cadastrada no Redu, enviaremos um convite - que terá validade apenas para este curso. </span>
+        <span class="invite-description">Amplie sua base de membros. Procure pelo nome ou endereço de email; caso a pessoa não seja cadastrada no <%= Redu::Application.config.name%>, enviaremos um convite - que terá validade apenas para este curso. </span>
       </div>
 
       <% unless can? :add_entry, @course %>

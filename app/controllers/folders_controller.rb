@@ -56,12 +56,6 @@ class FoldersController < BaseController
     @myfile = Myfile.find(params[:file_id])
 
     if  @myfile
-        # Gerando uma url do s3 com o timeout de 20 segundos
-        # O usuário deve COMEÇAR a baixar dentro desse tempo.
-        if Rails.env == "production" || Rails.env == "staging"
-          redirect_to @myfile.attachment.expiring_url(20) and return false
-        end
-
         send_file @myfile.attachment.path, :type=> @myfile.attachment.content_type
     else
         flash[:error] = "Você não tem permissão para baixar o arquivo."

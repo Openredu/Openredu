@@ -1,174 +1,51 @@
-<%#
-  Formulário de cadastro de usuário.
-
-  Variáveis:
-    user: o modelo de usuário.
-%>
-<%= form_for user || User.new, :remote => true,
-  :html => { :class => "form-horizontal", :id => "form-sign-up" } do |f| %>
-
+<%= form_for user || User.new , :remote => true,
+      :html => { :class => "form-cadastra", :id => "form-sign-up" } do |f| %>
   <% if params[:invitation_token] %>
     <%= hidden_field_tag :invitation_token, params[:invitation_token] %>
     <% fb_connect_invitation = {
       :invitation_token => params[:invitation_token] } %>
   <% end %>
-
   <% if params[:friendship_invitation_token] %>
     <%= hidden_field_tag :friendship_invitation_token,
       params[:friendship_invitation_token] %>
     <% fb_connect_invitation = {
       :friendship_invitation_token => params[:friendship_invitation_token] } %>
   <% end %>
-
-  <div class="modal-header modal-header-gray">
-    <h3 class="modal-sign-up-title icon-add-friend-green_32_34-before">
-      Cadastre-se no Redu.<br>É gratuito, rápido e fácil.
-    </h3>
+  <div class="field-group">
+    <%= f.text_field :first_name, :placeholder => "Seu primeiro nome",
+      :maxlength => 25 %>
+    <%= f.text_field :last_name, :placeholder => "Seu sobrenome",
+      :maxlength => 25 %>
+    <%= f.text_field :email, :placeholder =>"Seu e-mail de contato",
+      :maxlength => 100 %>
+    <%= f.text_field :email_confirmation, :placeholder =>
+      "Repita seu email de contato", :maxlength => 100 %>
+    <%= f.text_field :login, :placeholder =>
+          "Digite seu nome de usuário/login", :maxlength => 20 %>
+    <div class="mail">
+      <%= f.password_field :password, :placeholder => "Digite sua senha",
+        :maxlength => 20 %>
+      <%= f.password_field :password_confirmation,
+        :placeholder => "Repita sua senha", :maxlength => 20 %>
+    </div>
+    <label class="captcha">
+      <%= f.label :humanizer_answer, f.object.humanizer_question, class: 'title' %>
+      <em>?</em>
+      <span class="tooltip">Na Internet, é comum que certos computadores façam cadastros automáticos para espalhar propagandas indesejadas conhecidas como 'spam'. Essa pergunta serve para diferenciar as pessoas reais desses robôs e garantir uma boa e segura experiência de uso para você." data-placement="right">Por que esta pergunta?</span>
+    </label>
+    <%= f.text_field :humanizer_answer, :class => "control-input",
+      :placeholder => "Responda a pergunta acima" %>
+    <%= f.hidden_field :humanizer_question_id %>
   </div>
-  <div class="modal-body">
-    <div class="modal-sign-up-section">
-      <p>Caso tenha uma conta no Facebook, você pode evitar o trabalho de
-        preencher formulários ao associar sua conta ao Redu. Desta forma, o
-        cadastro é feito de forma automática.</p>
-      <div class="facebook-sign-up">
-        <%= link_to "Cadastre-se no Redu usando sua conta do Facebook",
-          facebook_authentication_path(:state => fb_connect_invitation.to_json),
-          :class => "facebook-sign-up-button" %>
-        <span class="legend"><em>Opcional</em></span>
-      </div>
-    </div>
-    <hr class="list-separator">
-    <div class="modal-sign-up-section">
-      <p>Passo 1 de 2 — Preencha os campos abaixo e crie seu perfil no Redu.</p>
-    </div>
-    <div class="row">
-      <div class="span6">
-        <div class="control-group control-big row">
-          <div class="control-label span2">
-            <%= f.label :first_name, "Nome" %>
-          </div>
-          <div class="controls span4">
-            <%= f.text_field :first_name,
-              :placeholder => "Seu primeiro nome",
-              :maxlength => 25 %>
-            <%= concave_errors_for f.object, :first_name %>
-          </div>
-        </div>
-        <div class="control-group control-big row">
-          <div class="control-label span2">
-            <%= f.label :last_name, "Sobrenome" %>
-          </div>
-          <div class="controls span4">
-            <%= f.text_field :last_name, :placeholder => "Seu último nome",
-              :maxlength => 25 %>
-            <%= concave_errors_for f.object, :last_name %>
-          </div>
-        </div>
-      </div>
-      <div class="span6">
-        <div class="control-group control-big row">
-          <div class="control-label span2">
-            <%= f.label :email, "E-mail" %>
-          </div>
-          <div class="controls span4">
-            <%= f.text_field :email, :placeholder =>
-              "Seu e-mail de contato", :maxlength => 100 %>
-            <%= concave_errors_for f.object, :email %>
-          </div>
-        </div>
-        <div class="control-group control-big row">
-          <div class="control-label span2">
-            <%= f.label :email_confirmation, "Confirmação" %>
-          </div>
-          <div class="controls span4">
-            <%= f.text_field :email_confirmation, :placeholder =>
-              "Digite novamente o e-mail", :maxlength => 100 %>
-            <%= concave_errors_for f.object, :email_confirmation %>
-          </div>
-        </div>
-      </div>
-    </div>
-    <hr class="header-separator">
-    <div class="row">
-      <div class="span6">
-        <div class="control-group control-big row">
-          <div class="control-label span2">
-            <%= f.label :login, "Login" %>
-          </div>
-          <div class="controls span4">
-            <%= f.text_field :login, :placeholder =>
-              "Como será o seu apelido?", :maxlength => 20 %>
-            <%= concave_errors_for f.object, :login %>
-          </div>
-        </div>
-        <div class="row">
-          <div class="span4 offset2">
-            <div class="modal-sign-up-login-explaination">
-              <p class="legend">O Login define como será o endereço de sua
-                página no Redu.</p>
-              <p class="legend">
-                Ex.: redu.com.br/pessoas/<strong>seulogin</strong>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="span6">
-        <div class="control-group control-big row">
-          <div class="control-label span2">
-            <%= f.label :password, "Senha" %>
-          </div>
-          <div class="controls span4">
-            <%= f.password_field :password,
-              :placeholder => "Digite sua senha", :maxlength => 20 %>
-            <%= concave_errors_for f.object, :password %>
-          </div>
-        </div>
-        <div class="control-group control-big row">
-          <div class="control-label span2">
-            <%= f.label :password_confirmation, "Confirmação" %>
-          </div>
-          <div class="controls span4">
-            <%= f.password_field :password_confirmation,
-              :placeholder => "Confirme sua senha", :maxlength => 20 %>
-            <%= concave_errors_for f.object, :password_confirmation %>
-          </div>
-        </div>
-      </div>
-    </div>
-    <hr class="list-separator">
-    <div class="modal-sign-up-section">
-      <p>Passo 2 de 2 — Responda à pergunta abaixo e confirme os Termos de Uso.</p>
-    </div>
-    <div class="control-group control-big control-center">
-      <div class="control-label">
-        <%= f.label :humanizer_answer, f.object.humanizer_question %>
-        <span class="link-fake link-secondary" rel="tooltip" data-title="Na Internet, é comum que certos computadores façam cadastros automáticos para espalhar propagandas indesejadas conhecidas como 'spam'. Essa pergunta serve para diferenciar as pessoas reais desses robôs e garantir uma boa e segura experiência de uso para você." data-placement="right">Por que esta pergunta?</span>
-      </div>
-      <div class="controls span4">
-        <%= f.text_field :humanizer_answer, :class => "control-input",
-          :placeholder => "Responda a pergunta acima" %>
-        <%= f.hidden_field :humanizer_question_id %>
-        <%= concave_errors_for f.object, :humanizer_answer %>
-      </div>
-    </div>
-    <div class="control-group control-center">
-      <div class="controls">
-        <div class="control-checkbox">
-          <%= check_box "user", "tos" %>
-          <%= f.label "tos", raw("Aceito os #{link_to "Termos de Uso",
-            home_path(:anchor => "modal-tos"), "data-toggle" => "modal"}
-            da plataforma Redu.") %>
-        </div>
-      </div>
-    </div>
+  <div class="confirm-terms">
+    <%= check_box "user", "tos" %>
+    <%= f.label "tos", raw("Aceito os #{link_to "Termos de Uso",
+        home_path(:anchor => "modal-tos"), "data-toggle" => "modal"}
+        da plataforma Openredu.") %>
   </div>
-  <div class="modal-footer clearfix">
-    <div class="modal-sign-up-buttons">
-      <%= hidden_field_tag :inviter_id, params[:inviter_id] %>
-      <%= hidden_field_tag :inviter_code, params[:inviter_code] %>
-      <button type="button" data-dismiss="modal" class="button-big button-default">Cancelar</button>
-      <%= submit_tag t(:sign_up), :class => "button-big button-success" %>
-    </div>
+  <div class="bt-groups">
+    <%= hidden_field_tag :inviter_id, params[:inviter_id] %>
+    <%= hidden_field_tag :inviter_code, params[:inviter_code] %>
+    <button id="bt_enviar" class="bt ativo">cadastrar</button>
   </div>
 <% end %>

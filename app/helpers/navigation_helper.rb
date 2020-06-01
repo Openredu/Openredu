@@ -15,7 +15,6 @@ module NavigationHelper
   include CoursesNavigation
   include SpacesAdminNavigation
   include SpacesNavigation
-  include PartnersNavigation
   include NewUsersNavigation
   include SearchNavigation
 
@@ -59,10 +58,9 @@ module NavigationHelper
     # Início só é selecionado se estiver relacionado ao current user
     if !request.fullpath.match(%r(\A#{ users_path }/#{ current_user.to_param })).nil?
       :start
-    # Não aciona a navegacão global se estiver na área relacionada a partners,
+    # Não aciona a navegacão global se estiver na área relacionada a
     # profile de outro usuário, busca ou páginas estáticas
-    elsif !request.fullpath.match(%r(\A#{ partners_path })).nil? ||
-          !request.fullpath.match(%r(\A#{ search_path })).nil? ||
+    elsif !request.fullpath.match(%r(\A#{ search_path })).nil? ||
           (params[:controller] == "pages") ||
           !request.fullpath.match(%r(\A#{ users_path }/)).nil?
       :global

@@ -5,16 +5,16 @@ module CoursesHelper
     # Todos.
     if course.subscription_type == 1
       if can?(:read, course)
-        legend = "Entrada livre — Você já faz parte deste Curso"
+        legend = "Entrada livre — Você já faz parte deste curso."
       else
-        legend = "Entrada livre"
+        legend = "Entrada livre — Você não faz parte deste curso. "
       end
     # Entrada moderada.
     else
       if can?(:show, course)
-        legend = "Entrada moderada — Você já faz parte deste Curso."
+        legend = "Entrada moderada — Você já faz parte deste curso."
       else
-        legend = "Entrada moderada — Este Curso requer aprovação de matrícula."
+        legend = "Entrada moderada — Este curso requer aprovação de matrícula."
       end
     end
 

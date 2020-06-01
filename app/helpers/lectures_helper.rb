@@ -16,20 +16,19 @@ module LecturesHelper
     options = {
       :width => '608',
       :height => '360',
-      :skin => '/flash/modieus.swf',
-      :flashplayer => '/flash/player.swf',
-      :id => 'player',
     }.merge(options)
 
     result = <<-END
-        jwplayer('#{options[:id]}').setup({
-          'flashplayer': '/flash/player.swf',
-          'file': '#{options[:youtube_url]}',
-          'skin': '#{options[:skin]}',
-          'controlbar': 'bottom',
-          'width': '#{options[:width]}',
-          'height': '#{options[:height]}'
-        });
+        <iframe width="#{options[:width]}"
+          height="#{options[:height]}"
+          src="#{options[:youtube_url]}"
+          frameborder="0"
+          allowfullscreen="allowfullscreen"
+          mozallowfullscreen="mozallowfullscreen"
+          msallowfullscreen="msallowfullscreen"
+          oallowfullscreen="oallowfullscreen"
+          webkitallowfullscreen="webkitallowfullscreen">
+        </iframe>
     END
 
     result.html_safe

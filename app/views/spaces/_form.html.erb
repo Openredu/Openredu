@@ -21,9 +21,9 @@
 <% end %>
 <hr />
 <% unless edit %>
-    <strong class="concave-label">Termos e condições do Redu</strong>
+    <strong class="concave-label">Termos e condições do <%= Redu::Application.config.name %></strong>
 
     <div class="tos">
-      Por favor não publique conteúdo que esteja protegido por direitos autorais, conteúdo obsceno ou que viole os termos e condições do Redu. Ao clicar no botão abaixo, você estará concordando com esses termos.
+      Por favor não publique conteúdo que esteja protegido por direitos autorais, conteúdo obsceno ou que viole os termos e condições do <%= Redu::Application.config.name %>. Ao clicar no botão abaixo, você estará concordando com esses termos.
     </div>
 <% end %>

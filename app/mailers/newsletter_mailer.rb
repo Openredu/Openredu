@@ -20,8 +20,8 @@ class NewsletterMailer < BaseMailer
   #     end
   #   end
   def newsletter(email, opts={})
-    subject = opts.delete(:subject) || "Novidades do Redu"
-    template = opts.delete(:template) || "newsletter/newsletter.html.erb"
+    subject = opts.delete(:subject) || "Novidades do #{Redu::Application.config.name}"
+    template = opts.delete(:template) || "newsletter/newsletter"
     @vars = { :email => email }.merge(opts)
 
     mail(:to => email, :subject => subject) do |format|
@@ -29,4 +29,3 @@ class NewsletterMailer < BaseMailer
     end
   end
 end
-

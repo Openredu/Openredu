@@ -137,12 +137,12 @@ module BaseHelper
         :scope => [:activerecord, :errors, :template] do |locale|
         header_message = if options.include?(:header_message)
                             options[:header_message]
-                         else
+                         else 
                             locale.t :header, :count => count,
                               :model => options[:object_name].to_s.gsub('_', ' ')
                          end
 
-        message = options.include?(:message) ? options[:message] : locale.t(:body)
+        message = options.include?(:message) ? options[:message] : locale.t(:body, :count => count)
 
         error_messages = objects.sum do |object|
           object.errors.collect do |attr, error|
@@ -301,6 +301,16 @@ module BaseHelper
         end
       when 'sessions'
         title = t(:login) + ' - ' + app_base + tagline
+      when 'environments'
+        title = 'Ambientes' + ' - ' + app_base + tagline
+      when 'courses'
+        title = 'Disciplinas' + ' - ' + app_base + tagline
+      when 'leaderboards'
+        title = 'Leaderboard do Curso' + ' - ' + app_base + tagline
+      when 'global_questions'
+        title = 'Banco de Questões' + ' - ' + app_base + tagline
+      when 'strong_tags'
+        title = 'Lista de Tags' + ' - ' + app_base + tagline
     end
 
     if @page_title
@@ -323,13 +333,6 @@ module BaseHelper
 
   def get_random_number
     SecureRandom.hex(4)
-  end
-
-  # Mostra tabela de preço de planos
-  def pricing_table(plans=nil)
-    plans ||= PackagePlan::PLANS
-
-    render :partial => "plans/plans", :locals => { :plans => plans }
   end
 
   # Sidebar esquerdo de user

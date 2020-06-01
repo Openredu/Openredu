@@ -14,12 +14,10 @@
     <![endif]-->
     <%= javascript_include_tag :clean %>
 
-    <%= render "shared/typekit" %>
     <%= render "shared/analytics" %>
     <%= yield :header_scripts_and_styles %>
   </head>
   <body>
-    <%= render 'shared/outdated_browser' %>
 
     <div class="<%= yield :wrapper_class %>">
       <%= render 'shared/flash_message' %>
@@ -29,7 +27,7 @@
 
     <div class="footer">
       <div class="container_16">
-        <h1 class="logo-bottom replacement"><%= link_to "Redu", home_path %></h1>
+        <h1 class="logo-bottom replacement"><%= link_to Redu::Application.config.name, home_path %></h1>
         <p class="about">Somos uma startup brasileira, recifense e estamos incubados pelo Porto Digital. Nossa equipe é composta por pessoas dedicadas e comprometidas com um objetivo em comum: desenvolver produtos que façam a diferença para uma educação mais acessível e universal.</p>
         <address class="our-address">Av. Barbosa Lima, 149, sala 413<br/>Recife, Brasil<br/>CNPJ: 12.359.885/0001-07</address>
         <ul class="menu">
@@ -44,6 +42,5 @@
       </div>
     </div>
     <%= yield :footer_scripts_and_styles %>
-    <%= render "shared/olark" %>
   </body>
 </html>

@@ -32,9 +32,6 @@ Redu::Application.configure do
   # In production, Apache or nginx will already do this
   config.serve_static_assets = false
 
-  # Enable serving of images, stylesheets, and javascripts from an asset server
-  config.action_controller.asset_host = "http://#{config.s3_credentials['assets_bucket']}.s3.amazonaws.com"
-
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
 
@@ -45,28 +42,8 @@ Redu::Application.configure do
   # the I18n.default_locale when a translation can not be found)
   config.i18n.fallbacks = true
 
-  # Nome e URL do app
-  config.url = "www.redu.com.br"
-
-  config.action_mailer.default_url_options = { :host => config.url }
-
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
-
-  # Configurações do Pusher (redu-development app)
-  config.pusher = {
-    :app_id => '6407',
-    :key => '3de110621e98059023ca',
-    :secret => 'ae4d3ee4e10e13cfe325'
-  }
-
-  # Configuração da aplicação em omniauth providers
-  config.omniauth = {
-    :facebook => {
-      :app_id => '142857189169463',
-      :app_secret => 'ea0f249a4df83b250c3364ccf097f35c'
-    }
-  }
 
   # Configurações de VisClient
   config.vis_client = {
@@ -79,4 +56,9 @@ Redu::Application.configure do
     :students_participation => "http://visstaging.redu.com.br/user_spaces/participation.json"
   }
 
+  #enable captcha
+  config.enable_humanizer = true
+
+  #enable digest
+  config.assets.digest = true
 end

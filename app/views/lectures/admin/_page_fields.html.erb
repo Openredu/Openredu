@@ -2,7 +2,7 @@
 <%= f.label :body, "Texto" %>
 <%= f.cktext_area :body,
   :width => '525px', :height => '495px',
-  :index => get_random_number, # Necessário por mostrar mais de um ckeditor
-  :swf_params => { :assetable_type => 'Space', :assetable_id => @space.id } %>
+  :index => get_random_number %>
+<%= concave_errors_for(f.object, :body) %>
 <span class="tip">Conteúdo da aula</span>
 <%= concave_errors_for(f.object, :body) %>

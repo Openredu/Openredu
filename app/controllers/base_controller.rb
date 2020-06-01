@@ -23,7 +23,7 @@ class BaseController < ApplicationController
 
       respond_to do |format|
         format.html do
-          render :layout => 'basic'
+          render :layout => 'landing'
         end
       end
     end

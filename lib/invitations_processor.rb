@@ -5,7 +5,7 @@ module InvitationsProcessor
   extend ActiveSupport::Concern
 
   # Processa a requisição de convite de amizade (por email e
-  # por id do usuário cadastrado no redu), seguindo as regras
+  # por id do usuário cadastrado no Openredu), seguindo as regras
   # de negócio relacionadas a criação de requisições de amizade.
   #
   # @params => parâmetros da requisição (:friend_id | :emails)

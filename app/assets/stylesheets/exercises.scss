@@ -643,11 +643,12 @@
   margin-top: 20px;
 }
 
-.table-report-students .row-head {
+.table-report-students #row-head {
   height: 30px;
+  text-align: center;
 }
 
-.table-report-students .row-head .head {
+.table-report-students #row-head .head {
   color: rgb(179, 179, 179);
 }
 

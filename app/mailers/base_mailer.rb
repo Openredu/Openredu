@@ -6,7 +6,7 @@ class BaseMailer < ActionMailer::Base
 
   include BaseHelper
 
-  default :from => "\"Equipe Redu\" <#{Redu::Application.config.email}>",
+  default :from => "\"Equipe #{Redu::Application.config.name}\" <#{Redu::Application.config.email}>",
       :content_type => "text/plain",
       :reply_to => "#{Redu::Application.config.email}"
 end

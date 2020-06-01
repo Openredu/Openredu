@@ -24,7 +24,7 @@ class User < ActiveRecord::Base
 
   # CALLBACKS
   before_create :make_activation_code
-  after_create  :update_last_login
+  after_create  :update_last_login, :activate
   before_validation :strip_whitespace
   after_commit on: :create do
     environment = Environment.find_by_path('ava-redu')
@@ -33,8 +33,6 @@ class User < ActiveRecord::Base
   end
 
   # ASSOCIATIONS
-  has_many :chat_messages
-  has_many :chats, dependent: :destroy
   # Space
   has_many :spaces, through: :user_space_associations,
     conditions: ["spaces.destroy_soon = ?", false]
@@ -54,7 +52,6 @@ class User < ActiveRecord::Base
                     course_enrollments.state = ?", false, 'approved']
   # Authentication
   has_many :authentications, dependent: :destroy
-  has_many :chats, dependent: :destroy
 
   #COURSES
   has_many :lectures, foreign_key: "user_id",
@@ -75,8 +72,6 @@ class User < ActiveRecord::Base
   has_many :experiences, dependent: :destroy
   has_many :educations, dependent: :destroy
   has_one :settings, class_name: "TourSetting", dependent: :destroy
-  has_many :partners, through: :partner_user_associations
-  has_many :partner_user_associations, dependent: :destroy
 
   has_many :social_networks, dependent: :destroy
 
@@ -91,6 +86,9 @@ class User < ActiveRecord::Base
   has_many :tokens, class_name: "OauthToken", order: "authorized_at desc", include: [:client_application]
   has_many :results, dependent: :destroy
   has_many :choices, dependent: :delete_all
+
+  #Chat
+  has_many :conversations, foreign_key: :sender_id
 
   # Named scopes
   scope :recent, order('users.created_at DESC')
@@ -254,25 +252,12 @@ class User < ActiveRecord::Base
     when 'User'
       entity == self
     when 'Plan', 'PackagePlan', 'LicensedPlan'
-      entity.user == self || self.can_manage?(entity.billable) ||
-        # Caso em que billable foi destruído
-        self.can_manage?(
-          # Não levanta RecordNotFound
-          Partner.where( id: entity.billable_audit.
-                        try(:[], :partner_environment_association).
-                        try(:[],"partner_id")).first
-      )
-    when 'Invoice', 'LicensedInvoice', 'PackageInvoice'
-      self.can_manage?(entity.plan)
+      entity.user == self || self.can_manage?(entity.billable)
     when 'Myfile'
       self.can_manage?(entity.folder)
     when 'Friendship'
       # user_id necessário devido ao bug do create_time_zone
       self.id == entity.user_id
-    when 'PartnerEnvironmentAssociation'
-      entity.partner.users.exists?(self.id)
-    when 'Partner'
-      entity.users.exists?(self.id)
     when 'Experience'
       self.can_manage?(entity.user)
     when 'SocialNetwork'
@@ -313,10 +298,6 @@ class User < ActiveRecord::Base
         has_access_to?(entity.statusable)
       when Lecture
         self.has_access_to? entity.subject
-      when PartnerEnvironmentAssociation
-        self.has_access_to? entity.partner
-      when Partner
-        entity.users.exists?(self)
       when Result
         entity.user == self
       when Question
@@ -338,10 +319,8 @@ class User < ActiveRecord::Base
        (object.is_a? Status) || (object.is_a? Help) ||
        (object.is_a? User) || (object.is_a? Friendship) ||
        (object.is_a? Plan) || (object.is_a? PackagePlan) ||
-       (object.is_a? Invoice) ||
-       (object.is_a? PartnerEnvironmentAssociation) ||
-       (object.is_a? Partner) || (object.is_a? Result) ||
-       (object.is_a? Question) || (object.is_a? Lecture)
+        (object.is_a? Result) || (object.is_a? Question) ||
+        (object.is_a? Lecture)
 
       self.has_access_to?(object)
     else
@@ -466,6 +445,17 @@ class User < ActiveRecord::Base
     association && association.role && association.role.teacher?
   end
 
+  def teacher_in_this_environment?(environment)
+    is_teacher = false;
+
+    environment.course_ids.each do |course_id|
+      is_teacher = self.teacher?(Course.find(course_id))
+      break if is_teacher == true;
+    end
+
+    is_teacher
+  end
+
   def tutor?(entity)
     association = get_association_with entity
     return false if association.nil?
@@ -522,18 +512,6 @@ class User < ActiveRecord::Base
 
   def create_settings!
     self.settings = TourSetting.create(view_mural: Privacy[:friends])
-  end
-
-  def presence_channel
-    "presence-user-#{self.id}"
-  end
-
-  def private_channel_with(user)
-    if self.id < user.id
-      "private-#{self.id}-#{user.id}"
-    else
-      "private-#{user.id}-#{self.id}"
-    end
   end
 
   #FIXME falta testar alguns casos
@@ -631,20 +609,35 @@ class User < ActiveRecord::Base
     self.birth_localization.blank? && self.localization.blank?
   end
 
+  def generate_recovery_token
+    self.recovery_token = SecureRandom.urlsafe_base64(nil,false)
+    if self.save
+      UserNotifier.delay(:queue => 'email', :priority => 1).
+        user_reseted_password(self)
+    end
+  end
+
+  def user_channel
+    self.channel || generate_channel
+  end
+
+
+
   protected
 
-  # Retorna true ou false baseado se o humanizer está ou não habilitado.
-  # Por padrão do ambiente de desenvolvimento, ele é desabilitado. E em produção
-  # habilitado.
-  #
-  # É possível desabilitar para uma determinada instância da seguinte forma:
-  #   user = User.new
-  #   user.enable_humanizer = false
-  #
-  # Esta configuração é restrita a uma única instância e independente de ambiente.
+  def generate_channel
+    channel =  SecureRandom.hex(20)
+    users = User.where(channel: channel)
+    while !users.empty?
+      channel =  SecureRandom.hex(20)
+      users = User.where(channel: channel)
+    end
+    update_attribute(:channel, channel)
+    channel
+  end
+
   def enable_humanizer
-    return @enable_humanizer if defined? @enable_humanizer
-    Rails.env.production?
+    Rails.application.config.enable_humanizer
   end
 
   def activate_before_save

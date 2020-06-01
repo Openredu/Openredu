@@ -1,11 +1,11 @@
 <p>
   Olá <%= @vars[:user].first_name %>, <br/><br/>
 
-  A Redu Educational Technologies trabalha todos os dias desenvolvendo novas soluções para facilitar o processo de ensino e aprendizagem. Começamos a desenvolver o nosso aplicativo mobile Android e gostaríamos de conhecer um pouco mais dos hábitos e práticas comuns dos usuários dentro da plataforma.
+  A comunidade <%= Redu::Application.config.name %> trabalha todos os dias desenvolvendo novas soluções para facilitar o processo de ensino e aprendizagem. Começamos a desenvolver o nosso aplicativo mobile Android e gostaríamos de conhecer um pouco mais dos hábitos e práticas comuns dos usuários dentro da plataforma.
 </p>
 
 <p>
-  Você pode fazer parte da criação deste aplicativo para melhorar a experiência no Redu. Basta responder <%= link_to "este", "https://docs.google.com/a/redu.com.br/spreadsheet/viewform?formkey=dE92WnZtVzJ4X3hrRGZWektnOEdXN1E6MQ#gid=0" %> questionário, com apenas 8 perguntas, para nos ajudar a entender um pouco mais sobre o seu perfil.
+  Você pode fazer parte da criação deste aplicativo para melhorar a experiência no <%= Redu::Application.config.name %>. Basta responder <%= link_to "este", "https://docs.google.com/a/redu.com.br/spreadsheet/viewform?formkey=dE92WnZtVzJ4X3hrRGZWektnOEdXN1E6MQ#gid=0" %> questionário, com apenas 8 perguntas, para nos ajudar a entender um pouco mais sobre o seu perfil.
 </p>
 
 <p>
@@ -13,6 +13,6 @@
 </p>
 
 <p>
-  <em>Atenciosamente, <br/>Equipe Redu</em><br/>
-  http://redu.com.br
+  <em>Atenciosamente, <br/>Comunidade <%= Redu::Application.config.name %></em><br/>
+  <%= "#{ENV['PROM_PAGE']}" %>
 </p>

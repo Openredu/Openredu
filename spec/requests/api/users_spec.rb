@@ -64,7 +64,7 @@ describe "User" do
       end
     end
 
-    %w(self enrollments statuses timeline contacts chats connections).each do |rel|
+    %w(self enrollments statuses timeline contacts connections).each do |rel|
       it "should link to #{rel}" do
         get "/api/users/#{@user.id}", oauth_token: @token, format: 'json'
         link = href_to(rel, parse(response.body))

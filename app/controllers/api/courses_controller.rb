@@ -29,7 +29,6 @@ module Api
       @course.plan = @plan
       @plan.save
       @course.create_quota
-      @plan.create_invoice_and_setup
 
       respond_with :api, @course
     end

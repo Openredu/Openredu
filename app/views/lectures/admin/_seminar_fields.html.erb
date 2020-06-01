@@ -1,20 +1,4 @@
 <%= hidden_field_tag "lecture[lectureable_attributes][_type]", "Seminar" %>
-<%= label_tag "Tipo" %>
-<ul class="seminar-types single-column">
-  <li>
-    <%= f.radio_button :external_resource_type, :youtube,
-      {:checked => true} %>
-    <%= f.label :external_resource_type_youtube, "Youtube" %>
-    <span class="question question-blue_12_12 tiptip-right" title="Você pode utilizar vídeos públicos do YouTube dentro dos seu módulo do Redu, basta copiar o endereço do vídeo."></span>
-  </li>
-  <li>
-    <%= f.radio_button :external_resource_type, :upload %>
-    <%= f.label :external_resource_type_upload, "Upload" %>
-    <span class="question question-blue_12_12 tiptip-right" title="Envie um vídeo do seu computador caso queria mantê-lo privado. Assim somente seus alunos no Redu terão acesso."></span>
-  </li>
-</ul>
-<%= concave_errors_for(f.object, :external_resource_type) %>
-<%= concave_errors_for(f.object, :external_resource_type_upload) %>
 
 <% showup = (!f.object.errors[:original].empty? or (!@lecture.errors[:name].empty? and f.object.errors[:external_resource].empty?)) %>
 <div id="upload_resource_field" class="seminar-field" style="<%= showup ? 'display: block;' : 'display: none;' %>">
@@ -23,10 +7,10 @@
   <%= concave_errors_for(f.object, :original) %>
 </div>
 
-<div id ="external_resource_field" class="seminar-field" style="<%= showup ?  'display: none;' : 'display: block;' %>">
+<div id="external_resource_field" class="seminar-field" style="display: block;%>">
   <%= f.label :external_resource_url, "URL" %>
   <%= f.text_field :external_resource_url %>
-  <span class="tip">Endereço do vídeo no Youtube</span>
+  <span class="tip">Endereço do vídeo no Youtube (Tutorial de como colocar videos <a target="_blank" href="https://youtu.be/mlk7wskSRqg">aqui</a>)</span>
   <%= concave_errors_for(f.object, :external_resource_url) %>
 </div>
 

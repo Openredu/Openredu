@@ -2,18 +2,18 @@
     estiver sendo utilizado para editar uma entrada já existente %>
 
 <span class="course-path">
-  redu.com.br<%= environment_path(@environment) %>/cursos/<span class="course-name strong"><%= @course.path %></span>
+  <%= Redu::Application.config.path%><%= environment_path(@environment) %>/cursos/<span class="course-name strong"><%= @course.path %></span>
 </span>
 
 <%= f.label :name, "Nome" %>
 <%= f.text_field :name %>
 <%= concave_errors_for(f.object, :name) %>
 <span class="tip">Nome do curso</span>
-<%= f.label :workload, "Carga Horária" %>
+<%= f.label :workload, raw("Carga horária <span class='snippet'>(em horas)</span>") %>
 <%= f.text_field :workload, :class => 'concave-nano' %>
-<span class="hours">horas</span>
+<%= concave_errors_for(f.object, :workload) %>
 <span class="tip">Ex.: 60</span>
-<%= f.label :path, "URL" %>
+<%= f.label :path, "Endereço eletrônico" %>
 <%= f.text_field :path %>
 <%= concave_errors_for(f.object, :path) %>
 <span class="tip">Endereço eletrônico do curso</span>
@@ -23,8 +23,9 @@
 <span class="tip">Informações acerca do curso</span>
 <%= f.label :tag_list, raw("Palavras-chave <span class='snippet'>(separadas por vírgula)</span>") %>
 <%= f.text_field :tag_list %>
+<%= concave_errors_for(f.object, :tag_list) %>
 <span class="tip">Áreas de estudo e interesses relacionados ao curso</span>
-<%= f.label :audiences, "Audiência" %>
+<!--<%= f.label :audiences, "Audiência" %>
 <%= error_for :course, :audiences %>
 <ul class="columns">
   <% for audience in Audience.find(:all) %>
@@ -33,7 +34,7 @@
       <%= label_tag "course_audiences_ids_#{audience.id}", audience.name %>
     </li>
   <% end %>
-</ul>
+</ul>-->
 <div class="clearfix">
   <%= f.label :subscription_type, raw("Inscrição <span class='snippet'>entrada dos membros</span>") %>
   <ul class="single-column">
@@ -47,35 +48,3 @@
     </li>
   </ul>
 </div>
-
-<% unless edit || @environment.plan %>
-  <hr />
-  <div class="clearfix">
-    <%= label :plan, "Plano" %>
-    <ul class="single-column course-plan">
-      <li>
-        <span class="plan-type">Professor</span>
-      </li>
-      <li>
-        <%= radio_button_tag :plan, 'free', :checked => true %>
-        <%= label_tag :plan_free, "Grátis" %>
-        <span class="tiptip-right icon-small icon-question-blue_12_12" title="<%= "#{render 'plans/admin/details', :name => 'Professor', :type => 'Grátis', :plan => Plan.from_preset(:free)}" %>"></span>
-      </li>
-      <li>
-        <%= radio_button_tag :plan, 'professor_lite' %>
-        <%= label_tag :plan_professor_lite, "Lite" %>
-        <span class="tiptip-right icon-small icon-question-blue_12_12" title="<%= "#{render 'plans/admin/details', :name => 'Professor', :type => 'Lite', :plan => Plan.from_preset(:professor_lite)}" %>"></span>
-      </li>
-      <li>
-        <%= radio_button_tag :plan, 'professor_standard' %>
-        <%= label_tag :plan_professor_standard, "Standard" %>
-        <span class="tiptip-right icon-small icon-question-blue_12_12" title="<%= "#{render 'plans/admin/details', :name => 'Professor', :type => 'Standard', :plan => Plan.from_preset(:professor_standard)}" %>"></span>
-      </li>
-      <li>
-        <%= radio_button_tag :plan, 'professor_plus' %>
-        <%= label_tag :plan_professor_plus, "Plus" %>
-        <span class="tiptip-right icon-small icon-question-blue_12_12" title="<%= "#{render 'plans/admin/details', :name => 'Professor', :type => 'Plus', :plan => Plan.from_preset(:professor_plus)}" %>"></span>
-      </li>
-    </ul>
-  </div>
-<% end %>

@@ -82,7 +82,7 @@ h4 { font-size: 14px;  }
   border-bottom: 1px solid black;
 }
 
-.nav-global, #outdated-browser {
+.nav-global {
   display: none;
 }
 

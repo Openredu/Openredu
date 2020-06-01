@@ -17,9 +17,7 @@
 //= require ytpreview.jquery
 //= require subjects
 //= require admin
-//= require partner
 //= require jquery.nested-fields
-//= require boring-browser
 //= require jquery.noisy
 //= require underscore
 //= require embedly
@@ -30,8 +28,7 @@
 //= require bootstrap-redu-search-form
 // Somente para a nav global: fim
 //= require search
-//= require ckeditor/ckeditor
-
+//= require ckeditor/init
 
 jQuery(function(){
 

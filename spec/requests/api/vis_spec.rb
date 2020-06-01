@@ -90,7 +90,7 @@ describe "Vis Api" do
     WebMock.disable_net_connect!
     stub_request(:get, Redu::Application.config.vis[url]).
         with(query: param,
-             headers: {'Authorization' => 'YXBpLXRlYW06Tnl1Z0FrU29Q',
+             headers: {'Authorization' => 'Og==',
                           'Content-Type' => 'application/json'}).
         to_return(status: 200, body: "", headers: {})
 
@@ -98,7 +98,7 @@ describe "Vis Api" do
 
     a_request(:get, Redu::Application.config.vis[url]).
         with(query: param,
-             headers: {'Authorization'=> 'YXBpLXRlYW06Tnl1Z0FrU29Q',
+             headers: {'Authorization'=> 'Og==',
                           'Content-Type'=>'application/json'}).
     should have_been_made
   end

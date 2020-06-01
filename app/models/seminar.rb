@@ -47,33 +47,35 @@ class Seminar < ActiveRecord::Base
 
   # Converte o video para FLV (Zencoder)
   def transcode
-    return if Rails.env.development? || Rails.env.test?
-    seminar_info = {
-      :id => self.id,
-      :class => self.class.to_s.tableize,
-      :attachment => 'medias',
-      :style => 'original',
-      :basename => self.original_file_name.split('.')[0],
-      :extension => 'flv'
-    }
-
-    video_storage = Redu::Application.config.video_transcoded
-    output_path = "s3://" + video_storage[:bucket] + "/" + interpolate(video_storage[:path], seminar_info)
-
-    credentials = Redu::Application.config.zencoder_credentials
-    config = Redu::Application.config.zencoder
-    config[:input] = self.original.url
-    config[:output][:url] = output_path
-    config[:output][:thumbnails][:base_url] = File.dirname(output_path)
-    config[:output][:notifications][:url] = "http://#{credentials[:username]}:#{credentials[:password]}@www.redu.com.br/jobs/notify"
-
-    response = Zencoder::Job.create(config)
-    puts response.inspect
-    if response.success?
-      self.job = response.body["id"]
-    else
-      self.fail!
-    end
+    return
+    #Zencoder pega o video e converte, quando termina manda uma requisicao para o antigo endpoint jobs.
+    # if Rails.env.development? || Rails.env.test?
+    # seminar_info = {
+    #   :id => self.id,
+    #   :class => self.class.to_s.tableize,
+    #   :attachment => 'medias',
+    #   :style => 'original',
+    #   :basename => self.original_file_name.split('.')[0],
+    #   :extension => 'flv'
+    # }
+    #
+    # video_storage = Redu::Application.config.video_transcoded
+    # output_path = "s3://" + video_storage[:bucket] + "/" + interpolate(video_storage[:path], seminar_info)
+    #
+    # credentials = Redu::Application.config.zencoder_credentials
+    # config = Redu::Application.config.zencoder
+    # config[:input] = self.original.url
+    # config[:output][:url] = output_path
+    # config[:output][:thumbnails][:base_url] = File.dirname(output_path)
+    # config[:output][:notifications][:url] = "http://#{credentials[:username]}:#{credentials[:password]}@www.redu.com.br/jobs/notify"
+    #
+    # response = Zencoder::Job.create(config)
+    # puts response.inspect
+    # if response.success?
+    #   self.job = response.body["id"]
+    # else
+    #   self.fail!
+    # end
   end
 
   def video?
@@ -91,7 +93,7 @@ class Seminar < ActiveRecord::Base
   # Virtual attribute para url do vídeo
   def external_resource_url
     unless external_resource.nil?
-      "http://www.#{ self.external_resource_type }.com/watch?v=#{ self.external_resource }"
+      "https://www.#{ self.external_resource_type }.com/embed/#{ self.external_resource }"
     end
   end
 

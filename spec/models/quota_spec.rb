@@ -40,7 +40,6 @@ describe Quota do
             end
           end
           seminars.flatten!
-          mock_scribd_api
 
           documents = spaces.collect do |s|
             sub = FactoryGirl.create(:subject, :space => s, :finalized => true)

@@ -38,18 +38,6 @@ class Subject < ActiveRecord::Base
     self.created_at > 1.week.ago
   end
 
-  def convert_lectureables!
-    documents = self.lectures.includes(:lectureable).
-                  where(:lectureable_type => ["Document"])
-    documents.each { |d| d.lectureable.upload_to_scribd }
-
-    seminars = self.lectures.includes(:lectureable).
-                  where(:lectureable_type => ["Seminar"])
-    seminars.each do |s|
-      s.lectureable.convert! if s.lectureable.need_transcoding?
-    end
-  end
-
   def graduated?(user)
     self.enrolled?(user) && user.get_association_with(self).graduated?
   end

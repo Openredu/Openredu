@@ -1,7 +1,7 @@
 <%= hidden_field_tag "lecture[lectureable_attributes][_type]", "Document" %>
 <%= f.label :attachment, "Arquivo" %>
 <%= f.file_field :attachment  %>
-<span class="tip">Lembre-se: arquivos protegidos contra cópia podem não ser visualizados corretamente. Tente salva-los sem proteção antes de postar no Redu.</span>
+<span class="tip">Lembre-se: arquivos protegidos contra cópia podem não ser visualizados corretamente. Tente salva-los sem proteção antes de postar no <%= Redu::Application.config.name %>.</span>
 <% unless f.object.errors[:attachment_content_type].empty? %>
   <ul class="errors_on_field"><li>Formato de arquivo inválido</li></ul>
 <% end %>

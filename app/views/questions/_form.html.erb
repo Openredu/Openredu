@@ -1,11 +1,11 @@
 <div class="question">
-  <p><%= question.statement %></p>
+  <div><%= raw(question.statement) %></div>
 </div>
 
 <% if review %>
   <div class="justification">
     <span class="call">Justificativa:</span>
-    <p><%= question.explanation || "Não há" %></p>
+    <div><%= raw(question.explanation) || "Não há" %></div>
   </div>
   <div class="alternatives review">
     <ol>

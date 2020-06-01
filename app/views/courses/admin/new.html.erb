@@ -1,21 +1,18 @@
-<%= render :partial => 'shared/management_background' %>
-<div class="management-sidebar">
-  <%= render :partial => 'environments/sidebar', :locals => { :environment => @environment } %>
-</div>
-<div class="main grid_12 omega big-col management-wrapper">
+<%= render :partial => 'environments/sidebar', :locals => { :environment => @environment } %>
+<div class="main grid_12 omega big-col">
   <%= render :partial => "environments/breadcrumbs", :locals => { :environment => @environment } %>
   <%= render :partial => 'environments/admin/header',
     :locals => { :environment => @environment } %>
   <div id="environment-manage" class="body management">
     <%= render 'environments/admin/clean_header' %>
     <%= tabs :environments_admin do %>
-      <h3 class="form-header">Criação de um <strong class="strong">novo curso</strong></h3>
-      <%= link_to "< voltar para a listagem de cursos", admin_courses_environment_path(@environment), :class => "back" %>
+      <h3 class="form-header"> <strong class="strong">Criação de um novo curso</strong></h3>
+      <%= link_to "Listagem de cursos", admin_courses_environment_path(@environment), :class => "back" %>
       <%= form_for @course,
         :url => environment_courses_path(@environment),
         :html => { :class => 'concave-form clearfix' } do |f| %>
         <%= concave_error_messages_for @course %>
-        <%= render :partial => 'courses/admin/form', :locals => { :f => f, :edit => false, :partner => @environment.partner } %>
+        <%= render :partial => 'courses/admin/form', :locals => { :f => f, :edit => false } %>
         <hr />
         <%= f.submit "Salvar alterações" %>
       <% end %>

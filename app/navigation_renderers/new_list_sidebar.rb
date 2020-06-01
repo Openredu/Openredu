@@ -15,7 +15,7 @@ class NewListSidebar < SimpleNavigation::Renderer::Base
     if skip_if_empty? && item_container.empty?
       ''
     else
-      content_tag(:ul, list_content, {:id => item_container.dom_id, :class => item_container.dom_class})
+      content_tag(:ul, list_content, { :id => item_container.dom_id, :class => item_container.dom_class })
     end
   end
 

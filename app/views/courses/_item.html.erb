@@ -11,41 +11,46 @@
     <% unless item.workload.nil? %>
       <span class="workload">(<%= item.workload %> horas)</span>
     <% end %>
-    <p class="description"><%= item.description %></p>
-    <ul class="tags clearfix">
+    <% unless item.description.nil? %>
+      <span class="description">
+          <%= item.description %>
+      </span>
+    <% end %>
+    <!--<ul class="tags clearfix">
       <% item.tags.each do |tag| %>
         <li>
           <%= link_to tag, environment_path(item.environment) %>
         </li>
       <% end %>
-    </ul>
+    </ul>-->
   </div>
   <div class="statistics">
     <%= render :partial => 'courses/privacy', :locals => { :course => item } %>
     <%= cache ["course_members_count", item.id] do %>
       <ul class="numbers clearfix">
         <li>
-          <span class="count"><%= item.approved_users.count %></span>
-          <em class="role">membros</em>
+          <span class="count"><%= users_count = item.approved_users.count - item.administrators.count%></span>
+          <em class="role"><%=t :member_caps, :count => users_count %></em>
         </li>
         <li>
-          <span class="count"><%= item.teachers.count %></span>
-          <em class="role">professores</em>
+          <span class="count"><%= teachers_count = item.teachers.count %></span>
+          <em class="role"><%=t :teacher, :count => teachers_count%></em>
         </li>
         <li>
-          <span class="count"><%= item.tutors.count %></span>
-          <em class="role">tutores</em>
+          <span class="count"><%= tutors_count = item.tutors.count %></span>
+          <em class="role"><%= t :tutor, :count => tutors_count%></em>
         </li>
         <li>
-          <span class="count"><%= item.students.count %></span>
-          <em class="role">alunos</em>
+          <span class="count"><%= studantes_count = item.students.count %></span>
+          <em class="role"><%= t :studant, :count => studantes_count%></em>
         </li>
+
       </ul>
     <% end %>
   </div>
   <% if can?(:show, item) %>
     <ul class="spaces <%= "no-description" if item.description.blank? %>">
-      <span class="title icon-space-gray_16_18-before"><%= item.spaces.published.count %> disciplinas matriculadas</span>
+      <span class="title icon-space-gray_16_18-before"><%= disciplinas_matriculadas_count = item.spaces.published.count %> <%=t :disciplinas_matriculadas , :count => disciplinas_matriculadas_count%></span>
       <%= render :partial => 'spaces/item_medium',
         :collection => item.spaces.published %>
     </ul>

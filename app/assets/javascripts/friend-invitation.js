@@ -58,7 +58,7 @@ $(function() {
     }
   );
 
-  // Dropdown de convidar pessoas para o Redu por e-mail.
+  // Dropdown de convidar pessoas para o Openredu por e-mail.
   $(config.formInvitation).ajaxComplete(function() {
     if ($(config.dropdown).find("li").length == 0) {
       var emailRegex = /^([a-zA-Z0-9_.-])+@([a-zA-Z0-9_.-])+\.([a-zA-Z])+([a-zA-Z])+/;
@@ -73,7 +73,7 @@ $(function() {
   });
 
   $("body")
-    // Adiciona o token de convidar pessoas para o Redu por e-mail.
+    // Adiciona o token de convidar pessoas para o Openredu por e-mail.
     .on("click", "#invite-by-email-button", function() {
       var email = $.trim($("#invite-by-email-dropdown-email").text());
       var $emails = $("#emails");
@@ -83,7 +83,7 @@ $(function() {
       $(".invite-friend-form .token-input-input-token-redu").before(_.template('<li class="invitation-token"><div class="invitation-token-inner"><span class="invite-by-email-token-remove invitation-link-remove icon-close-gray_16_18 text-replacement link-fake">Remover</span><div class="invitation-token-title"><span class="invitation-token-email text-truncate" title="<%= email %>"><%= email %></span><span class="invitation-token-legend legend">(Convidar para o Redu)</span></div></div></li>', { email: email }));
       enableSubmit();
     })
-    // Remove o token de convidar pessoas para o Redu por e-mail.
+    // Remove o token de convidar pessoas para o Openredu por e-mail.
     .on("click", ".invite-by-email-token-remove", function() {
       var $removeIcon = $(this);
       var $wrapper = $removeIcon.closest(".invitation-token");

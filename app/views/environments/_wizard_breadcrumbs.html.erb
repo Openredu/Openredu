@@ -6,12 +6,9 @@
     <%= link_to "Ensine", teach_index_path, :class => (current_page? teach_index_path) ? "" : "disabled" %>
   </li>
   <li>
-    <a href="#" class="<%= ( current_page? :step => 1 ) ? "" : "disabled" %>">Etapa 1: Planos</a>
+    <a href="#" class="<%= ( current_page? :step => 2 ) ? "" : "disabled" %>">Etapa 1: Informações</a>
   </li>
   <li>
-    <a href="#" class="<%= ( current_page? :step => 2 ) ? "" : "disabled" %>">Etapa 2: Informações</a>
-  </li>
-  <li>
-    <a href="#" class="<%= ( current_page? :step => 3 ) ? "" : "disabled" %>">Etapa 3: Confirmar Dados</a>
+    <a href="#" class="<%= ( current_page? :step => 3 ) ? "" : "disabled" %>">Etapa 2: Confirmar Dados</a>
   </li>
 </ol>

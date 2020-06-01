@@ -4,9 +4,9 @@
       <%= link_to item_admin.name,
         environment_course_path(@environment, item_admin),
         :class => "course-info" %>
-      <span class="course-detail members"><%= item_admin.users.count %> membros</span>
-      <span class="course-detail subject-count"><%= item_admin.spaces.count %> disciplinas</span>
-      <span class="course-detail created-at">criado em <%= l(item_admin.created_at, :format => :admin) %></span>
+      <span class="course-detail members"><%= members_count = item_admin.users.count %> <%=t :member_caps, :count => members_count%></span>
+      <span class="course-detail subject-count"><%= disciplinas_count = item_admin.spaces.count %> <%=t :discipline, :count => disciplinas_count  %></span>
+      <span class="course-detail created-at">Criado em <%= l(item_admin.created_at, :format => :admin) %></span>
     </div>
   </td>
   <td class="cell centered-cell">
@@ -15,7 +15,7 @@
   </td>
   <td class="cell centered-cell">
     <%= link_to 'Remover', environment_course_path(@environment, item_admin),
-      :confirm => 'Todas as informações dos usuários, disciplinas e dados referente ao curso serão perdidas. Você tem certeza disso?',
+      :confirm => 'Todas as informações dos usuários, disciplinas e dados referentes ao curso serão perdidas. Você tem certeza disso?',
       :method => :delete,
       :class => "option icon-delete-gray_8_10-before delete" %>
   </td>

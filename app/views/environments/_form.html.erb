@@ -13,6 +13,7 @@
   <%= f.label :path, "Endereço eletrônico", :class => "big"%>
   <%= f.text_field :path %>
   <%= concave_errors_for @environment, :path %>
+  <span class="tip">100 caracteres</span>
 </fieldset>
 <hr/>
 <fieldset class="course-fields">
@@ -26,5 +27,6 @@
     <%= builder.label :path, "Endereço eletrônico" %>
     <%= builder.text_field :path, :class => "big" %>
     <%= concave_errors_for @environment.courses.first, :path %>
+    <span class="tip">100 caracteres</span>
   <% end %>
 </fieldset>

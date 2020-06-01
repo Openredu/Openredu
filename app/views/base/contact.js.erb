@@ -1,6 +1,6 @@
 var $form = $("#contact-form");
 <% if @contact.valid? %>
-  var $confirmationBox = $("<%= escape_javascript render 'shared/confirmation_message', :message => %(<span class="thank-you">Obrigado, <span class="person-name">#{@contact.name}</span></span> <p class="text-confirmation"> Seu contato foi muito importante para nós. Visite a <span class="initial-page"> #{link_to "página inicial", home_path} </span>para recomeçar a navegar no Redu</p>), :boxed => @boxed %>");
+  var $confirmationBox = $("<%= escape_javascript render 'shared/confirmation_message', :message => %(<span class="thank-you">Obrigado, <span class="person-name">#{@contact.name}</span></span> <p class="text-confirmation"> Seu contato foi muito importante para nós. Visite a <span class="initial-page"> #{link_to "página inicial", home_path} </span>para recomeçar a navegar no #{Redu::Application.config.name}</p>), :boxed => @boxed %>");
   $form.replaceWith($confirmationBox);
 <% else %>
   var formClasses = $form.attr('class');

@@ -1,0 +1,34 @@
+development:
+  adapter: mysql2
+  username: root
+  password:
+  database: redu_development
+  host: db
+
+production:
+  adapter: mysql2
+  username: root
+  password:
+  database: openredu_production
+  host: db
+
+performance:
+  adapter: mysql2
+  username: root
+  password:
+  database: openredu_performance
+  host: db
+
+staging:
+  adapter: mysql2
+  username: root
+  password:
+  database: openredu_staging
+  host: db
+
+test:
+  adapter: mysql2
+  username: root
+  password:
+  database: openredu_test
+  host: db

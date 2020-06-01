@@ -188,24 +188,6 @@ $(document).ready(function(){
     $('#home-invite-friends').css('background-color', 'none');
   });
 
-  // Oráculo
-  $('#tour-13').on('show', function () {
-    $('#habla_window_div').css('cssText', 'margin: 0px 20px; bottom: 0px; right: 0px; display: none; position: fixed; z-index: 1600 !important;');
-  });
-
-  $('#tour-13').on('hide', function () {
-    $('#habla_window_div').css('cssText', 'margin: 0px 20px; bottom: 0px; right: 0px; display: none; position: fixed;');
-  });
-
-  // Chat
-  $('#tour-14').on('show', function () {
-    $('#chat').css('z-index', 1060);
-  });
-
-  $('#tour-14').on('hide', function () {
-    $('#chat').css('z-index', 1000);
-  });
-
   /* Envia requisição para identificar itens como explorados
    *
    * Caso o elemento possua um href com url para outro domínio,

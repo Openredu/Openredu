@@ -16,7 +16,7 @@ describe NewsletterMailer do
     end
 
     it "should choose the template" do
-      template = "newsletter/inexistent_view.html.erb"
+      template = "newsletter/inexistent_view"
       expect {
         subject.newsletter("foo@bar.com", :template => template).deliver
       }.to raise_error(ActionView::MissingTemplate)

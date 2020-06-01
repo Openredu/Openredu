@@ -97,58 +97,6 @@ describe 'ApplicationLayoutCache' do
           end
         end
       end
-
-      context 'when a partner there is a partner with admins' do
-        let(:partner) { FactoryGirl.create(:partner) }
-        let(:admins) { (1..5).collect { FactoryGirl.create(:user) } }
-
-        before do
-          admins.each do |u|
-            partner.add_collaborator u
-          end
-        end
-
-        it 'expires when a user is linked to a partner' do
-          ActiveRecord::Observer.with_observers(
-            :partner_user_association_cache_observer) do
-              performing_cache(cache_identifier) do |cache|
-                partner.add_collaborator user
-
-                cache.should_not exist(cache_identifier)
-              end
-          end
-        end
-
-        context 'and user is an admin' do
-          before do
-            partner.add_collaborator user
-          end
-
-          it 'expires all admins nav account when partner is updated' do
-            ActiveRecord::Observer.with_observers(:partner_cache_observer) do
-              performing_cache(cache_identifier) do |cache|
-                partner.update_attribute(:name, "Changed")
-
-                cache.should_not exist(cache_identifier)
-                admins.each do |admin|
-                  cache.should_not exist(nav_global_dropdown_menu_identifier(admin))
-                end
-              end
-            end
-          end
-
-          it 'expires when a user is removed from a partner' do
-            ActiveRecord::Observer.with_observers(
-              :partner_user_association_cache_observer) do
-                performing_cache(cache_identifier) do |cache|
-                  partner.partner_user_associations.last.destroy
-
-                  cache.should_not exist(cache_identifier)
-                end
-            end
-          end
-        end
-      end
     end
   end
 end

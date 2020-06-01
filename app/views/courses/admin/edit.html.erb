@@ -1,9 +1,6 @@
-<%= render :partial => 'shared/management_background' %>
-<div class="management-sidebar">
-  <%= render :partial => 'courses/sidebar',
+<%= render :partial => 'courses/sidebar',
     :locals => { :course => @course } %>
-</div>
-<div class="main grid_12 omega big-col management-wrapper">
+<div class="main grid_12 omega big-col">
   <%= render :partial => 'courses/breadcrumbs',
     :locals => { :course => @header_course || @course } %>
   <%= render :partial => 'courses/admin/header',
@@ -14,8 +11,8 @@
       <% if @course.plan %>
         <div class="plan-panel">
           <div class="plan-use">
-            <span class="plan-type"><%= @course.plan.name %></span>
-            <%= render :partial => "invoices/quotas_old",
+            <span class="plan-type">Limites</span>
+            <%= render :partial => "quotas/quotas_old",
               :locals => { :quota_file => @course.percentage_quota_file,
                            :plan => @course.plan,
                            :quota_multimedia => @course.percentage_quota_multimedia,
@@ -28,7 +25,7 @@
         :url => environment_course_path(@environment, @header_course || @course),
         :html => { :class => "concave-form" } do |f| %>
         <%= concave_error_messages_for @course %>
-        <%= render :partial => 'courses/admin/form', :locals => { :f => f, :edit => true, :partner => @environment.partner } %>
+        <%= render :partial => 'courses/admin/form', :locals => { :f => f, :edit => true } %>
         <%= f.submit "Salvar alterações" %>
         <% if @course.published? %>
           <%= link_to 'Despublicar curso', unpublish_environment_course_path(@environment, @course),

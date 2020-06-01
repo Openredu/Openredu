@@ -57,17 +57,6 @@ Redu::Application.configure do
   config.video_original = config.paperclip.merge({:styles => {}})
   config.video_transcoded = config.paperclip.merge({:styles => {}})
 
-  # Só converte os 5 primeiros segundos (grátis)
-  config.zencoder[:test] = 1
-
-  # Configuração da aplicação em omniauth providers
-  config.omniauth = {
-    :facebook => {
-      :app_id => '142857189169463',
-      :app_secret => 'ea0f249a4df83b250c3364ccf097f35c'
-    }
-  }
-
   # Ativa o modo de testes do OmniAuth
   OmniAuth.config.test_mode = true
 
@@ -97,4 +86,7 @@ Redu::Application.configure do
   # Configure static asset server for tests with Cache-Control for performance
   config.serve_static_assets = true
   config.static_cache_control = "public, max-age=3600"
+
+  #enable captcha
+  config.enable_humanizer = false
 end

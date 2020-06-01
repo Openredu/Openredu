@@ -11,7 +11,7 @@ var $form = $("#form-sign-in");
 <% else %>
   $form.append('<%= escape_javascript render "bootstrap/system_message",
                :message => "<p>O prazo máximo de 30 dias para ativar sua conta expirou. Portanto,
-               <strong>você só poderá utilizar o Redu após ativar sua conta</strong>.
+               <strong>você só poderá utilizar o #{Redu::Application.config.name} após ativar sua conta</strong>.
                Reenvie o e-mail de ativação para: #{ @user_email }.</p>
                #{ link_to "Reenviar e-mail", resend_activation_url(:email => @user_email), :class => "button button-danger" } ",
                :type => "warning",

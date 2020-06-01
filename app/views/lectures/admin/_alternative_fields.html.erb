@@ -1,4 +1,4 @@
-<li class="alternative-item visible disabled alternative-add clearfix">
+<li class="alternative-item visible alternative-add clearfix">
   <%= f.label :text, :class => "alternative-label" %>
   <% random_number = get_random_number %>
   <%# Necessário "new_alternative_item" para o awesome_nested_fields
@@ -7,9 +7,9 @@
     :id => "correct-#{random_number}-alternative-new_alternative_item" %>
   <%= f.label :correct, raw("<span class='confirm icon-small icon-confirm-gray_16_18'></span>"),
     :class => "is-correct-label", :for => "correct-#{random_number}-alternative-new_alternative_item" %>
-  <%= f.text_area :text, :class => "alternative-text" %>
+  <%= f.cktext_area :text, :class => "alternative-text", ckeditor: {width: '350', height: '200'}, index: 'removefromhash_'+random_number %>
   <a href="#" class="alternative-remove icon-small icon-delete-gray_8_10 replacement">excluir alternativa</a>
-  <div class="tip">Clique para adicionar mais uma alternativa</div>
+  <div class="tip">Clique aqui para adicionar mais uma alternativa</div>
   <%= concave_errors_for(f.object, :text) %>
 
   <%= f.hidden_field :id %>

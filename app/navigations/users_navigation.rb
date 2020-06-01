@@ -2,7 +2,7 @@
 module UsersNavigation
   def users_navigation(sidebar)
     # Caso alguma view que não tenha uma relação direta com usuário
-    # utilize esta navegação (por utilizar o sidebar da home). Ex.: Partners
+    # utilize esta navegação (por utilizar o sidebar da home)
     @user = current_user unless @user
 
     sidebar.dom_class = 'local-nav'
@@ -68,14 +68,6 @@ module UsersNavigation
         :highlights_on => action_matcher({'users' => ['account', 'update_account']}),
         :class => 'ui-state-default',
         :link => { :class => 'icon-account_16_18-before' }
-      config_nav.item :plans, 'Planos', user_plans_path(@user),
-        :highlights_on => Proc.new { action_matcher({'plans' => ['index', 'options'],
-                                                     'invoices' => ['index']}).call &&
-                                                     @partner.nil? },
-        :class => 'ui-state-default',
-        :link => { :class => 'icon-plans_16_18-before'},
-        :details => { :text => 'detalhes', :class => "details",
-                      :if => action_matcher({'invoices' => ['index']}) }
     end
     sidebar.item :contacts, 'Meus Contatos', user_friendships_path(current_user),
       :link => { :class => 'icon-contacts_16_18-before' } do |tab|

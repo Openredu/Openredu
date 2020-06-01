@@ -13,7 +13,6 @@ describe "Documents API" do
   context "when GET /lectures/:id" do
     context "with a document as attachment" do
       subject do
-        mock_scribd_api
         FactoryGirl.create(:lecture, :lectureable => FactoryGirl.create(:document),
                 :subject => subj, :owner => subj.owner)
       end
@@ -28,10 +27,8 @@ describe "Documents API" do
         parse(response.body).should have_key "mimetype"
       end
 
-      %w(raw scribd).each do |link|
-        it "should have the link #{link}" do
-          href_to(link, parse(response.body)).should_not be_blank
-        end
+      it "should have the raw link" do
+        href_to(raw, parse(response.body)).should_not be_blank
       end
     end
 
@@ -52,12 +49,9 @@ describe "Documents API" do
       end
 
       it "should have the link raw" do
-        href_to("raw", parse(response.body)).should_not be_blank
+        href_to(raw, parse(response.body)).should_not be_blank
       end
 
-      it "should not have the link scribd" do
-        href_to("scribd", parse(response.body)).should be_blank
-      end
     end
   end
 

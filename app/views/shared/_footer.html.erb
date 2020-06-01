@@ -3,11 +3,11 @@
     <div class="row">
       <div class="span4">
         <div class="footer-logo-wrapper">
-          <%= link_to "http://tech.redu.com.br/",
+          <%= link_to "#{ENV['PROM_PAGE']}",
             :class => "footer-logo-link" do %>
-              <h1 class="footer-logo-img sprite-logo-redu-tech-footer text-replacement">Redu Educational Technologies</h1>
+              <h1 class="footer-logo-img sprite-logo-redu-tech-footer text-replacement">Feito com ♥ pela comunidade <%= Redu::Application.config.name %></h1>
           <% end %>
-          <span class="footer-cnpj">CNPJ: 12.359.885 / 0001-07</span>
+          <span class="footer-cnpj">contato@openredu.com</span>
         </div>
       </div>
       <div class="span3">
@@ -16,7 +16,7 @@
         <% unless current_user %>
           <ul class="footer-navigation">
             <li>
-              <%= link_to "Sobre o Redu", home_path(anchor: "") %>
+              <%= link_to "Sobre o #{Redu::Application.config.name}", home_path(anchor: "") %>
             </li>
             <li>
               <%= link_to "Segmentos", home_path(anchor: "segmentos"),
@@ -31,16 +31,14 @@
                 class: "landing-scroll" %>
             </li>
             <li>
-              <%= link_to "Planos", home_path(anchor: "planos"),
-                class: "landing-scroll" %>
-            </li>
-            <li>
               <%= link_to "Parceiros", home_path(anchor: "parceiros"),
                 class: "landing-scroll" %>
             </li>
           </ul>
         <% else %>
-          &nbsp;
+          <div style="text-align:left;line-height:120px;line-through:00px"">
+            <span title="<%= ENV['RELEASE']%>" class= 'label-doubts'>Versão <%= ENV['TAG'] %></span>
+          </div>
         <% end %>
       </div>
       <div class="span3">
@@ -86,10 +84,10 @@
         </div>
         <div class="footer-social-networks">
           <%= link_to "Facebook",
-            "https://www.facebook.com/redesocialeducacional",
+            "#{ENV['FACEBOOK_PAGE']}",
             :class => "footer-social-network sprite-social-facebook text-replacement",
             :title => "Facebook" %>
-          <%= link_to "Twitter", "http://twitter.com/redu_ead",
+          <%= link_to "Twitter", "#{ENV['TWITTER_PAGE']}",
             :class => "footer-social-network sprite-social-twitter text-replacement",
             :title => "Twitter" %>
         </div>

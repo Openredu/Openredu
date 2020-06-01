@@ -69,3 +69,26 @@
     width: 120px;
   }
 }
+
+.badge-messages {
+   position:relative;
+}
+
+.nav-local-item-active .badge-messages[data-badge]:after {
+   content:attr("");
+   display: none;
+}
+
+.badge-messages[data-badge]:after {
+   content:attr(data-badge);
+   position:absolute;
+   right:-80px;
+   font-size:.7em;
+   background: $blue3;
+   color:white;
+   width:18px;height:18px;
+   text-align:center;
+   line-height:18px;
+   border-radius:50%;
+   box-shadow:0 0 1px #333;
+}

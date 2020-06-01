@@ -22,7 +22,7 @@ class SpacesController < BaseController
     session[:return_to] = request.fullpath
 
     if current_user.nil?
-      flash[:info] = "Essa área só pode ser vista após você acessar o Redu com seu nome e senha."
+      flash[:info] = "Essa área só pode ser vista após você acessar o #{Redu::Application.config.name} com seu nome e senha."
     else
       flash[:info] = "Você não tem acesso a essa página"
     end
@@ -75,7 +75,7 @@ class SpacesController < BaseController
         format.xml  { render xml: @space }
       else
         format.html {
-          flash[:error] = "A disciplina \"" + params[:id] + "\" não existe ou não está cadastrada no Redu."
+          flash[:error] = "A disciplina \"" + params[:id] + "\" não existe ou não está cadastrada no #{Redu::Application.config.name}."
           redirect_to spaces_path
         }
       end

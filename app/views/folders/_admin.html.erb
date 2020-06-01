@@ -19,7 +19,7 @@
       <div class="new-file">
         <a href="#" class="concave-button upload-button">Upload de arquivo</a>
         <div class="new-file-inner holder" style="display:none;">
-          <%= form_for(myfile,
+          <%= form_for(Myfile.new,
                        :url => do_the_upload_space_folder_path(space.id,
                        folder.id),
                        :remote => true, :html => { :multipart => true,

@@ -1,55 +1,511 @@
-// ==========================================================================
-// Estilos para a landing.
-// ==========================================================================
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,700');
 
-// Mixins de imagens do Compass.
-@import "compass/css3/images";
-// UI-components.
-@import "bootstrap/variables";
-@import "bootstrap/mixins";
+html {
+  height: 100%;
+}
 
-// Variáveis.
-@import "landing/variables";
-// Estilos compartilhados.
-@import "landing/shared";
-// Estilos do layout.
-@import "landing/layout";
-// Sprites.
-@import "landing/sprites";
-// Estilos da mensagem de bem vindo.
-@import "landing/welcome";
-// Estilos da área de navegação.
-@import "landing/navigation";
-// Estilos da área dos filtros.
-@import "landing/filters";
-// Estilos da área de segmentos.
-@import "landing/segments";
-// Estilos da área de vantagens.
-@import "landing/advantages";
-// Estilos da área de funcionalidades.
-@import "landing/functionalities";
-// Estilos da área de rede social & chat.
-@import "landing/social-network-n-chat";
-// Estilos da área de mural de discussão.
-@import "landing/discussion-wall";
-// Estilos da área de aulas multimídia.
-@import "landing/multimedia-classes";
-// Estilos da área de Relatórios Básicos.
-@import "landing/basic-reports";
-// Estilos da área de gerenciamento e suporte.
-@import "landing/management-support";
-// Estilos da área de Recursos Educacionais Abertos.
-@import "landing/oer";
-// Estilos da área de serviços e aplicações integradas.
-@import "landing/api";
-// Estilos da área de mensagens particulares, currículo e mobilidade.
-@import "landing/others";
-// Estilos da área de planos.
-@import "landing/plans";
-// Estilos da área de parceiros.
-@import "landing/partners";
-// Estilos da área de Visual Class.
-@import "landing/visual-class";
+body {
+  padding: 0;
+  margin: 0;
+  font-family: "Open Sans", sans-serif;
+  font-size: 1em;
+  color: #6d6e6f;
+  height: 100%;
+}
 
-// TODO: Remover depois de resolver a issue ui-compnents#15.
-.textshadow .olrk-noquirks { text-shadow: none; }
+input:not([type='checkbox']) {
+  font-size: 0.9em;
+  padding: 10px 0;
+  border: 0;
+  outline: 0;
+  border-bottom: 1px solid #f5f5f5;
+  background-color: #fff;
+  width: 90%;
+  margin: 5px 0;
+  border-radius: 2px;
+  -o-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  moz-border-radius: 2px;
+}
+
+button {
+  font-size: 0.9em;
+  padding: 15px 0;
+  width: 95%;
+  color: #fff;
+  border: 0;
+  outline: 0;
+  text-align: center;
+  display: block;
+  margin: 5px auto;
+  background-color: #4cadd7;
+  border-radius: 2px;
+  -o-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  moz-border-radius: 2px;
+}
+
+.button-success-modal {
+  font-size: 0.9em;
+  padding: 15px 0;
+  width: 40%;
+  color: #fff;
+  border: 0;
+  outline: 0;
+  text-align: center;
+  display: block;
+  margin: 5px auto;
+  background-color: #4cadd7;
+  border-radius: 2px;
+  -o-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  moz-border-radius: 2px;
+}
+
+figure {
+  padding: 0;
+  margin: 0;
+}
+
+a.bt, label.bt {
+  display: block;
+  padding: 20px;
+  text-align: center;
+  font-weight: 100;
+  font-size: 0.8em;
+  text-decoration: none;
+}
+
+a.bt {
+  &.in {
+    color: #6d6e6f;
+  }
+  &.out {
+    color: #4cadd7;
+    cursor: pointer;
+  }
+}
+
+label.bt.out {
+  color: #4cadd7;
+  cursor: pointer;
+}
+
+section {}
+
+/* Modal */
+
+div.bg-modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 100;
+  display: none;
+  label.label-bg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 101;
+    background: none;
+  }
+  section#painel-cadastro {
+    max-width: 650px;
+    background-color: #fff;
+    position: relative;
+    top: 2%;
+    margin: 0 auto;
+    box-shadow: 0 0 30px #000;
+    z-index: 150;
+    h4.title-modal {
+      display: block;
+      padding: 20px 40px;
+      margin: 0;
+      font-size: 1.8em;
+      color: #fff;
+      position: relative;
+      background-color: #aed686;
+      label {
+        display: block;
+        font-size: 0.9em;
+        color: #fff;
+        width: 50px;
+        height: 50px;
+        position: absolute;
+        top: 30px;
+        right: 20px;
+        font-weight: 300;
+        cursor: pointer;
+        transform: rotateZ(45deg);
+        span {
+          display: block;
+          padding: 1px;
+          background-color: #fff;
+          width: 90%;
+          &.icv {
+            transform: rotateZ(90deg);
+          }
+          &.ich {}
+        }
+      }
+    }
+    p.info-face {
+      padding: 5px 40px;
+      font-size: 0.7em;
+      color: #ccc;
+      font-weight: 300;
+    }
+    div.cad-facebook {
+      max-width: 360px;
+      min-width: 250px;
+      margin: 0 auto;
+      background-color: #0076a3;
+      text-align: center;
+      figure {
+        display: block;
+        a {
+          display: block;
+          padding: 5px;
+          text-decoration: none;
+          img {
+            width: 16px;
+            height: auto;
+            display: inline-block;
+            margin-right: 15px;
+            color: #fff;
+          }
+          p {
+            padding: 5px;
+            color: #fff;
+            display: inline-block;
+            margin: 0;
+          }
+        }
+      }
+    }
+    form.form-cadastra {
+      padding: 20px 40px 0;
+      .field-group {
+        width: 100%;
+        input {
+          &:focus {
+            border-bottom-color: #4cadd7;
+          }
+          &:not([type="checkbox"]) {
+            display: inline-block;
+            width: 45%;
+          }
+          &:nth-child(even) {
+            margin-left: 5%;
+          }
+        }
+        label.info {
+          color: #ccc;
+          font-size: 0.7em;
+          margin-bottom: 20px;
+          display: block;
+          font-weight: 300;
+        }
+        div.mail {
+          margin: 20px 0;
+          input {
+            width: 47%;
+            margin: 0 1%;
+          }
+        }
+      }
+      label.captcha {
+        clear: both;
+        display: block;
+      }
+      input.captcha {
+        clear: both;
+        display: block;
+        margin-bottom: 20px;
+      }
+      label.captcha {
+        span.tooltip {
+          position: absolute;
+          padding: 5px;
+          color: #fff;
+          font-size: 0.7em;
+          background-color: #fba93a;
+          margin-left: 10px;
+          display: none;
+          &:before {
+            content: "";
+            width: 5px;
+            height: 5px;
+            background-color: #fba93a;
+            position: absolute;
+            left: -3px;
+            top: 5px;
+            transform: rotateZ(45deg);
+          }
+        }
+        em {
+          display: inline-block;
+          padding: 5px;
+          color: #4cadd7;
+          font-weight: 700;
+          background-color: #ddd;
+          border-radius: 50%;
+          width: 10px;
+          height: 10px;
+          line-height: 0.7em;
+          margin-left: 20px;
+          &:hover + span.tooltip {
+            display: inline;
+          }
+        }
+      }
+      div {
+        &.confirm-terms {
+          padding: 20px 0;
+          font-size: 0.8em;
+          label {
+            display: inline-block;
+          }
+          a {
+            display: inline-block;
+            color: #0076a3;
+            font-weight: 700;
+            padding: 0 5px;
+          }
+        }
+        &.bt-groups {
+          margin: 10px 0;
+          float: right;
+          width: 250px;
+          button {
+            display: inline-block;
+            width: 40%;
+            margin: 5%;
+            &.inativo {
+              color: #4cadd7;
+              background-color: #f9f9f9;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+input#ck-modal {
+  position: absolute;
+  clip: rect(0, 0, 0, 0);
+  &:checked + div.bg-modal {
+    display: block;
+  }
+}
+
+/* Content */
+
+section#content:after, footer#foot-page:after, form.form-cadastra:after, div.loginface:after {
+  display: block;
+  clear: both;
+  content: "";
+}
+
+section#content {
+  height: 100%;
+  background-color: #eee;
+  background-image: url(nuvens.svg);
+  background-repeat: no-repeat;
+  background-position: 50% 140%;
+  .left, .right {
+    width: 50%;
+    padding: 5% 0;
+  }
+  .left {
+    float: left;
+  }
+  .right {
+    float: right;
+  }
+  .left {
+    figure.logo {
+      display: block;
+      width: 225px;
+      margin-left: 40px;
+      padding: 0 20px;
+      img {
+        width: 100%;
+        height: auto;
+      }
+    }
+    h1.title {
+      padding: 20px;
+      color: #63bf82;
+      margin-left: 40px;
+    }
+    p.intro {
+      padding: 20px;
+      line-height: 1.5em;
+      margin-left: 40px;
+      font-weight: 100;
+    }
+  }
+  .right section.form-container {
+    max-width: 60%;
+    margin: 15px auto;
+    background-color: #fff;
+    padding: 20px 0;
+    box-shadow: 0 0 10px -1px #6e6d6f;
+    -webkit-box-shadow: 0 0 10px -1px #6e6d6f;
+    -o-box-shadow: 0 0 10px -1px #6e6d6f;
+    -moz-box-shadow: 0 0 10px -1px #6e6d6f;
+    border-radius: 2px;
+    -o-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    moz-border-radius: 2px;
+    form {
+      padding: 0 40px;
+    }
+    h2.sub-title {
+      padding: 5px 10px;
+      text-align: center;
+      font-size: 1.3em;
+    }
+
+  }
+}
+
+.error-message {
+  font-size: 0.9em;
+  color: #e83b3b;
+  text-align: center;
+}
+
+.messages-errors li {
+  display: block;
+  font-size: 0.9em;
+  color: #e83b3b;
+  text-align: center;
+}
+
+
+ul.messages-errors {
+  display: block;
+  padding: 10px 5px;
+  border-top: 2px solid #e83b3b;
+  margin-top: 0px;
+}
+
+section#content .right section.form-container div.loginface {
+  max-width: 50%;
+  min-width: 200px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5px;
+  margin-bottom: 25px;
+  background-color: #158ac4;
+  color: #fff;
+  a {
+    display: block;
+    padding: 10px;
+    font-size: 0.8em;
+    color: #fff;
+    text-decoration: none;
+    img, p {
+      display: inline-block;
+      margin: 0 5px;
+    }
+  }
+}
+section#content .right section.form-container div.criarconta {
+  max-width: 40%;
+  min-width: 100px;
+  max-height: 50%;
+  min-height: 30px;
+  margin: 0 auto;
+  display: block;
+  padding-top: 10px;
+  font-size: 0.8em;
+  background-color: #4cadd7;
+  color: #fff;
+  text-align: center;
+  font-weight: bold;
+  font-weight: 600;
+}
+footer#foot-page {
+  color: #fff;
+  background-color: #158ac4;
+  .about, .area-menu, .more-contact {
+    float: left;
+    width: 33.3%;
+    padding: 20px 0;
+  }
+  .about {
+    figure {
+      padding: 0 20px 0;
+      max-width: 150px;
+    }
+    p {
+      padding: 0 20px;
+      font-size: 0.8em;
+      max-width: 80%;
+    }
+  }
+  .label-release{
+    -webkit-border-radius:3px;
+    -moz-border-radius:3px;
+    border-radius:3px;
+    font-size:11px;
+    line-height:11px;
+    padding:3px 5px 2px 5px;
+    background: #ffa935;
+    color: white;
+    margin-left: 20px;
+    }
+  .area-menu nav ul {
+    padding: 0 20px;
+    li {
+      display: block;
+      a {
+        display: block;
+        color: #fff;
+        padding: 5px;
+        text-decoration: none;
+      }
+    }
+  }
+  .more-contact {
+    p {
+      padding: 10px 20px;
+      font-size: 0.9em;
+    }
+    figure {
+      max-width: 120px;
+      padding: 0 20px;
+      img {
+        width: 100%;
+        height: auto;
+      }
+    }
+    .icones-social {
+      padding: 10px 20px;
+      ul {
+        padding: 0;
+        margin: 5px 0;
+        li {
+          display: inline-block;
+          a {
+            display: block;
+            padding: 5px;
+            color: #fff;
+            figure.icon-social {
+              width: auto;
+              display: block;
+              padding: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+}

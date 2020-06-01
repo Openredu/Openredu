@@ -2,11 +2,11 @@
 <div class="container_16 clearfix" id="invitation">
   <div class="grid_4 alpha">
     <h1 class="logotipo replacement">
-      <%= link_to "Redu: rede social educacional", application_path  %>
+      <%= link_to "#{Redu::Application.config.name}: rede social educacional", application_path  %>
     </h1>
   </div>
   <div class="clearfix invite">
-    <span class="salutation">Olá, você foi convidado para participar do Redu.</span>
+    <span class="salutation">Olá, você foi convidado para participar do <%= Redu::Application.config.name %>.</span>
     <div  class="clearfix course">
       <%= image_tag @invitation_user.avatar(:thumb_32), :size => '32x32',
         :class => 'avatar' %>

@@ -1,5 +1,5 @@
 <%#
-  Mensagem de boas-vindas ao Redu.
+  Mensagem de boas-vindas ao Openredu.
 
   Variáveis:
     user: o usuário.
@@ -7,9 +7,9 @@
 
 <% unless user.settings.visited?(home_user_path(user)) %>
   <div class="content-section">
-    <%= content_tag :h3, "#{user.display_name} , seja bem vindo(a) ao Redu.",
+    <%= content_tag :h3, "#{user.display_name} , seja bem vindo(a) ao #{Redu::Application.config.name}.",
       :class => "home-welcome-greeting-title" %>
-    <p class="home-welcome-greeting-message">O Redu é uma plataforma para ensino com tecnologia que permite criar, compartilhar e discutir conteúdos das mais diversas formas. Assim, estimulam-se a aprendizagem, colaboração e diversão. Preencha seu <em>Perfil</em>, crie (ou participe de) um <em>Ambiente de Aprendizagem</em>, se comunique e aprenda com amigos, alunos e professores.</p>
+    <p class="home-welcome-greeting-message">O <%= Redu::Application.config.name %> é uma plataforma para ensino com tecnologia que permite criar, compartilhar e discutir conteúdos das mais diversas formas. Assim, estimulam-se a aprendizagem, colaboração e diversão. Preencha seu <em>Perfil</em>, crie (ou participe de) um <em>Ambiente de Aprendizagem</em>, se comunique e aprenda com amigos, alunos e professores.</p>
   </div>
   <hr class="list-separator">
 <% end %>

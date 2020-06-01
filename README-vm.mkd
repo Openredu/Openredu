@@ -13,7 +13,7 @@ Os arquivos estáticos são servidos através do ngnix na porta 3000 (da máquin
 
 ## Setup do Vagrant
 
-Para instalar o Vagrant siga os passos descritos em [no README](http://vagrantup.com/v1/docs/getting-started/index.html). Graças a conflitos nas versões das dependedências do Vagrant e do Redu não é possível adicioná-lo ao Gemfile do projeto. Uma ideia é instalar no Gemset global do RVM.
+Para instalar o Vagrant siga os passos descritos em [no README](http://vagrantup.com/v1/docs/getting-started/index.html). Graças a conflitos nas versões das dependedências do Vagrant e do Openredu não é possível adicioná-lo ao Gemfile do projeto. Uma ideia é instalar no Gemset global do RVM.
 
 ## Setup da VM
 
@@ -31,7 +31,7 @@ $ vagrant ssh
 vagrant@lucid32:~$ cd /vagrant/
 vagrant@lucid32:/vagrant$ cp config/database.yml.example config/database.yml
 ```
-Faça o setup do Redu normalmente:
+Faça o setup do Openredu normalmente:
 
 ```sh
 vagrant@lucid32:/vagrant$ bundle exec rake db:create RAILS_ENV=performance
@@ -39,7 +39,7 @@ vagrant@lucid32:/vagrant$ bundle exec jammit -c config/assets-performance.yml
 vagrant@lucid32:/vagrant$  RAILS_ENV=performance script/delayed_job restart --queues=email,general,general -n 3
 ```
 
-Baixe um dump do banco de produção de salve dentro da pasta do Redu. Para carregar o dump no MySQL da VM rode o comando:
+Baixe um dump do banco de produção de salve dentro da pasta do Openredu. Para carregar o dump no MySQL da VM rode o comando:
 
 ```sh
 vagrant@lucid32:/vagrant$ mysql -u root redu_performance < redu_rails3.2012-07-09T02-10-09

@@ -1061,7 +1061,7 @@ body {
   -moz-border-radius-bottomright: 15px;
   -moz-border-radius-bottomleft: 15px;
   -webkit-border-radius: 0px 0px 15px 15px;
-  border-radius: 0px 0px 15px 15px;
+  border-radius: 15px 15px 15px 15px;
 }
 
 .body .header {
@@ -5100,8 +5100,8 @@ table.concave-invitation-table .cell-reinvite .reinvited {
   float: left;
 }
 
-#space-manage .new-resource .concave-form .cke_skin_kama,
-#space-manage .edit-resource .concave-form .cke_skin_kama,
+#space-manage .new-resource .concave-form .cke,
+#space-manage .edit-resource .concave-form .cke,
 #space-manage .new-resource .concave-form #youtube_preview iframe {
   margin-top: 20px;
   float: left;
@@ -7064,184 +7064,6 @@ a.link-loading:hover,  /* para sobrepor a precedência de input.important */
     zoom: 1;
 } /* IE7 */
 
-/* Pagina de parceiros */
-#partner .partner-breadcrumbs {
-  margin-bottom: 0;
-  border-bottom: none;
-}
-
-#partner .back-to-environments {
-  display: block;
-  text-align: right;
-  margin-bottom: 15px;
-  margin-right: 30px;
-  font-size: .9em;
-  overflow: hidden;
-  clear: both;
-}
-
-#partner .back-to-environments:hover {
-  text-decoration: none;
-}
-
-
-#partner-header {
-  background-color: #F0F0F0;
-  padding: 20px 20px 20px 40px;
-  margin-left: -20px;
-  margin-right: -20px;
-  margin-bottom: 20px;
-  overflow: hidden;
-}
-
-#partner-header .icon-partner-lightblue_64_64-before:before {
-  margin-right: 40px;
-}
-
-#partner-header .partner-title {
-  font-family: museo-slab, helvetica, arial, sans-serif;
-  font-weight: 500;
-  letter-spacing: -1px;
-  font-size: 2.2em;
-  margin-bottom: 5px;
-  color: #72C3E5;
-}
-
-#partner-header .environments-title {
-  font-family: museo-sans, helvetica, arial, sans-serif;
-  font-weight: 100;
-  font-size: 2.2em;
-  color: #B2B2B2;
-
-}
-
-#partner-header .create-environment {
-  float: right;
-  margin: 0;
-}
-
-#partner-environments-list li,
-#partners-list li {
-  padding: 10px;
-  margin-bottom: 20px;
-  border: 1px solid #CCCBCB;
-
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-
-  background: #ffffff; /* Old browsers */
-  background: -moz-linear-gradient(top, #ffffff 1%, #f0f0f0 100%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(1%,#ffffff), color-stop(100%,#f0f0f0));
-  background: -webkit-linear-gradient(top, #ffffff 1%,#f0f0f0 100%);
-  background: -o-linear-gradient(top, #ffffff 1%,#f0f0f0 100%);
-  background: -ms-linear-gradient(top, #ffffff 1%,#f0f0f0 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f0f0f0',GradientType=0 );
-  background: linear-gradient(top, #ffffff 1%,#f0f0f0 100%);
-}
-
-#partner-environments-list li:hover {
-  border: 1px solid #4cacd5;
-
-  background: #ffffff;
-  background: -moz-linear-gradient(top, #ffffff 1%, #dbeff7 100%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(1%,#ffffff), color-stop(100%,#dbeff7));
-  background: -webkit-linear-gradient(top, #ffffff 1%,#dbeff7 100%);
-  background: -o-linear-gradient(top, #ffffff 1%,#dbeff7 100%);
-  background: -ms-linear-gradient(top, #ffffff 1%,#dbeff7 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#dbeff7',GradientType=0 );
-  background: linear-gradient(top, #ffffff 1%,#dbeff7 100%);
-
-}
-
-#partner-environments-list .avatar {
-  float: left;
-  margin-right: 10px;
-}
-
-#partner-environments-list .environment-name,
-#partners-list .partner-name {
-  font-family: museo-slab, helvetica, arial, sans-serif;
-  font-weight: 500;
-  font-size: 1.2em;
-  color: #1788C3;
-  text-decoration: underline;
-  display: block;
-  margin-bottom: 5px;
-}
-
-#partner-environments-list .environment-info,
-#partners-list .partner-info {
-  float: left;
-  overflow: hidden;
-  display: block;
-}
-
-#partner-environments-list .date,
-#partners-list .qtt-environments {
-  font-size: .85em;
-  color: #B2B2B2;
-}
-
-#partner-environments-list .owner {
-  font-size: .85em;
-  color: #4CACD4;
-}
-
-#partner-environments-list li .see-invoices {
-  display: block;
-  float: right;
-}
-
-#partner-environments-list li .removed-environment {
-  font-size: 11px;
-  float: right;
-  margin-right: 10px;
-  color: rgb(255, 109, 109);
-}
-
-#partner-admins-list {
-  margin-bottom: 40px;
-}
-
-#partner-admins-list li {
-  margin-bottom: 5px;
-  overflow: hidden;
-}
-
-#partner-admins-list .date {
-  display: block;
-  float: left;
-  width: 125px;
-  margin-right: 10px;
-  padding: 5px 0 5px 25px;
-  font-size: .85em;
-  color: #B2B2B2;
-}
-
-#partner-admins-list .user-box {
-  width: 390px;
-  padding: 5px;
-  background-color: #E1F1E1;
-  overflow: hidden;
-  float: left;
-
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-}
-
-#partner-admins-list .avatar {
-  float: left;
-  margin-right: 10px;
-}
-
-#partner-admins-list .user-name {
-  font-size: .9em;
-  margin-top: 5px;
-  display: block;
-}
-
 /* Tiptip usado para mostrar os detalhes dos planos (Courses#new) */
 #tiptip_holder #tiptip_content .name,
 #tiptip_holder #tiptip_content .type {
@@ -7433,10 +7255,6 @@ a.link-loading:hover,  /* para sobrepor a precedência de input.important */
 /* Fim estilo página invoice.html */
 
 /* Início página plans.html */
-.explanation-sidebar .explanation .pag-seguro {
-  text-indent: -9999px;
-}
-
 .tabs > ul li .upgrade-plan {
     color: rgb(204, 204, 204);
     display: block;
@@ -7444,16 +7262,6 @@ a.link-loading:hover,  /* para sobrepor a precedência de input.important */
     font-style: italic;
     margin-left: 30px;
     margin-top: -10px;
-}
-
-#content .explanation-sidebar .explanation .pag-seguro a {
-  background-image: image-url("pagseguro-p.png");
-  text-indent: -9999px;
-  display: block;
-  overflow: hidden;
-  background-repeat: no-repeat;
-  width: 150px;
-  height: 30px;
 }
 
 .plan-panel .options-plan .plans-list .plans .plan {
@@ -7627,6 +7435,8 @@ a.link-loading:hover,  /* para sobrepor a precedência de input.important */
 /*-- #graph-form é o .concave-form do gráfico --*/
 #graph-form .inline {
   float: left;
+  display: flex;
+  width: 40%;
 }
 
 #graph-form .errors_on_date{
@@ -7767,3 +7577,8 @@ button[disabled=disabled] {
 }
 
 #course-spaces .empty-message { margin-top: 0; }
+
+/* estilo das paginas de visualização de relatorios (VIS) */
+#treemap-chart{
+  text-shadow: 0 0 0 !important;
+}

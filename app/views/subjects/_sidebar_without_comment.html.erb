@@ -1,0 +1,29 @@
+<div class="sidebar alpha grid_3">
+  <div class="image-frame subject-frame">
+    <!-- <%# Nao setar width e height na imagem %> -->
+    <%= link_to (@course.environment) do %>
+      <%= image_tag @course.environment.avatar.url(:thumb_90),
+        :alt => 'profile', :size => "90x90", :class => "environment"%>
+    <% end %>
+    <span class="subject icons-big icon-subject-white_64_66 replacement"><%=  @subject.name %></span>
+  </div>
+
+  <div class="student-actions">
+    <ul>
+      <li>
+        <a href="#" title="" id="lights" class="lights_link concave-clean">
+          <span class="lights icon-small icon-light-off-lightblue_32_34"></span>
+          Apagar luzes
+        </a>
+      </li>
+      <li>
+        <a class="addthis_button share_link concave-clean" href="http://addthis.com/bookmark.php?v=250&amp;username=redu" title="">
+          <span class="share icon-small icon-share-lightblue_32_34"></span>
+          Compartilhar
+        </a>
+      </li>
+    </ul>
+  </div>
+  <ul class="local-nav">
+  </ul><!-- end .local-nav -->
+</div>

@@ -64,5 +64,16 @@ $(function() {
   $("#modal-sign-up.open-me").modal("show");
 
   // Ativa o Scrollspy do Twitter.
-  $("body").scrollspy({ target: ".filters", offset: 140 });
+  (function() {
+    var filtersScrollspyTarget = '.js-filters-scrollspy';
+    var filtersScrollspyOffset = $(filtersScrollspyTarget).outerHeight();
+
+    $(document.body).scrollspy({
+      target: filtersScrollspyTarget,
+      offset: filtersScrollspyOffset,
+      activeClass: 'filter-active',
+      selector: '.filter',
+      applyActiveToParent: false
+    });
+  })();
 });

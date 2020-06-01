@@ -39,11 +39,6 @@ describe LecturesController do
         post :show, :locale => "pt-BR", :id => @lectures[0].id,
           :subject_id => @subject.id, :space_id => @space.id
       end
-      it "renders show_page" do
-        pending do
-          response.should render_template('lectures/show_seminar')
-        end
-      end
     end
 
     context "when Document" do
@@ -52,12 +47,6 @@ describe LecturesController do
         @lectures[0].save
         post :show, :locale => "pt-BR", :id => @lectures[0].id,
           :subject_id => @subject.id, :space_id => @space.id
-      end
-      # Sorry, but Document #1 could not be uploaded to Scribd
-      pending do
-        it "renders show_page" do
-          response.should render_template('lectures/show_document')
-        end
       end
     end
 
@@ -177,7 +166,7 @@ describe LecturesController do
                               :lecture => { :name => "Cool lecture",
                                             :lectureable_attributes => {
                                               :_type => "Page",
-                                              :body => "Bunch of words."
+                                              :a123a231 => { :body => "Bunch of words." }
                                             } } })
       end
 
@@ -214,16 +203,22 @@ describe LecturesController do
     context "POST create (Exercise)" do
       before do
         @alternatives = {
-         "1" => {:text => "Lorem ipsum dolor", :correct => true},
-         "2" => {:text => "Lorem ipsum dolor"},
-         "3" => {:text => "Lorem ipsum dolor"}
+         "1" => {:text => "Lorem ipsum dolor4", :correct => true},
+         "2" => {:text => "Lorem ipsum dolor5"},
+         "3" => {:text => "Lorem ipsum dolor6"}
         }
 
-        @questions = 3.times.collect do
-          { :statement => "Lorem ipsum dolor sit amet, consectetur?",
-            :explanation => "Lorem ipsum dolor sit amet.",
-            :alternatives_attributes => @alternatives.clone }
-        end
+        @questions = {
+          '0' => { :statement => "Lorem ipsum dolor sit amet, consectetur?",
+          :explanation => "Lorem ipsum dolor sit amet.",
+          :alternatives_attributes => @alternatives.clone },
+          '1' => { :statement => "Lorem ipsum dolor sit amet, consectetur?",
+          :explanation => "Lorem ipsum dolor sit amet.",
+          :alternatives_attributes => @alternatives.clone },
+          '2' => { :statement => "Lorem ipsum dolor sit amet, consectetur?",
+          :explanation => "Lorem ipsum dolor sit amet.",
+          :alternatives_attributes => @alternatives.clone }
+        }
 
         @params = { :locale => 'pt-BR', :format => 'js', :space_id => @space.id,
                     :subject_id => @subject.id }
@@ -247,12 +242,18 @@ describe LecturesController do
           "1" => {:text => "Lorem ipsum dolor", :correct => true}
         }
 
-        @questions = 3.times.collect do
-          { :statement => "Lorem ipsum dolor sit amet, consectetur?",
-            :explanation => "Lorem ipsum dolor sit amet.",
-            :alternatives_attributes => @alternatives }
-        end
-
+        @questions = {
+          '0' => { :statement => "Lorem ipsum dolor sit amet, consectetur?",
+          :explanation => "Lorem ipsum dolor sit amet.",
+          :alternatives_attributes => @alternatives.clone },
+          '1' => { :statement => "Lorem ipsum dolor sit amet, consectetur?",
+          :explanation => "Lorem ipsum dolor sit amet.",
+          :alternatives_attributes => @alternatives.clone },
+          '2' => { :statement => "Lorem ipsum dolor sit amet, consectetur?",
+          :explanation => "Lorem ipsum dolor sit amet.",
+          :alternatives_attributes => @alternatives.clone }
+        }
+        
         @params = { :locale => 'pt-BR', :format => 'js', :space_id => @space.id,
                     :subject_id => @subject.id }
         @params.merge!(:lecture =>

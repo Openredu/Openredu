@@ -15,8 +15,5 @@ module Api
       self.lectureable.attachment.url
     end
 
-    link :scribd do
-      self.lectureable.scribd_url
-    end
   end
 end

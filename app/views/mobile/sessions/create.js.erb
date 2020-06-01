@@ -7,5 +7,5 @@
 <%# Login expirado. %>
 <% else %>
   var $flashMessage = $(".mobile-flash-message");
-  $flashMessage.html('<%= escape_javascript render "bootstrap/message_block", type: "warning", close: true, message: ("<p><strong>Aviso.</strong> O prazo máximo de 30 dias para ativar sua conta expirou. Portanto, <strong>você só poderá utilizar o Redu após ativar sua conta</strong>. Reenvie o e-mail de ativação para: #{ @user_email }</p>"), button: link_to("Reenviar e-mail", resend_activation_url(email: @user_email), class: "button-danger", title: "Reenviar e-mail") %>');
+  $flashMessage.html('<%= escape_javascript render "bootstrap/message_block", type: "warning", close: true, message: ("<p><strong>Aviso.</strong> O prazo máximo de 30 dias para ativar sua conta expirou. Portanto, <strong>você só poderá utilizar o #{Redu::Application.config.name} após ativar sua conta</strong>. Reenvie o e-mail de ativação para: #{ @user_email }</p>"), button: link_to("Reenviar e-mail", resend_activation_url(email: @user_email), class: "button-danger", title: "Reenviar e-mail") %>');
 <% end %>

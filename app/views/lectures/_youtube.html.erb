@@ -1,11 +1,1 @@
-<%= lazy_load(javascript_path('jwplayer.js')) do %>
-  <%= render_player(:youtube_url => resource.external_resource_url) %>
-<% end %>
-
-<div id="player" class="stage">
-  <span>
-    Você precisa instalar o <%= link_to 'Flash Player',
-      'http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash' %>
-    para ver este vídeo.
-  </span>
-</div>
+<%= render_player(:youtube_url => resource.external_resource_url) %>

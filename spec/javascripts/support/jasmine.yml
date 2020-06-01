@@ -15,9 +15,6 @@ src_files:
   - public/javascripts/jquery.pjax.js
   - public/javascripts/jquery.json.js
   - public/javascripts/jquery.cookie.js
-  - public/javascripts/pusher.js
-  - public/javascripts/chat.js
-  - public/javascripts/chat.jquery.js
 
 # stylesheets
 #

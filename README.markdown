@@ -16,66 +16,13 @@ Este repositório contem o core do OpenRedu. O openredu-core é a parte central 
 - [JRedu](http://github.com/redu/jredu): Encapsulador Java para a API REST do Redu
 
 ### Setup
+[Setup Ubuntu](https://github.com/OpenRedu/OpenRedu/wiki/OpenRedu-Setup-%28Ubuntu%29)
+[Setup Windows/Mac OS/Ubuntu (Deprecated)](https://github.com/OpenRedu/OpenRedu/wiki/Redu-Setup----Deprecated)
 
-Checkout do código:
-
-```sh
-$ > git clone git@github.com:redu/redu.git
-$ > cd redu
-$ redu > bundle install --binstubs
-```
-
-Inicialização do MySQL e MongoDB
-
-```sh
-$ redu > mysqld_safe
-121212 08:45:50 mysqld_safe Logging to '/usr/local/mysql/data/scissorhands.local.err'.
-121212 08:45:50 mysqld_safe Starting mysqld daemon with databases from /usr/local/mysql/data
-```
-
-```sh
-$ redu > mongod --journal
-redu (master) > mongod --dbpath=$HOME/usr/data/   --journal
-Wed Dec 12 08:48:20 [initandlisten] MongoDB starting : pid=4144 port=27017 dbpath=/Users/guiocavalcanti/usr/data/ 32-bit host=scissorhands.local
-Wed Dec 12 08:48:21 [initandlisten] waiting for connections on port 27017
-```
-
-Criação dos bancos e esquema:
-
-```sh
-$ redu > bundle exec rake db:create
-$ redu > bundle exec rake db:schema:load
-```
-
-Inserção de dados mandatórios:
-
-```sh
-$ redu > bundle exec rake bootstrap:all
-```
-
-Inicialização do servidor de busca:
-
-```sh
-$ redu > bundle exec rake sunspot:solr:start
-```
-
-Indexação dos modelos:
-
-```sh
-$ redu > bundle exec rake sunspot:solr:reindex
-```
-
-Inicialização do servidor de desenvolvimento:
-
-```sh
-$ redu > bundle exec rails server
-```
-
-Para mais informações sobre o setup, consultar [este](https://github.com/redu/redu/wiki/Redu-Setup) guia.
 
 #### Dependências
 
-Para fazer o Redu funcionar em ambiente de desenvolvimento você precisará instalar as seguintes dependências:
+Para fazer o OpenRedu funcionar em ambiente de desenvolvimento você precisará instalar as seguintes dependências:
 
 - MySQL 5.1
 - MongoDB 2.0.6
@@ -85,13 +32,6 @@ Para fazer o Redu funcionar em ambiente de desenvolvimento você precisará inst
 
 O [DelayedJob](https://github.com/collectiveidea/delayed_job) é utilizado como infraestrutura para processamento de tarefas em background.
 
-Para reinicializar o DelayedJob, em produção, use ``monit restart``. Por exemplo:
-
-```sh
-$ > sudo monit restart delayed_job.0
-$ > sudo monit restart delayed_job.1
-$ > sudo monit restart delayed_job.2
-$ > sudo monit restart delayed_job.3
 ```
 
 #### Responsabilidades de cada worker do Delayed Job
@@ -102,8 +42,6 @@ $ > sudo monit restart delayed_job.3
 - `delayed_job.3` (hierarchy-associations): Criação de associações da hierarquia que precisam ser feitas o quanto antes.
 
 ### Serviço de entrega de e-mails
-
-Nossos e-mails são entregues pelo [Amazon SES](http://aws.amazon.com/ses/). Como a entrega de e-mails é uma tarefa excessivamente bloqueante, isso é feito em segundo plano pelo [DelayedJob](https://github.com/collectiveidea/delayed_job#rails-3-mailers).
 
 Para utilizar entrega em segundo plano, é necessário chamar o método do ActionMailer da seguinte forma: ``object.delay(:queue => 'email').method``. Onde ``method`` é tipo de notificação que deve ser gerada. Por exemplo, para enviar o e-mail de convite, a chamada seria a seguinte:
 
@@ -186,7 +124,7 @@ Utilizamos o [Memcached](http://memcached.org/) como sistema de *caching*, o [se
 
 O estilo e padrões de código utilizados estão disponíveis [neste](https://github.com/redu/redu/wiki/Coding-Patterns) guia. Leia com atenção antes de submeter patches.
 
-# Contribuições
+### Contribuições
 
 Todas as contribuições serão analisadas pelos integrantes da comunidade OpenRedu, o código do OpenRedu não está ligado a nenhuma instituição. É um código de software livre.
 
@@ -194,7 +132,7 @@ Um guia muito bom é o do [GitHub](https://guides.github.com/activities/contribu
 
 As informações abaixo são só reforços do guia do GitHub.
 
-## Reportando issues
+#### Reportando issues
 
 Descreva o issue de forma mais clara possível, sempre usando usando algum casa de uso. Casa haja alguma melhoria de código ou de funcionalidade, tente justificar o motivo.
 
@@ -204,18 +142,16 @@ Sempre tente seguir esse checklist para reportar um issue:
 - Se for um bug, escreva uma descrição mostrando em que ambiente e como aconteceu o erro. Um vídeo ou uma imagem pode ajudar na reprodução do erro.
 - Se for uma melhoria, descreva detalhamente o motivo da melhoria que você pretende adicionar.
 
-### Reportando issues da API
+#### Reportando issues da API
 
 O primeiro passo é decidir em qual repositório criar o issue:
 
-- Para bugs na API HTTP propriamente dita: https://github.com/redu/redu/issues
-- Para bugs na documentação: https://github.com/redu/redu.github.com/issues
-- Para bugs no encapsulador Java: https://github.com/redu/jredu/issues
-- Para bugs no encapsulador Python: https://github.com/redu/redupy/issues
+- Para bugs na API HTTP propriamente dita: https://github.com/OpenRedu/OpenRedu/issues
+- Para bugs na documentação: https://github.com/OpenRedu/redu.github.com
 
-Para problemas na API REST, é importante expressar os problemas em termos de HTTP e não da linguagem utilizada. Por exemplo, ao invés de dizer que o método ``getUsers()`` está lançando null pointer, tentem explicar que uma requisição do tipo GET para ``/api/spaces/1/users`` está retornando o código 500. Fica mais fácil de investigar dessa forma.
+Para problemas na API REST, É importante expressar os problemas em termos de HTTP e não da linguagem utilizada. Por exemplo, ao invés de dizer que o método ``getUsers()`` está lançando null pointer, tentem explicar que uma requisição do tipo GET para ``/api/spaces/1/users`` está retornando o código 500. Fica mais fácil de investigar dessa forma.
 
-## Pull requests
+#### Pull requests
 
 Os passos para contribuir com a evolução do código, seja para resolução de issue ou criação de features são os seguintes:
 
@@ -226,10 +162,7 @@ Os passos para contribuir com a evolução do código, seja para resolução de 
 4. Realizar pull request
 5. Caso existam revisões: realizar novos commits no mesmo branch criado e enviar para o remoto
 
-# Espaço utilizado
 
-Para ver todo o espaço utilizado nas intâncias use o seguinte comando:
-`sudo du -H --max-depth=1 .`
 
 # Licença Utilizada
 

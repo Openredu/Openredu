@@ -9,8 +9,6 @@ module Api
     include Api::UserAbility
     include Api::LectureAbility
     include Api::SubjectAbility
-    include Api::ChatAbility
-    include Api::ChatMessageAbility
     include Api::FolderAbility
     include Api::MyfileAbility
     include Api::AssetReportAbility
@@ -24,7 +22,7 @@ module Api
 
     def initialize(user)
       can :read, :error
-      # Administrador do Redu
+      # Administrador do Openredu
       can :manage, :all if user.try(:role) == Role[:admin]
 
       execute_rules(user)

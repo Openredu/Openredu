@@ -97,9 +97,31 @@ class Lecture < ActiveRecord::Base
 
   def build_lectureable(params, options={})
     return if params[:_type].blank?
-
     begin
       klass = params.delete(:_type).constantize
+      if klass == 'Page'.constantize
+        params.each_key do |key|
+          params = params[key] if params[key].key? 'body'
+        end
+      elsif klass == 'Exercise'.constantize
+        unless params.empty?
+          questions_attributes = params['questions_attributes']
+          new_params = questions_attributes.deep_dup
+          questions_attributes.each do |qa_key,qa_value|
+            qa_value.each do |q_key, q_value|
+              new_params[qa_key].merge!(new_params[qa_key].delete(q_key)) if q_key =~ /removefromhash_*/
+              if q_key == 'alternatives_attributes'
+                q_value.each do |as_key, as_value|
+                  as_value.each do |a_key, a_value|
+                    new_params[qa_key][q_key][as_key].merge!(new_params[qa_key][q_key][as_key].delete(a_key)) if a_key =~ /removefromhash_*/
+                  end
+                end
+              end
+            end
+          end
+          params['questions_attributes'] =  new_params
+        end
+      end
     rescue NameError # Caso seja não seja um lectureable válido
       return nil
     end

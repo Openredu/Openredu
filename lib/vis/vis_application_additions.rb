@@ -5,7 +5,7 @@ module VisApplicationAdditions
   module Finder
     extend ActiveSupport::Concern
 
-    def  application
+    def application
       ClientApplication.find(:first, :conditions => { :name => 'ReduVis' })
     end
   end

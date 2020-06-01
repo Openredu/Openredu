@@ -18,8 +18,7 @@
     <div class="resource-content clearfix">
       <%= render partial: 'lectures/details',
         locals: { lecture: @lecture} %>
-      <%= render partial: "lectures/document",
-        locals: { lecture: @lecture } %>
+      <%= render "lectures/document", lecture: @lecture  %>
     </div>
 
     <%= render "lectures/wall", statusable: @lecture,

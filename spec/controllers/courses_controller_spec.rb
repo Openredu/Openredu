@@ -58,18 +58,9 @@ describe CoursesController do
     end
 
     context "POST create" do
-      it "should be a professor_lite plan" do
-        params[:plan] = "professor_lite"
+      it "should be a professor_plus plan" do
         post :create, params
-        assigns[:plan].name.should == "Professor Lite"
-      end
-
-      it "should not generate invoice for free plans" do
-        params[:plan] = "free"
-
-        expect {
-          post :create, params
-        }.to_not change(Invoice, :count)
+        assigns[:plan].name.should == "Professor Plus"
       end
     end
   end
@@ -174,31 +165,6 @@ describe CoursesController do
         expect {
           post :moderate_members_requests, params
         }.to_not raise_error(AASM::InvalidTransition)
-      end
-    end
-
-    context "when course does not have a plan" do
-      let(:params) do
-        nested_course_params.merge({ member: { users[1].id.to_s => "approve",
-                                      users[2].id.to_s => "approve"} })
-      end
-
-      before do
-        course.plans = []
-        FactoryGirl.
-          create(:active_licensed_plan, billable: course.environment,
-                 user: course.environment.owner).create_invoice
-      end
-
-      it "should approve association" do
-        post :moderate_members_requests, params
-        course.approved_users.should =~ [users[1], users[2], user]
-      end
-
-      it "should create only two licenses" do
-        expect{
-          post :moderate_members_requests, params
-        }.to change(License, :count).from(0).to(2)
       end
     end
   end
@@ -383,8 +349,7 @@ describe CoursesController do
 
       before do
         @plan = FactoryGirl.
-          create(:active_licensed_plan, billable: environment, user: course.owner)
-        @plan.create_invoice_and_setup
+          create(:active_package_plan, billable: course, user: course.owner)
 
         environment.create_quota
         environment.reload
@@ -399,14 +364,6 @@ describe CoursesController do
         space.users.should include(visitor)
         subj.members.should include(visitor)
         course.environment.users.should include(visitor)
-      end
-
-      context "and plan is licensed" do
-        it "should create license on respective invoice" do
-          expect {
-            post :join, nested_course_params
-          }.to change(License, :count).by(1)
-        end
       end
 
     end
@@ -569,22 +526,6 @@ describe CoursesController do
     end
 
     context "POST create" do
-      context "when environment has plan" do
-        before do
-          FactoryGirl.create(:active_licensed_plan, billable: environment)
-          environment.reload
-          post :create, base_params
-        end
-
-        it "should not create the plan" do
-          assigns[:course].plan.should be_nil
-        end
-
-        it "should not create the quota and computes it" do
-          assigns[:course].quota.should be_nil
-        end
-      end
-
       context "when successful" do
         before do
           base_params.merge!(plan: :free)
@@ -669,9 +610,9 @@ describe CoursesController do
         get :show, nested_course_params
       end
 
-      it "should show the preview page" do
-        path = controller.preview_environment_course_path(course.environment, course)
-        response.should redirect_to(path)
+      it "should show the login/home page" do
+        #path = controller.preview_environment_course_path(course.environment, course)
+        response.should redirect_to(controller.home_path)
       end
     end
   end

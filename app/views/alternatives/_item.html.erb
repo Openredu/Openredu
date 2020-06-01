@@ -1,6 +1,6 @@
 <li class="<%= (index % 2 == 0) ? "" : "odd" %>">
   <span class="choice"><%= (index + 97).chr %>:</span>
   <%= f.radio_button :alternative_id, alternative.id %>
-  <p><%= alternative.text %></p>
+  <div><%= raw(alternative.text) %></div>
 </li>
 

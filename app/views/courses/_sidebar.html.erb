@@ -8,8 +8,8 @@
   </div>
 
   <div class="total-count">
-    <span class="count"><%= course.approved_users.count %></span>
-    <span class="members">membros</span>
+    <span class="count"><%= users_count = course.approved_users.count %></span>
+    <span class="members"><%=t :member_caps, :count => users_count%></span>
   </div>
 
   <ul class="roles clearfix">

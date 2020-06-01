@@ -2,12 +2,12 @@
 <% if alternative.correct? %>
   <li class="<%= dom_classes %>">
     <span class="choice icon-confirm-green_16_18-after"><%= (index + 97).chr %>:</span>
-    <p><%= alternative.text %></p>
+    <div><%= raw(alternative.text) %></div>
   </li>
 <% else %>
   <li class="<%= dom_classes %>">
     <span class="choice"><%= (index + 97).chr %>:</span>
-    <p><%= alternative.text %></p>
+    <div><%= raw(alternative.text) %></div>
   </li>
 <% end %>
 

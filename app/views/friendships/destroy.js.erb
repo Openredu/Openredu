@@ -11,13 +11,6 @@ $addFriend.hide();
 $(".profile-actions").append($addFriend);
 $addFriend.slideDown(150, "swing");
 
-<%# Remove contato da lista de contatos do Chat. %>
-if (chat) {
-  chat.unsubscribePresence("<%= @friend.presence_channel %>");
-  chat.unsubscribePrivate("<%= current_user.private_channel_with(@friend) %>");
-  chat.uiRemoveContact("<%= @friend.id %>");
-}
-
 <%# Remove convite da página de Convidar Amigos. %>
 var $removedInvitation = $("#friendship-request-for-<%= @friend.id %>");
 $removedInvitation.slideUp(150, "swing", function() {

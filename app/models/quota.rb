@@ -6,7 +6,6 @@ class Quota < ActiveRecord::Base
   # quota.refresh!
   # => true
   def refresh!
-    # ckeditor_environment_files = Ckeditor::Asset.find_by_sql(["SELECT IFNULL(SUM(ck.data_file_size), 0) AS data_file_size FROM courses c RIGHT JOIN environments e ON c.environment_id = e.id LEFT JOIN ckeditor_assets ck ON e.id = ck.assetable_id WHERE ck.assetable_type LIKE 'Environment' AND c.id = ?", self.billable.id])
     courses = if self.billable.is_a? Environment
                 self.billable.courses
               else

@@ -22,6 +22,6 @@
       <button class="button-success button-disabled course-preview-button <%= "#{extra_classes}" %>" rel="popover" data-original-title="Limite de vagas atingido." data-content="O limite de vagas foi atingido, portanto, você não poderá se matricular agora. Fale com o administrador ou professor do curso para que ele libere mais vagas.">Matricular-se</button>
     <% end %>
   <% else %>
-    <button class="button-success button-disabled course-preview-button <%= "#{extra_classes}" %>" rel="popover" data-original-title="Deseja participar deste curso?" data-content="Para se matricular neste curso, você precisa se cadastrar no Redu. Caso já tenha cadastro, basta acessar sua conta e este botão ficará disponível para a solicitação da matrícula. </br> </br> Cadastre-se ou acesse a sua conta através do menu superior &#8593;.">Matricular-se</button>
+    <button class="button-success button-disabled course-preview-button <%= "#{extra_classes}" %>" rel="popover" data-original-title="Deseja participar deste curso?" data-content="Para se matricular neste curso, você precisa se cadastrar no <%= Redu::Application.config.name %>. Caso já tenha cadastro, basta acessar sua conta e este botão ficará disponível para a solicitação da matrícula. </br> </br> Cadastre-se ou acesse a sua conta através do menu superior &#8593;.">Matricular-se</button>
   <% end %>
 <% end %>

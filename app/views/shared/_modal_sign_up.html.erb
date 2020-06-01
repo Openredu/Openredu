@@ -1,3 +1,23 @@
-<div id="modal-sign-up" class="modal <%= params[:opened_signup_modal] %> hide modal-grids-14 modal-sign-up">
-  <%= render "shared/form_sign_up", :user => @user %>
+<div id="modal-sign-up" class="bg-modal">
+  <label for="ck-modal" class="label-bg"></label>
+  <section id="painel-cadastro">
+    <h4 class="title-modal">Criar uma conta <label for="ck-modal"><span class="icv"></span><span class="ich"></span></label></h4>
+    <% unless user.errors.empty? %>
+    <ul class="messages-errors">
+        <% user.errors.each do |key, msg| %>
+          <li class="error-message"><%=msg%></li>
+        <% end %>
+      </ul>
+    <% end %>
+    <p class="info-face">Caso tenha uma conta no Facebook, você pode evitar o trabalho de preencher formulários ao associar sua conta ao Openredu. Desta forma, o cadastro é feito de forma automática.</p>
+    <div class="cad-facebook">
+      <figure class="icon-social">
+        <a href="#">
+            <%= image_tag('facebook.svg')%>
+            <p>Cadastre-se usando o Facebook</p>
+        </a>
+      </figure>
+    </div>
+    <%= render "shared/form_sign_up", :user => @user %>
+  </section>
 </div>

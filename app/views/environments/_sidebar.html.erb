@@ -10,8 +10,8 @@
 
   <% cache ['environment_sidebar_connections_with_count', @environment.id] do %>
     <div class="total-count">
-      <span class="count"><%= environment.users.count %></span>
-      <span class="members">membros</span>
+      <span class="count"><%= users_count = environment.users.count %></span>
+      <span class="members"><%= t :member_caps, :count => users_count %> </span>
     </div>
 
     <ul class="connections clearfix">

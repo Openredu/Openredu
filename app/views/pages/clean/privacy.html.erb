@@ -1,8 +1,8 @@
 <%= content_for :wrapper_class do %>overlay<% end %>
 <div class="container_16">
   <div class="grid_4">
-    <h1 class="logo-top" title="Redu">
-      <%= link_to "Redu", home_path %>
+    <h1 class="logo-top" title="<%= Redu::Application.config.name %>">
+      <%= link_to Redu::Application.config.name, home_path %>
     </h1>
     <ul class="left-navigation">
       <li class="term-of-service">

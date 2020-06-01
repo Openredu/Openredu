@@ -24,7 +24,16 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def redirect_to(options = {}, response_status = {})
+    ::Rails.logger.error("Redirected by #{caller(1).first rescue "unknown"}")
+    super(options, response_status)
+  end
+
   private
+
+  def single_access_allowed?
+    controller_path.split("/").first == 'api'
+  end
 
   # Handlers para exceções (paginas de error customizadas)
   def render_not_found(exception)
@@ -74,7 +83,10 @@ class ApplicationController < ActionController::Base
   def deny_access(exception, &block)
     session[:return_to] ||= request.fullpath
 
-    flash[:error] = "Essa área só pode ser vista após você acessar o Redu com seu nome e senha."
+    flash[:error] = "Essa área só pode ser vista após você acessar o #{Redu::Application.config.name} com seu nome e senha."
+
+    puts exception.action
+    puts exception.subject
 
     yield if block_given?
 

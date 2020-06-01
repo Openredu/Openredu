@@ -1,7 +1,7 @@
 <div class="home-what-is-missing-box message-block message-info">
   <span data-tour="what-is-missing" data-dismiss="alert" data-target="#what-is-missing-box" class="message-close">×</span>
   <div class="message-block-content">
-    <strong>Explore o Redu e descubra o que você ainda pode fazer:</strong>
+    <strong>Explore o <%= Redu::Application.config.name %> e descubra o que você ainda pode fazer:</strong>
     <ul class="what-is-missing-list">
       <% unless user.settings.visited?(edit_user_path(user)) %>
         <li class="what-is-missing-item">

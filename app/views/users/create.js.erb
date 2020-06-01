@@ -2,20 +2,14 @@ var $form = $("#form-sign-up");
 var $modal = $("#modal-sign-up");
 
 <% if @user.errors.empty? %>
-  $modal.modal("hide");
 
   var $modalSuccess = $("<%= escape_javascript render 'shared/modal_sign_up_success',
                         :user => @user %>");
-  $modalSuccess.insertAfter($modal).modal("show");
+
+  $modal.replaceWith($modalSuccess);
 
 <% else %>
-  var $newForm = $("<%= escape_javascript render 'shared/form_sign_up',
-                   :user => @user %>");
-
-  <% unless @user.errors[:tos].empty? %>
-    $newForm.append("<%= escape_javascript render 'bootstrap/system_message', message: 'Você não pode se cadastrar se não aceitar os Termos de Uso do Redu.', type: 'warning' %>");
-  <% end %>
-
-  $form.replaceWith($newForm);
-  $modal.reduModal('fillHeight');
+  var $newModal = $("<%= escape_javascript render 'shared/modal_sign_up',
+                   user: @user %>");
+  $modal.replaceWith($newModal);
 <% end %>

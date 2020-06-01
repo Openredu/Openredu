@@ -39,6 +39,7 @@ describe Course do
   xit { should validate_uniqueness_of(:path).scoped_to :environment_id}
   it { should ensure_length_of(:name).is_at_most 60 }
   it { should ensure_length_of(:description).is_at_most 250 }
+
   it { should allow_value("test-medio").for(:path)}
 
   it { should_not allow_mass_assignment_of :owner }
@@ -400,23 +401,6 @@ describe Course do
       end
     end
 
-    context "when plan is licensed" do
-      before do
-        @plan = FactoryGirl.create(:active_licensed_plan, :billable => @environment,
-                        :user => subject.owner)
-        @plan.create_invoice_and_setup
-        @environment.create_quota
-        @environment.reload
-      end
-
-      it "should create a license" do
-        @user= FactoryGirl.create(:user)
-        expect {
-          subject.join(@user)
-        }.to change(License, :count).by(1)
-      end
-    end
-
     context "using VisClient" do
       it "should call VisClient.notify_delayed" do
         enrollment = FactoryGirl.create(:enrollment, :subject => @subj,
@@ -456,8 +440,7 @@ describe Course do
 
   context "removes a user (unjoin)" do
     before do
-      @plan = FactoryGirl.create(:active_licensed_plan, :billable => @environment)
-      @plan.create_invoice_and_setup
+      @plan = FactoryGirl.create(:active_package_plan, :billable => @environment)
       @environment.create_quota
       @environment.reload
       @space = FactoryGirl.create(:space, :course => subject)
@@ -487,14 +470,6 @@ describe Course do
       Subject.should_receive(:unenroll).with(subjects, @user)
 
       subject.unjoin @user
-    end
-
-    context "when plan is licensed" do
-      it "should set the period end of a license that" do
-        subject.unjoin @user
-        subject.environment.plan.invoice.licenses.last.
-          period_end.should_not be_nil
-      end
     end
 
     context "when user is enrolled with just one course" do

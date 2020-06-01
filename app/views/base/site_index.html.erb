@@ -1,20 +1,93 @@
-<% content_for :header_scripts_and_styles do %>
-  <%= javascript_include_tag "landing" %>
-<% end %>
-
-<%= render "landing/welcome" %>
-<div class="container">
-  <div class="landing-navigation content-body">
-    <%= render "landing/filters" %>
-    <hr id="segmentos" class="list-separator"/>
-    <%= render "landing/segments" %>
-    <hr id="vantagens" class="list-separator"/>
-    <%= render "landing/advantages" %>
-    <hr id="funcionalidades" class="list-separator"/>
-    <%= render "landing/functionalities" %>
-    <hr id="planos" class="list-separator"/>
-    <%= render "landing/plans" %>
-    <hr id="parceiros" class="list-separator"/>
-    <%= render "landing/partners" %>
+<input type="checkbox" id="ck-modal">
+<%= render partial: 'shared/modal_sign_up', locals: {user: @user} %>
+<section id="content" class="principal">
+  <div class="left">
+    <figure class="logo">
+      <%= image_tag('logo-openredu.svg')%>
+    </figure>
+    <h1 class="title">Aprender nunca foi tão fácil</h1>
+    <p class="intro">
+      O Openredu é uma plataforma para ensino com tecnologia, que permite criar, compartilhar e discutir conteúdos das mais diversas formas, estimulando a aprendizagem, colaboração e diversão.
+    </p>
   </div>
-</div>
+  <div class="right">
+    <section class="form-container">
+      <%= render partial: 'shared/form_sign_in', locals: {user_session: @user_session} %>
+      <a href="recuperar_login_senha" class="bt in">Esqueci a senha</a>
+      <div class="loginface">
+        <a href="#">
+          <%= image_tag('facebook.svg')%>
+          <p>Login com Facebook</p>
+        </a>
+      </div>
+      <div class="criarconta">
+        <label for="ck-modal">Criar uma conta</label>
+      </div>
+    </section>
+  </div>
+</section>
+<footer id="foot-page">
+  <section class="footer main">
+    <div class="about">
+      <figure>
+        <%= image_tag('logo-openredu-pb50.svg')%>
+      </figure>
+      <p>
+      Openredu é uma rede social educacional desenvolvida por pesquisadores da UFPE e mantida por dezenas de colaboradores no Brasil e em em diversos países.
+      </p>
+    </div>
+    <div class="area-menu">
+      <nav class="menu">
+        <ul>
+          <li class="item"><a href="#" >Sobre o Openredu</a></li>
+          <li class="item"><a href="#" >Colabore com o projeto</a></li>
+          <li class="item"><a href="#" >Conheça a comunidade</a></li>
+          <li class="item"><a href="#" >Fórum</a></li>
+          <li class="item"><a href="#" >Política de privacidade</a></li>
+          <li class="item"><a href="#" >Termos de uso</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="more-contact">
+      <p class="copyleft">Orgulhosamente desenvolvido pela comunidade</p>
+      <figure>
+        <%= image_tag('openredu-org-white.svg')%>
+      </figure>
+      <div class="icones-social">
+        <ul>
+          <li class="item-social">
+            <a href= <%= "#{ENV['FACEBOOK_PAGE']}" %> >
+              <figure class="icon-social">
+                <%= image_tag('facebook.svg')%>
+              </figure>
+            </a>
+          </li>
+          <li class="item-social">
+            <a href= <%= "#{ENV['TWITTER_PAGE']}" %> >
+              <figure class="icon-social">
+                <%= image_tag('twitter.svg')%>
+              </figure>
+            </a>
+          </li>
+          <li class="item-social">
+            <a href= <%= "#{ENV['YOUTUBE_CHANNEL']}" %> >
+              <figure class="icon-social">
+                <%= image_tag('youtube.svg')%>
+              </figure>
+            </a>
+          </li>
+          <li class="item-social">
+            <a href= <%= "#{ENV['GITHUB_PAGE']}" %> >
+              <figure class="icon-social">
+                <%= image_tag('github.svg')%>
+              </figure>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <span title="<%= ENV['RELEASE'] %>" class= 'label-release'>Versão <%= ENV['TAG'] %></span>
+      </div>
+    </div>
+  </section>
+</footer>

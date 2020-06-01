@@ -48,63 +48,6 @@ class UserNotifier < BaseMailer
     end
   end
 
-  # Enviado quando o Invoice é pago
-  def payment_confirmation(user, invoice)
-    @user = user
-    @invoice = invoice
-    @plan = invoice.plan
-
-    mail(:to => user.email,
-         :subject => "Pagamento N. #{invoice.id} confirmado",
-         :date => Time.now) do |format|
-      format.text
-    end
-  end
-
-  # Enviado quando o Invoice está atrasado
-  def overdue_notice(user, invoice)
-    @user = user
-    @invoice = invoice
-    @plan = invoice.plan
-
-    mail(:to => user.email,
-         :subject => "Pagamento N. #{invoice.id} pendente",
-         :date => Time.now) do |format|
-      format.text
-    end
-
-  end
-
-  # Enviado quando Invoice está pendente
-  def pending_notice(user, invoice, deadline)
-    @user = user
-    @invoice = invoice
-    @plan = invoice.plan
-    @deadline = deadline
-
-    mail(:to => user.email,
-         :subject => "Pagamento N. #{invoice.id} pendente",
-         :date => Time.now) do |format|
-      format.text
-    end
-
-  end
-
-  # Enviado quando LicensedInvoice está pendente
-  def licensed_pending_notice(user, invoice, deadline)
-    @user = user
-    @invoice = invoice
-    @plan = invoice.plan
-    @deadline = deadline
-
-    mail(:to => user.email,
-         :subject => "Pagamento N. #{invoice.id} pendente",
-         :date => Time.now) do |format|
-      format.text
-    end
-
-  end
-
   # Enviado quando o Plan foi bloqueado
   def blocked_notice(user, plan)
     @user = user
@@ -126,6 +69,19 @@ class UserNotifier < BaseMailer
 
     mail(:to => Redu::Application.config.email,
          :subject => "[upgrade] #{@user.id}",
+         :date => Time.now) do |format|
+      format.text
+    end
+  end
+
+  # Enviado quando o Plan foi bloqueado
+  def blocked_notice(user, plan)
+    @user = user
+    @plan = plan
+    @billable_name = plan.billable.try(:name) || plan.billable_audit.try(:[], "name")
+
+    mail(:to => user.email,
+         :subject => "Plano do(a) #{@billable_name} foi bloqueado",
          :date => Time.now) do |format|
       format.text
     end
@@ -154,29 +110,6 @@ class UserNotifier < BaseMailer
       format.text
     end
 
-  end
-
-  # Enviado quando se tenta criar um Curso através dos parceiros
-  def partner_environment_notice(partner_contact)
-    @contact = partner_contact
-
-    mail(:to => [Redu::Application.config.email, "cns@redu.com.br"],
-         :subject => "[Redu] Criação de ambiente",
-         :date => Time.zone.now) do |format|
-      format.text
-    end
-  end
-
-  # Enviado quando se demonstra interesse em migrar para plano de
-  # empresa/instituição.
-  def partner_environment_migration_notice(partner_contact)
-    @contact = partner_contact
-
-    mail(:to => [Redu::Application.config.email, "cns@redu.com.br"],
-         :subject => "[Redu] Migração para plano empresa/instituição",
-         :date => Time.zone.now) do |format|
-      format.text
-    end
   end
 
   def subject_added(user, subject)
@@ -211,7 +144,7 @@ class UserNotifier < BaseMailer
                  :tutor => uca.with_roles([:tutor]).count,
                  :teacher => uca.with_roles([:teacher]).count }
 
-    mail(:subject => 'Você foi convidado para o Redu', :to => @email) do |format|
+    mail(:subject => "Você foi convidado para o #{Redu::Application.config.name}", :to => @email) do |format|
       format.html
     end
   end
@@ -248,7 +181,17 @@ class UserNotifier < BaseMailer
   end
 
   # Redefinição de senha
-  def user_reseted_password(user, new_password)
+  def user_reseted_password(user)
+    @user = user
+
+    mail(:to => user.email,
+         :subject => "Redefinição de senha") do |format|
+      format.html
+    end
+  end
+
+  # Confirmação de Redefinição de senha
+  def confirm_user_reseted_password(user, new_password)
     @user = user
     @new_password = new_password
 

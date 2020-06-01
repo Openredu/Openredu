@@ -328,7 +328,7 @@ describe Lecture do
       before do
         @lecture = Lecture.new({ :name => "Name", :subject => @sub,
                                 "lectureable_attributes" => {
-                                  "_type" => "Page", "body" => "Cool letters"} })
+                                  "_type" => "Page", "sadjaij1231" => { "body" => "Cool letters"}}})
         @lecture.owner = @owner
       end
 
@@ -388,11 +388,17 @@ describe Lecture do
             "2" => {:text => "Lorem ipsum dolor"},
             "3" => {:text => "Lorem ipsum dolor"}
           }
-          @questions = 3.times.collect do
-            { :statement => "Lorem ipsum dolor sit amet, consectetur?",
-              :explanation => "Lorem ipsum dolor sit amet?",
-              :alternatives_attributes => @alternatives.clone }
-          end
+          @questions = {
+            '0' => { :statement => "Lorem ipsum dolor sit amet, consectetur?",
+            :explanation => "Lorem ipsum dolor sit amet.",
+            :alternatives_attributes => @alternatives.clone },
+            '1' => { :statement => "Lorem ipsum dolor sit amet, consectetur?",
+            :explanation => "Lorem ipsum dolor sit amet.",
+            :alternatives_attributes => @alternatives.clone },
+            '2' => { :statement => "Lorem ipsum dolor sit amet, consectetur?",
+            :explanation => "Lorem ipsum dolor sit amet.",
+            :alternatives_attributes => @alternatives.clone }
+          }
 
           @params = { :lecture =>
                       { :name => "Cool lecture",

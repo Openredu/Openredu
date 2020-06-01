@@ -1,8 +1,5 @@
 <% content_for(:container_class) { "container-fluid" } %>
 <% content_for(:nav_global, "&nbsp;".html_safe) %>
-<% content_for(:outdated_browser, "&nbsp;".html_safe) %>
-<% content_for(:chat_script, "&nbsp;".html_safe) %>
-<% content_for(:olark_script, "&nbsp;".html_safe) %>
 <% content_for(:footer, "&nbsp;".html_safe) %>
 
 <div class="content-area authorize-app">
@@ -14,10 +11,10 @@
     </div>
     <div class="content-section">
       <h3>Autorizar acesso à sua conta</h3>
-      <p class="authorization-disclaimer">O aplicativo <%= link_to @client_application.name,@client_application.url, target: "_BLANK", class: "app-name" %> deseja acessar seus dados no Redu. Entretanto, sua senha nunca poderá ser consultada por este serviço.
+      <p class="authorization-disclaimer">O aplicativo <%= link_to @client_application.name,@client_application.url, target: "_BLANK", class: "app-name" %> deseja acessar seus dados no Openredu. Entretanto, sua senha nunca poderá ser consultada por este serviço.
       </p>
       <p class="authorization-question"> Você autoriza o acesso aos seus dados?  </p>
-      <%= form_tag authorize_url, class: "positive-authorization-form" do %>
+      <%= form_tag authorize_url(protocol: Rails.env.development? ? 'http' : 'https'), class: "positive-authorization-form" do %>
         <%= hidden_field_tag "response_type", params[:response_type]%>
         <%= hidden_field_tag "client_id", params[:client_id]%>
         <%= hidden_field_tag "redirect_uri", params[:redirect_uri]%>
@@ -27,7 +24,7 @@
         <%= submit_tag "Sim, autorizo o acesso", class: "button-primary" %>
       <% end %>
 
-      <%= form_tag authorize_url, class: "negative-authorization-form" do %>
+      <%= form_tag authorize_url(protocol: Rails.env.development? ? 'http' : 'https'), class: "negative-authorization-form" do %>
         <%= hidden_field_tag "response_type", params[:response_type]%>
         <%= hidden_field_tag "client_id", params[:client_id]%>
         <%= hidden_field_tag "redirect_uri", params[:redirect_uri]%>

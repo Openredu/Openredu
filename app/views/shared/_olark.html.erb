@@ -1,9 +1,0 @@
-<%= lazy_load(:olark) do %>
-  <% if current_user %>
-    olark('api.chat.updateVisitorNickname', {
-    snippet: "<%= current_user.first_name %>"
-    });
-  <% end %>
-<% end %>
-
-<noscript><a href="https://www.olark.com/site/4636-482-10-5595/contact" title="Contact us" target="_blank">Questions? Feedback?</a> powered by <a href="http://www.olark.com?welcome" title="Olark live chat software">Olark live chat software</a></noscript>

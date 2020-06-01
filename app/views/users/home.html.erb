@@ -4,7 +4,7 @@
 <div class="span10">
   <div class="content-area">
     <div class="content-body">
-      <%# Mensagem de boas-vindas ao Redu. %>
+      <%# Mensagem de boas-vindas ao Openredu. %>
       <%= render "users/welcome_greeting", user: @user %>
 
       <%# Convites de amizades. %>
@@ -33,7 +33,7 @@
         <% end %>
       <% end %>
 
-      <%# Explore o Redu. %>
+      <%# Explore o Openredu. %>
       <%= content_tag :div, id: "what-is-missing-box",
         style: "display: #{what_is_missing_box_display(@user)}" do %>
         <div class="content-section">

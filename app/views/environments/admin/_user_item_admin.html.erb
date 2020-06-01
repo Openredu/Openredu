@@ -13,7 +13,12 @@
   <td class="cell centered-cell">
     <span class="member-detail">
       <span class="icon-course-gray_16_18-before">
-        Matriculado em <%= user_item_admin.user.courses.of_environment(@environment).count %> curso(s)
+      <% is_admin = user_item_admin.role.environment_admin?%>
+        <% if !is_admin %> 
+          Matriculado em <%= courses_count = user_item_admin.user.courses.of_environment(@environment).count %> <%=t :course_, :count => courses_count %>
+        <% else %>
+          Administrador
+        <% end %>
       </span>
     </span>
   </td>

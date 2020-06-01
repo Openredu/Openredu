@@ -23,6 +23,17 @@ $(function(){
         lastAlternatives.find(".tip").text("Digite uma alternativa para a questão");
       },
       beforeRemove: function(item) {
+          var lastAlternatives = item.prevAll(".alternative-item.visible")
+          var nestedFields = item.parents(".nested-fields-level-2")
+          if(lastAlternatives.length === 0){
+            nestedFields.nestedFields("insert");
+          }else if (item.is('.alternative-item.visible:last-child')){
+            var lastAlternative = item.prev(".alternative-item.visible")
+            lastAlternative.bind("click", function(){
+              lastAlternative.parents(".nested-fields-level-2").nestedFields("insert");
+            });
+            lastAlternative.find(".tip").text("Clique aqui para adicionar mais uma alternativa");
+          }
           item.removeClass("visible");
           item.refreshAlternativesNumbering();
       }
@@ -99,26 +110,36 @@ $(function(){
     return this.each(function(){
       var $fields = $(this).find(".fields")
       var $summary = $(this).find(".summary");
+      // Remove classe das alternativas  habilitadas
+      $fields.find(".alternative-item:last").prevAll(".alternative-item").removeClass("disabled");
 
-    // Remove classe das alternativas  habilitadas
-    $fields.find(".alternative-item:last").prevAll(".alternative-item").removeClass("disabled")
+      var ckeditorInstances = $fields.find(".alternative-container .alternative-item.visible");
+      var textAreas = ckeditorInstances.find('textarea');
+      var qttAlternatives = 0;
 
-      var qttAlternatives = $fields.find(".alternative-container .alternative-item.visible:not(.disabled) textarea.alternative-text[value!=\"\"]").length;
-    $summary.find(".alternatives .qtt").text(qttAlternatives);
-    var statement = $fields.find(".question-statement").val();
-    if (statement != ""){
-      $summary.find(".statement").text(statement);
-    }else{
-      $summary.find(".statement").text("(Enunciado não informado)");
-    }
+      for (var i = 0; i < textAreas.length; i++) {
+        if (CKEDITOR.instances[textAreas[i].id].getData() !== "") {
+          qttAlternatives++;
+        }
+      }
 
-    // Pega numeração da alternativa correta
-    var correctAlternative = $fields.find("input:checked").prevAll("label").text();
-    if (correctAlternative != ""){
-      $summary.find(".alternatives .correct").text(correctAlternative.split(":")[0]);
-    }else{
-      $summary.find(".alternatives .correct").text("(não marcada)");
-    }
+      $summary.find(".alternatives .qtt").text(qttAlternatives);
+      var statement = $fields.find(".question-statement");
+
+      statement = CKEDITOR.instances[statement[0].id].getData();
+      if (statement != ""){
+        $summary.find(".statement").empty().append(statement);
+      }else{
+        $summary.find(".statement").empty().append("<p>Enunciado não informado)</p>");
+      }
+
+      // Pega numeração da alternativa correta
+      var correctAlternative = $fields.find("input:checked").prevAll("label").text();
+      if (correctAlternative != ""){
+        $summary.find(".alternatives .correct").text(correctAlternative.split(":")[0]);
+      }else{
+        $summary.find(".alternatives .correct").text("(não marcada)");
+      }
     });
   };
 

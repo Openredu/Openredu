@@ -1,32 +1,17 @@
-<%= render :partial => 'shared/management_background' %>
 <%= render :partial => 'spaces/admin/management_sidebar',
   :locals => { :space => @space } %>
 
-<div class="main space grid_12 omega big-col">
+<div class="main grid_12 omega big-col">
   <%= render :partial => 'spaces/breadcrumbs',
     :locals => { :space => @header_space || @space } %>
-
-  <div id="space-manage" class="body management">
-    <%= render :partial => 'spaces/admin/header',
+  <%= render :partial => 'spaces/admin/header',
       :locals => { :space => @header_space || @space }%>
+  <div id="space-manage" class="body management">
     <%= render :partial => 'spaces/admin/clean_header' %>
 
     <%= tabs :spaces_admin do %>
       <div class="plan-info">
-        <span class="call">Plano</span>
-        <span>
-          <% if @space.course.plan %>
-          <%= link_to @space.course.name,
-            environment_course_path(@space.course.environment, @space.course),
-            :class => "course-name" %> /
-          <% elsif @space.course.environment.plan %>
-            <%= link_to @space.course.environment.name,
-              environment_path(@space.course.environment),
-              :class => "course-name" %> /
-          <% end %>
-          <%= link_to @plan.name, plan_invoices_path(@plan),
-            :class => "plan-name" %>
-          </span>
+        <span class="call">Limites</span>
         <ul class="plan-data">
           <li>membros:
             <strong class="featured"><%= @billable.users.count %></strong> /
@@ -48,13 +33,12 @@
       <%= form_for(@space, :html => { :class => "concave-form", :multipart => true }) do |f| %>
         <%= render :partial => "spaces/form",
           :locals => { :f => f, :edit => true} %>
-
         <%= f.submit 'Salvar alterações' %>
         <%= link_to 'Remover disciplina', @space,
           :confirm => 'Você tem certeza que deseja remover esta disciplina?', :method => :delete,
           :class => "concave-remove" %>
       <% end %>
-
+      <%= link_to "Sair", space_path(@space), :class => "manage exit icon-manage-gray_8_10-before" %>
     <% end %>
   </div><!-- end #space-manage -->
 

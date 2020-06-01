@@ -1,8 +1,5 @@
-<%= render :partial => 'shared/management_background' %>
-<div class="management-sidebar">
-  <%= render :partial => 'environments/sidebar', :locals => { :environment => @environment } %>
-</div>
-<div class="main grid_12 omega big-col management-wrapper">
+<%= render :partial => 'environments/sidebar', :locals => { :environment => @environment } %>
+<div class="main grid_12 omega big-col">
   <%= render :partial => 'environments/breadcrumbs',
     :locals => { :environment => @environment } %>
 
@@ -14,14 +11,13 @@
 
     <%= tabs :environments_admin do %>
       <h3 class="form-header-closer">
-        <%= @environment.users.count %> membro(s) e <%= @environment.courses.count %> curso(s)
+        <%= admin_count = @environment.administrators.count%> <%= t :admin_, :count => admin_count%>, <%= members_count = @environment.users.count - admin_count %> <%=t :member_, :count => members_count %> e <%= courses_count = @environment.courses.count %> <%=t :course_, :count => courses_count%>
       </h3>
 
     <% if @memberships && @memberships.size > 0 %>
       <%= form_tag search_users_admin_environment_path(@environment), :remote => true, :class => "admin-filter-form" do %>
         <%= render :partial => "shared/admin/filter_members_form" %>
       <% end %>
-
       <div id="user_list">
         <%= render :partial => 'environments/admin/user_list_admin',
           :locals => {:memberships => @memberships}%>

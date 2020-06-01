@@ -1,6 +1,6 @@
 <%= content_for :wrapper_class do %>overlay<% end %>
 <div id="error" class="container_16">
-  <h1 id="logo" class="logo-top grid_5 omega"><%= link_to "Redu", home_path %></h1>
+  <h1 id="logo" class="logo-top grid_5 omega"><%= link_to Redu::Application.config.name, home_path %></h1>
 
   <div class="infos alert grid_10">
     <h2 class="warning"> <span class="ops-call">Ops!</span>Página não encontrada</h2>

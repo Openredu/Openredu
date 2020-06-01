@@ -102,8 +102,10 @@ class Course < ActiveRecord::Base
   validates_presence_of :name, :path
   validates_uniqueness_of :name, :path, :scope => :environment_id
   validates_length_of :name, :maximum => 60
+  validates_length_of :path, :maximum => 100
   validates_length_of :description, :maximum => 250, :allow_blank => true
   validates_format_of :path, :with => /^[-_A-Za-z0-9]*$/
+
 
   # Sobreescrevendo ActiveRecord.find para adicionar capacidade de buscar por path do Space
   def self.find(*args)
@@ -124,12 +126,6 @@ class Course < ActiveRecord::Base
     membership = user.user_course_associations.
                    where(:course_id => self.id).first
     membership.update_attributes({:role => role})
-
-
-
-    # TODO remover lógica daqui
-    # alterando o papel do usuário no license atual
-    License.change_role(user, self, role)
 
     user.user_space_associations.where(:space_id => self.spaces).
       includes(:space).each do |usa|
@@ -195,8 +191,6 @@ class Course < ActiveRecord::Base
     course_association = user.get_association_with(self)
     course_association.try(:destroy)
 
-    # Atualizando license atual para setar o period_end
-    set_period_end(user)
 
     # Desassocia o usuário do ambiente se ele não participar de outros cursos
     # Reload necessário devido cache do BD
@@ -225,10 +219,6 @@ class Course < ActiveRecord::Base
     UserEnvironmentAssociation.create(:user_id => user.id,
                                       :environment_id => self.environment.id,
                                       :role => role)
-
-
-    self.create_license(user, role)
-
     usas = self.spaces.collect do |space|
       UserSpaceAssociation.new(:user_id => user.id, :space_id => space.id,
                                :role => role)
@@ -332,29 +322,4 @@ class Course < ActiveRecord::Base
     end
   end
 
-  protected
-
-  # Cria licença passando com parâmetro o usuário que acaba de se matricular e o
-  # papel que desempenha
-  def create_license(user, role)
-    plan = self.plan || self.environment.plan
-    if plan
-      invoice = plan.invoice
-      if invoice.is_a? LicensedInvoice
-        invoice.create_license(user, role, self)
-      end
-    end
-  end
-
-  # Seta o period_end de License quando o usuário é desmatriculado ou se desmatricula
-  def set_period_end(user)
-    plan = self.plan || self.environment.plan
-    if plan
-      invoice = plan.invoice
-      if invoice.is_a? LicensedInvoice
-        license = License.get_open_license_with(user, self)
-        license.try(:update_attributes, {:period_end => DateTime.now})
-      end
-    end
-  end
 end

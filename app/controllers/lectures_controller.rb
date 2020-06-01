@@ -1,14 +1,16 @@
 # -*- encoding : utf-8 -*-
 class LecturesController < BaseController
   require 'viewable'
+  LIVREDOC_URL = ENV['LIVREDOC_IP']
+
   respond_to :html, :js
 
-  before_filter :find_subject_space_course_environment
+  before_filter :find_subject_space_course_environment, except: [:getpdf]
 
   include Viewable # atualiza o view_count
-  load_and_authorize_resource :subject
+  load_and_authorize_resource :subject, except: [:getpdf]
   load_and_authorize_resource :lecture,
-    :except => [:new, :create, :cancel],
+    :except => [:new, :create, :cancel, :getpdf],
     :through => :subject
 
   rescue_from CanCan::AccessDenied do |exception|
@@ -31,6 +33,25 @@ class LecturesController < BaseController
       format.js
     end
 
+  end
+
+  def getpdf
+    lecture = Lecture.find(params[:document_id])
+    document = lecture.lectureable
+    authorize!(:read, lecture)
+    if document.attachment_content_type != 'application/pdf'
+      begin
+        send_data RestClient.get(
+          "#{LIVREDOC_URL}/api/v1/documents/#{document.livredoc_id}",
+          livredoc_header
+        )
+      rescue RestClient::RequestFailed
+        pdf_path = File.join(Rails.root, "public")
+        send_pdf(pdf_path+'/error_pdf.pdf')
+      end
+    else
+      send_pdf(document.attachment.path)
+    end
   end
 
   def index
@@ -136,6 +157,24 @@ class LecturesController < BaseController
         elsif lectureable.is_a? Document
           authorize! :upload_document, @lecture
           @lecture.save
+          if @lecture.lectureable.attachment_content_type != 'application/pdf'
+            response = nil
+            begin
+              response = RestClient.post(
+                "#{LIVREDOC_URL}/api/v1/documents",
+                {
+                  :document_id => @lecture.lectureable.id,
+                  :file => File.new(@lecture.lectureable.attachment.path)
+                },
+                livredoc_header
+              )
+              response = JSON.parse(response)
+              @lecture.lectureable.livredoc_id = response['id']
+            rescue RestClient::RequestFailed
+              @lecture.lectureable.livredoc_id = nil
+            end
+            @lecture.save
+          end
         else
           @lecture.save
         end
@@ -233,9 +272,10 @@ class LecturesController < BaseController
 
   protected
 
-  def authenticate
-    authenticate_or_request_with_http_basic do |id, password|
-      id == 'zencoder' && password == 'sociallearning'
+  def send_pdf(path)
+    file = path
+    File.open(file, 'r') do |f|
+      send_data f.read.force_encoding('BINARY')
     end
   end
 
@@ -249,5 +289,9 @@ class LecturesController < BaseController
     @space = @subject.space
     @course = @space.course
     @environment = @course.environment
+  end
+
+  def livredoc_header
+    {:Authorization => "Token #{ENV['LIVREDOC_TOKEN']}"}
   end
 end

@@ -3,7 +3,7 @@
 %>
 
 <div class="mobile-header">
-  <%= link_to application_path, :title => "Redu" do %>
-    <h1 class="mobile-header-logo text-replacement">Redu</h1>
+  <%= link_to application_path, :title => Redu::Application.config.name do %>
+    <h1 class="mobile-header-logo text-replacement"><%= Redu::Application.config.name %></h1>
   <% end %>
 </div>

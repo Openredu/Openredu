@@ -1,7 +1,7 @@
 <div id="clean" class="container_16 clearfix">
   <div class="grid_4 alpha header">
     <h1 class="logotipo replacement">
-      <a href="#" class="">Redu: rede social educacional</a>
+      <a href="#" class=""><%= Redu::Application.config.name %>: rede social educacional</a>
     </h1>
   </div>
   <div class="main grid_12 omega">
@@ -10,7 +10,7 @@
     <div class="flash-message success">
       <p>Seja bem vindo(a)!</p>
       <p>Um e-mail de confirmação foi enviado para sua caixa de entrada (<%= @user.email %>). Para confirmar seu cadastro, basta acessar o link indicado na mensagem.</p>
-      <p>Você tem até 30 dias para confirmar o seu cadastro. Entretanto, sua conta já está disponível para ser utilizada no Redu.</p>
+      <p>Você tem até 30 dias para confirmar o seu cadastro. Entretanto, sua conta já está disponível para ser utilizada no <%= Redu::Application.config.name %>.</p>
     </div>
     <div class="go-to-home icon icon-home-lightblue_48_48">
       <%= link_to "Conheça a Home e comece já!", home_user_path(@user),

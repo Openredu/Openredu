@@ -1,31 +1,15 @@
-<%= form_for @user_session || UserSession.new, :remote => true, :url => sessions_path, :html => { :class => "user-dates header-sign-in-form", :id => "form-sign-in" } do |f| %>
-  <div class="control-group">
-    <div class="control-label">
-      <%= f.label :login, "Login ou e-mail" %>
-    </div>
-    <div class="controls">
-      <%= f.text_field :login, :placeholder => "Seu login ou e-mail cadastrado" %>
-      <%= concave_errors_for f.object, :login %>
-    </div>
-  </div>
-  <div class="control-group">
-    <div class="control-label">
-      <%= f.label :password, "Senha" %>
-    </div>
-    <div class="controls">
-      <%= f.password_field :password, :placeholder =>"Sua senha" %>
-      <%= concave_errors_for f.object, :password %>
-    </div>
-  </div>
-  <div class="header-sign-in-form-submit">
-    <div class="control-group pull-left">
-      <div class="controls">
-        <div class="control-checkbox">
-          <%= f.check_box :remember_me %>
-          <%= f.label :remember_me, "Mantenha-me conectado", :class => "legend" %>
-        </div>
-      </div>
-    </div>
-    <%= f.submit "Enviar", :class => "button-primary pull-right" %>
-  </div>
+<%= form_for user_session || UserSession.new, :remote => true, url: sessions_path, html: { class: 'form-login', id:'form-sign-in' } do |f| %>
+  <h2 class="sub-title">ACESSE SUA CONTA AQUI</h2>
+  <% unless user_session.errors.empty? %>
+    <ul class="messages-errors">
+      <% f.object.errors.each do |key, msg| %>
+        <li class="error-message"><%=msg%></li>
+      <% end %>
+    </ul>
+  <% end %>
+  <%= f.text_field :login, class: 'input', placeholder: 'login' %>
+  <%= f.password_field :password, class: 'input', placeholder: 'senha' %><br />
+  <%= f.check_box :remember_me, class: 'check', id: 'lembrar-me' %>
+  <label class="lb-check-lembrar" for="lembrar-me">Lembrar</label><br />
+  <button class="bt active">Entrar</button>
 <% end %>

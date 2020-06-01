@@ -1,9 +1,7 @@
 <% case @step
   when 2  %>
-    <%= render :partial => 'environments/plan_step' %>
-  <% when 3 %>
     <%= render :partial => 'environments/environment_step' %>
-  <% when 4 %>
+  <% when 3 %>
     <%= render :partial => 'environments/environment_confirm' %>
   <% else %>
     <%= render :partial => 'environments/environment_step' %>

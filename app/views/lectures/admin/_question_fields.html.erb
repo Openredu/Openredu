@@ -1,7 +1,8 @@
 <li class="question-item visible">
+  <% random_number = get_random_number %>
   <span class="position">1</span>
   <div class="summary clearfix">
-    <span class="statement">(Enunciado não informado)</span>
+    <div class="statement">(Enunciado não informado)</div>
     <span class="alternatives">
       <span class="qtt">0</span> alternativas. Correta: <span class="correct">(não marcada)</span>
     </span>
@@ -9,13 +10,13 @@
   </div>
   <div class="fields">
     <%= f.label :statement %>
-    <%= f.text_area :statement, :class => "question-statement" %>
+    <%= f.cktext_area :statement, :class => "question-statement", ckeditor: {width: '400'}, index: 'removefromhash_'+random_number %>
     <div class="tip">Descrição da questão e sua problemática</div>
     <%= concave_errors_for(f.object, :base) %>
     <%= concave_errors_for(f.object, :statement) %>
     <%= concave_errors_for(f.object, :alternatives) %>
     <%= f.label :explanation %>
-    <%= f.text_area :explanation %>
+    <%= f.cktext_area :explanation, ckeditor: {width: '400'}, index: 'removefromhash_'+random_number %>
     <div class="tip">Explicação da questão. Será exibida após a realização do exame</div>
 
     <%= f.hidden_field :id %>

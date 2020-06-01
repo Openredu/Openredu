@@ -1,0 +1,23 @@
+development:
+  host: localhost
+  database: openredu_development
+
+staging:
+  host: localhost
+  database: openredu_staging
+
+test:
+  host: localhost
+  database: openredu_test
+
+production:
+  host: mongo
+  database: openredu_production
+  
+# set these environment variables on your prod server
+#production:
+#  host: <%= ENV['MONGOID_HOST'] %>
+#  port: <%= ENV['MONGOID_PORT'] %>
+#  username: <%= ENV['MONGOID_USERNAME'] %>
+#  password: <%= ENV['MONGOID_PASSWORD'] %>
+#  database: <%= ENV['MONGOID_DATABASE'] %>

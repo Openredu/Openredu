@@ -3,6 +3,7 @@ module Api
   class ApiController < ActionController::Base
     include Roar::Rails::ControllerAdditions
     represents :json, collection: CollectionRepresenter
+    before_filter :extract_single_access_token
 
     check_authorization
 
@@ -48,11 +49,22 @@ module Api
     protected
 
     def current_user
-      current_access_token.try(:user)
+      current_access_token.try(:user) || User.where(:single_access_token => params[:user_credentials]).first
     end
+
 
     def current_access_token
       env["oauth.token"]
+    end
+
+    def extract_single_access_token
+      if(request.headers['Authorization'].present? && request.headers['AppKey'].present?)
+        params[:user_credentials] = appkey_is_valid? ? request.headers['Authorization'] : nil
+      end
+    end
+
+    def appkey_is_valid?
+      request.headers['AppKey'] == ENV['MOBILE_API_TOKEN']
     end
   end
 end

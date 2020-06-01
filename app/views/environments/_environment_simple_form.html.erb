@@ -14,16 +14,14 @@ $(document).ready(function(){
  <%= form_for environment, :url => environments_path(:step => 1), :html => {:class => "concave-form"} do |f| %>
   <fieldset>
     <%= f.error_messages %>
-    <%= f.label :name, "Seu ambiente de ensino",
-      :class => "environment replacement" %>
+    <%= f.label :name, "Seu ambiente de ensino", :class => "environment replacement" %>
     <%= f.text_field :name, :class => "text" %>
-    <span class="tip">Digite o nome do seu ambiente de estudo</span>
+    <span class="tip">Digite o nome do seu ambiente de estudo.</span>
     <%= f.hidden_field :path, :class => "leitura" %>
     <%= f.fields_for :courses do |course|  %>
-      <%= course.label :name, "Seu primeiro curso",
-        :class => "course replacement" %>
+      <%= course.label :name, "Seu primeiro curso", :class => "course replacement" %>
       <%= course.text_field :name, :class => "text" %>
-      <span class="tip">Digite o nome do seu primeiro curso</span>
+      <span class="tip">Digite o nome do seu primeiro curso.</span>
         <%= course.hidden_field :path %>
     <% end %>
     <%= submit_tag "Avançar", :class => "concave-important-font next" %>

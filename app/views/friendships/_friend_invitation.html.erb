@@ -6,7 +6,7 @@
 %>
 
 <div class="content-section">
-  <p class="invite-description">Amplie sua rede de contatos convidando Amigos. Procure pelo nome ou endereço de e-mail; caso a pessoa não seja cadastrada no Redu, enviaremos um convite.</p>
+  <p class="invite-description">Amplie sua rede de contatos convidando Amigos. Procure pelo nome ou endereço de e-mail; caso a pessoa não seja cadastrada no <%= Redu::Application.config.name %>, enviaremos um convite.</p>
   <%= form_tag user_friendships_path(user), :class => "invite-friend-form clearfix" do %>
     <div class="control-group">
       <div class="control-label">
