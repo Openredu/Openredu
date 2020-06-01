@@ -17,18 +17,6 @@ before_script:
   - bundle exec rake db:schema:load RAILS_ENV=test
 env:
   - TEST_SUITE=abilities
-  - TEST_SUITE=adapters
-  - TEST_SUITE=controllers
-  - TEST_SUITE=helpers
-  - TEST_SUITE=jobs
-  - TEST_SUITE=libs
-  - TEST_SUITE=mailers
-  - TEST_SUITE=models
-  - TEST_SUITE=observers
-  - TEST_SUITE=representers
-  - TEST_SUITE=services
-  - TEST_SUITE=views
-  - TEST_SUITE=visualizations
 script: "bundle exec rspec spec/$TEST_SUITE"
 before_install:
   - gem install bundler -v 1.17.3
