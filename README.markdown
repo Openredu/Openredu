@@ -28,32 +28,6 @@ Para fazer o OpenRedu funcionar em ambiente de desenvolvimento você precisará 
 - MongoDB 2.0.6
 - Solr 1.4.0
 
-### DelayedJob
-
-O [DelayedJob](https://github.com/collectiveidea/delayed_job) é utilizado como infraestrutura para processamento de tarefas em background.
-
-```
-
-#### Responsabilidades de cada worker do Delayed Job
-
-- `delayed_job.0` (general): Execução de tarefas gerais como criação de associações entre usuários e postagens no mural (não há necessidade de serem executadas imediatamente).
-- `delayed_job.1` (email): Envio de emails.
-- `delayed_job.2` (vis): Envio de dados para Vis (requisições HTTP).
-- `delayed_job.3` (hierarchy-associations): Criação de associações da hierarquia que precisam ser feitas o quanto antes.
-
-### Serviço de entrega de e-mails
-
-Para utilizar entrega em segundo plano, é necessário chamar o método do ActionMailer da seguinte forma: ``object.delay(:queue => 'email').method``. Onde ``method`` é tipo de notificação que deve ser gerada. Por exemplo, para enviar o e-mail de convite, a chamada seria a seguinte:
-
-```ruby
-UserNotifier.delay(:queue => 'email').external_user_course_invitation(user_course_invitation, course)
-```
-
-É importante notar que e-mails devem ser enfileirados na fila ``email`` para evitar que o envio dos mesmos afetem a vazão do processamento de outros Jobs. Para cada e-mail será enfileirado um Job do DelayedJob que lidará com a renderização da View e entrega para a Amazon SES.
-
-
-Para mais informações de uso: ``bundle exec ar_sendmail_rails3 -h``
-
 ### Deploy
 
 O Redu (http://www.redu.com.br) funciona na infraestrutura da [Amazon](http://aws.amazon.com/) através do [EngineYard](http://www.engineyard.com/). Assumindo que você possua as permissões necessárias, para realizar o deploy basta executar o seguinte comando:
@@ -162,7 +136,31 @@ Os passos para contribuir com a evolução do código, seja para resolução de 
 4. Realizar pull request
 5. Caso existam revisões: realizar novos commits no mesmo branch criado e enviar para o remoto
 
+### DelayedJob
 
+O [DelayedJob](https://github.com/collectiveidea/delayed_job) é utilizado como infraestrutura para processamento de tarefas em background.
+
+```
+
+#### Responsabilidades de cada worker do Delayed Job
+
+- `delayed_job.0` (general): Execução de tarefas gerais como criação de associações entre usuários e postagens no mural (não há necessidade de serem executadas imediatamente).
+- `delayed_job.1` (email): Envio de emails.
+- `delayed_job.2` (vis): Envio de dados para Vis (requisições HTTP).
+- `delayed_job.3` (hierarchy-associations): Criação de associações da hierarquia que precisam ser feitas o quanto antes.
+
+### Serviço de entrega de e-mails
+
+Para utilizar entrega em segundo plano, é necessário chamar o método do ActionMailer da seguinte forma: ``object.delay(:queue => 'email').method``. Onde ``method`` é tipo de notificação que deve ser gerada. Por exemplo, para enviar o e-mail de convite, a chamada seria a seguinte:
+
+```ruby
+UserNotifier.delay(:queue => 'email').external_user_course_invitation(user_course_invitation, course)
+```
+
+É importante notar que e-mails devem ser enfileirados na fila ``email`` para evitar que o envio dos mesmos afetem a vazão do processamento de outros Jobs. Para cada e-mail será enfileirado um Job do DelayedJob que lidará com a renderização da View e entrega para a Amazon SES.
+
+
+Para mais informações de uso: ``bundle exec ar_sendmail_rails3 -h``
 
 # Licença Utilizada
 
