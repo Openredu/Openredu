@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Openredu/Openredu.svg?branch=master)](https://travis-ci.org/Openredu/Openredu)
+
 ## OpenRedu Core
 
 Este repositório contem o core do OpenRedu. O openredu-core é a parte central da plataforma social educacional OpenRedu. Também existem alguns subsistemas/serviços que estão em servidores/projetos/repositórios diferentes. A saber:
