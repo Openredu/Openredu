@@ -30,7 +30,7 @@ Para fazer o OpenRedu funcionar em ambiente de desenvolvimento você precisará 
 
 ### Coding style
 
-O estilo e padrões de código utilizados estão disponíveis [neste](https://github.com/redu/redu/wiki/Coding-Patterns) guia. Leia com atenção antes de submeter patches.
+O estilo e padrões de código utilizados estão disponíveis [neste](https://github.com/OpenRedu/OpenRedu/wiki/Coding-Patterns) guia. Leia com atenção antes de submeter patches.
 
 ### Contribuições
 
