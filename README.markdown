@@ -40,6 +40,17 @@ Um guia muito bom é o do [GitHub](https://guides.github.com/activities/contribu
 
 As informações abaixo são só reforços do guia do GitHub.
 
+#### Pull requests
+
+Os passos para contribuir com a evolução do código, seja para resolução de issue ou criação de features são os seguintes:
+
+1. Fork do projeto no GitHub
+2. Criar um branch próprio para o problema
+2. Realizar mudanças ou adicionar a feature
+3. Commitar mudanças e enviá-las para o remoto do seu repositório
+4. Realizar pull request
+5. Caso existam revisões: realizar novos commits no mesmo branch criado e enviar para o remoto
+
 #### Reportando issues
 
 Descreva o issue de forma mais clara possível, sempre usando usando algum casa de uso. Casa haja alguma melhoria de código ou de funcionalidade, tente justificar o motivo.
@@ -58,17 +69,6 @@ O primeiro passo é decidir em qual repositório criar o issue:
 - Para bugs na documentação: https://github.com/OpenRedu/redu.github.com
 
 Para problemas na API REST, É importante expressar os problemas em termos de HTTP e não da linguagem utilizada. Por exemplo, ao invés de dizer que o método ``getUsers()`` está lançando null pointer, tentem explicar que uma requisição do tipo GET para ``/api/spaces/1/users`` está retornando o código 500. Fica mais fácil de investigar dessa forma.
-
-#### Pull requests
-
-Os passos para contribuir com a evolução do código, seja para resolução de issue ou criação de features são os seguintes:
-
-1. Fork do projeto no GitHub
-2. Criar um branch próprio para o problema
-2. Realizar mudanças ou adicionar a feature
-3. Commitar mudanças e enviá-las para o remoto do seu repositório
-4. Realizar pull request
-5. Caso existam revisões: realizar novos commits no mesmo branch criado e enviar para o remoto
 
 ### DelayedJob
 
