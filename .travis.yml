@@ -6,10 +6,9 @@ rvm:
   - "1.9.3"
 services:
   - mongodb
+  - mysql
 bundler_args: --without development debug
 before_script:
-  - sudo apt-get install mysql-server
-  - sudo service mysql start
   - export TZ=America/Sao_Paulo
   - cp config/database.travis.yml config/database.yml
   - cp config/mongoid.travis.yml config/mongoid.yml
