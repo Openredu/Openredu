@@ -3,3 +3,4 @@ test:
   database: openredu_test
   username: travis
   encoding: utf8
+  host: 127.0.0.1
