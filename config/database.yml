@@ -17,7 +17,7 @@ performance:
   username: root
   password:
   database: openredu_performance
-  host: 
+  host: db
   
 staging:
   adapter: mysql2
