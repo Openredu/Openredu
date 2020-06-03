@@ -4,8 +4,6 @@ development:
   password:
   database: redu_development
   host: db
-  variables:
-    sql_mode: TRADITIONAL
 
 production:
   adapter: mysql2
@@ -13,8 +11,6 @@ production:
   password:
   database: openredu_production
   host: db
-  variables:
-    sql_mode: TRADITIONAL
 
 performance:
   adapter: mysql2
@@ -22,17 +18,13 @@ performance:
   password:
   database: openredu_performance
   host: 
-  variables:
-    sql_mode: TRADITIONAL
-
+  
 staging:
   adapter: mysql2
   username: root
   password:
   database: openredu_staging
   host: db
-  variables:
-    sql_mode: TRADITIONAL
 
 test:
   adapter: mysql2
@@ -40,5 +32,3 @@ test:
   password:
   database: openredu_test
   host: db
-  variables:
-    sql_mode: TRADITIONAL
