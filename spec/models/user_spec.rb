@@ -364,7 +364,7 @@ describe User do
       User.recent.should == users
     end
 
-    it "retrieves active users" do
+    xit "retrieves active users" do
       active_users = (1..3).collect { |n| FactoryGirl.create(:user,
                                                   activated_at: 1.day.ago) }
       users = (1..3).collect { |n| FactoryGirl.create(:user) }
@@ -701,7 +701,7 @@ describe User do
     subject.should be_active
   end
 
-  it "verifies if he can activate his account" do
+  xit "verifies if he can activate his account" do
     subject = FactoryGirl.create(:user)
     subject.can_activate?.should == true
 

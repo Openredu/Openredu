@@ -11,7 +11,7 @@ module StatusService
       end
 
       context ".new_answer" do
-        it "should deliver answer notification" do
+        xit "should deliver answer notification" do
           expect {
             subject.new_answer(notification).deliver
           }.to change(subject.deliveries, :length).by(1)
