@@ -528,20 +528,17 @@ class User < ActiveRecord::Base
         where("friendships.user_id = ?", self.id)
       # Populares da rede exceto o próprio usuário e os usuários que ele,
       # requisitou/foi requisitada a amizade.
-      users = User.select('users.id, users.login, users.avatar_file_name, users.friends_count' \
-                          ' users.first_name, users.last_name, users.avatar_updated_at').
+      users = User.select('id, login, avatar_file_name, friends_count, first_name, last_name, avatar_updated_at').
                           without_ids(contacts_and_pending_ids << self).
                           popular(20) |
       # Professores populares da rede exceto o próprio usuário e os usuários,
       # que ele requisitou/foi requisitada a amizade.
-        User.select('users.id, users.login, users.avatar_file_name, users.friends_count'\
-                    ' users.first_name, users.last_name, users.avatar_updated_at').
+        User.select('id, login, avatar_file_name, friends_count, first_name, last_name, avatar_updated_at').
                     without_ids(contacts_and_pending_ids << self).
                     popular_teachers(20) |
       # Usuários com o mesmo domínio de email exceto o próprio usuário e os,
       # usuários que ele requisitou/foi requisitada a amizade.
-        User.select('users.id, users.login, users.avatar_file_name, users.friends_count' \
-                    ' users.first_name, users.last_name, users.avatar_updated_at').
+        User.select('id, login, avatar_file_name, friends_count, first_name, last_name, avatar_updated_at').
                     without_ids(contacts_and_pending_ids << self).
                     with_email_domain_like(self.email).limit(20)
     else
