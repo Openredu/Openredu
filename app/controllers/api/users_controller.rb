@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 module Api
   class UsersController < ApiController
+    #skip_authorization_check :only => :create
     def show
       @user = if params[:id]
         User.find(params[:id])
@@ -31,6 +32,22 @@ module Api
         respond_with(:api, context, users)
       end
     end
+
+    #first_name, last_name, password, login, email
+    def create
+      authorize! :create_via_api, @user
+      user = User.new(params[:user])
+
+      if user.save
+        user.activate
+        user.create_settings!
+        userPass = params[:user][:password]
+        UserNotifier.delay(queue: 'email', priority: 1).user_added_to_application(user.id, userPass)
+      end
+
+      respond_with user
+    end
+
 
     protected
 

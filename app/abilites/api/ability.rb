@@ -24,7 +24,7 @@ module Api
       can :read, :error
       # Administrador do Openredu
       can :manage, :all if user.try(:role) == Role[:admin]
-
+      can :create_via_api if user.try(:role) == Role[:admin]
       execute_rules(user)
     end
 
