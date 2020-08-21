@@ -95,6 +95,53 @@ describe User do
       subject.errors[:birthday].should_not be_empty
     end
 
+    context 'when required user email domain is disabled' do
+      it 'does not add validation error' do
+        user = User.new
+        user.should_receive(:valid?).and_call_original
+
+        user.valid?
+
+        expect(user.errors[:email]).not_to include user.send(:invalid_email_domain_error_message)
+      end
+    end
+
+    context 'when required user email domain is enabled' do
+      let(:required_domain) { 'openredu.br' }
+
+      before do
+        ENV[User::REQUIRED_USER_EMAIL_DOMAIN_ENVAR] = required_domain
+      end
+
+      after do
+        ENV.delete(User::REQUIRED_USER_EMAIL_DOMAIN_ENVAR)
+      end
+
+      context 'when email does not match the required domain' do
+        it 'adds validation error' do
+          user = User.new(email: 'user@openredu.com')
+          expect(user).not_to be_valid
+          expect(user.errors[:email]).to include user.send(:invalid_email_domain_error_message)
+        end
+      end
+
+      context 'when email matches the required domain' do
+        it 'does not add validation error' do
+          user = User.new(email: "user@#{required_domain}")
+          expect(user).not_to be_valid
+          expect(user.errors[:email]).not_to include user.send(:invalid_email_domain_error_message)
+        end
+      end
+
+      context 'when email has invalid format' do
+        it 'does not add validation error' do
+          user = User.new(email: 'user')
+          expect(user).not_to be_valid
+          expect(user.errors[:email]).not_to include user.send(:invalid_email_domain_error_message)
+        end
+      end
+    end
+
     context "email" do
       context "presence" do
         it "should not be valid if email is absent" do

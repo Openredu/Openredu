@@ -21,6 +21,7 @@ class User < ActiveRecord::Base
   FEMALE  = 'F'
   MIN_LOGIN_LENGTH = 5
   MAX_LOGIN_LENGTH = 20
+  REQUIRED_USER_EMAIL_DOMAIN_ENVAR = 'APP_REQUIRED_USER_EMAIL_DOMAIN'
 
   # CALLBACKS
   before_create :make_activation_code
@@ -178,6 +179,7 @@ class User < ActiveRecord::Base
     length: { minimum: 3, maximum: 100 },
     confirmation: true
   validates_uniqueness_of :email, case_sensitive: false
+  validate :email_has_valid_domain
 
   delegate :can?, :cannot?, to: :ability
 
@@ -669,5 +671,23 @@ class User < ActiveRecord::Base
     %w(login first_name last_name email).each do |var|
       self.send("#{var}=", (self.send(var).strip if attribute_present? var))
     end
+  end
+
+  private
+
+  def email_has_valid_domain
+    return unless required_user_email_domain
+    return if errors[:email].any?
+    return if email.ends_with?("@#{required_user_email_domain}")
+
+    errors.add(:email, invalid_email_domain_error_message)
+  end
+
+  def required_user_email_domain
+    @required_user_email_domain ||= ENV[REQUIRED_USER_EMAIL_DOMAIN_ENVAR]
+  end
+
+  def invalid_email_domain_error_message
+    "E-mail precisa terminar com @#{required_user_email_domain}."
   end
 end
