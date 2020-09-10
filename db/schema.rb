@@ -448,8 +448,12 @@ ActiveRecord::Schema.define(:version => 20170928125123) do
     t.text     "statement"
     t.text     "explanation"
     t.integer  "position"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
   end
 
   create_table "quotas", :force => true do |t|

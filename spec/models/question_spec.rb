@@ -10,6 +10,7 @@ describe Question do
   it { should validate_presence_of(:statement) }
   it { should have_many(:choices).dependent(:destroy) }
   it { should accept_nested_attributes_for(:alternatives) }
+  it { should have_attached_file(:image) }
 
   context "when validating alternatives count" do
     it "should add error when the question has just one alternative" do

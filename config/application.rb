@@ -98,6 +98,12 @@ module Redu
                    :thumb_140 => "140x140#" }
     })
 
+    config.paperclip_question_image = config.paperclip.merge({
+      :styles => { :thumb_150 => "150x150#",
+                   :thumb_300 => "300x300#",
+                   :thumb_450 => "450x450#" }
+    })
+
     config.paperclip_user = config.paperclip.merge({
       :styles => { :thumb_24 => "24x24#",
                    :thumb_32 => "32x32#",

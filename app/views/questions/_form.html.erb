@@ -2,6 +2,12 @@
   <div><%= raw(question.statement) %></div>
 </div>
 
+<% if question.image.exists? %>
+  <div>
+    <%= image_tag question.image.url, class: "img" %>
+  </div>
+<% end %>
+
 <% if review %>
   <div class="justification">
     <span class="call">Justificativa:</span>

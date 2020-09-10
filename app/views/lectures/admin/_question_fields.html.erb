@@ -22,6 +22,9 @@
     <%= f.hidden_field :id %>
     <%= f.hidden_field :_destroy %>
 
+    <%= f.label "Imagem da questão" %>
+    <%= f.file_field :image, :class => "exercise-file"%>
+
     <div class="nested-fields-level-2 clearfix">
       <ol class="alternative-container">
         <%= f.nested_fields_for :alternatives, { :new_item_index => 'new_alternative_item' } do |builder| %>
