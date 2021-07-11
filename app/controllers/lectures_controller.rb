@@ -270,6 +270,19 @@ class LecturesController < BaseController
     end
   end
 
+  def download
+      lecture = Lecture.find(params[:id])
+
+      lectureable = lecture.lectureable
+
+      if(lectureable.is_a? Document)
+        if(lectureable.download_allowed?)
+          path = lectureable.attachment.path
+          send_file path, filename: "#{lecture.position}_#{lecture.name.gsub(" ","_")}_material.pdf", type: 'application/pdf', disposition: 'attachment'
+        end
+      end
+    end
+
   protected
 
   def send_pdf(path)

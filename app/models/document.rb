@@ -9,6 +9,10 @@ class Document < ActiveRecord::Base
 
   has_one :lecture, :as => :lectureable
 
+  def download_allowed?
+     return self.downloadable?
+   end
+
   # Verifica se o curso tem espaço suficiente para o arquivo
   def can_upload_document?(lecture)
     plan = lecture.subject.space.course.plan ||
@@ -25,5 +29,5 @@ class Document < ActiveRecord::Base
       return true
     end
   end
-  
+
 end

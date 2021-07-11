@@ -2,7 +2,7 @@
 <%= javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/1.9.638/pdf.worker.min.js' %>
 <%= javascript_include_tag 'document' %>
 
-<%= content_tag :span, '', id: 'lecture-data', :'data-lecture-id' => @lecture.id %> 
+<%= content_tag :span, '', id: 'lecture-data', :'data-lecture-id' => @lecture.id %>
 <div id="view_video" class="stage" align="center" >
   <% if @lecture.lectureable.attachment_content_type == 'application/pdf' || !@lecture.lectureable.livredoc_id.blank?%>
       <canvas id="canvas"></canvas>
@@ -18,6 +18,13 @@
             </div>
         </div>
       </div>
+
+  <% if @lecture.lectureable.downloadable? %>
+    <div class="row">
+        <%= link_to "Clique aqui para fazer download do material", download_space_subject_lecture_path(@space, @subject, @lecture), class: 'manage', style: "margin-left: 20px;", class: "button-primary add concave-button"%>
+    </div>
+  <% end %>
+
   <% else %>
     <%= image_tag @lecture.lectureable.attachment.url, :alt => @lecture.name %>
   <% end %>

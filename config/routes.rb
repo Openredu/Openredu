@@ -94,6 +94,7 @@ Redu::Application.routes.draw do
             post :rate
             post :done
             get :page_content
+            get '/download' => 'lectures#download'
           end
         end
       end

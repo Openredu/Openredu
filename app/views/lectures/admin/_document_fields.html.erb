@@ -1,7 +1,22 @@
 <%= hidden_field_tag "lecture[lectureable_attributes][_type]", "Document" %>
 <%= f.label :attachment, "Arquivo" %>
 <%= f.file_field :attachment  %>
-<span class="tip">Lembre-se: arquivos protegidos contra cópia podem não ser visualizados corretamente. Tente salva-los sem proteção antes de postar no <%= Redu::Application.config.name %>.</span>
+
+<span class="tip">
+  Lembre-se: arquivos protegidos contra cópia podem não ser visualizados corretamente. Tente salva-los sem proteção antes de postar no <%= Redu::Application.config.name %>.
+</span>
+
+<%= f.label "Permitir download?", :class => "concave-label" %>
+<span class="span9">
+  <label class="switch downloadable-toggle" style="display: inline-block;width: 40px;height: 21px;padding: 0;">
+    <%= f.check_box :downloadable, class: "downloadable-checkbox" %>
+    <span class="slider round"></span>
+  </label>
+<span>
+<span class="tip" style="margin-left: 0px;">
+  Ative esta opção para permitir que o conteúdo desta aula possa ser baixado pelos alunos.
+</span>
+
 <% unless f.object.errors[:attachment_content_type].empty? %>
   <ul class="errors_on_field"><li>Formato de arquivo inválido</li></ul>
 <% end %>
